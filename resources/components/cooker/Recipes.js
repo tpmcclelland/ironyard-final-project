@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 import Modal from 'react-modal'

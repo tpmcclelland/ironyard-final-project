@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import OrderLayout from './layouts/OrderLayout'
+import OrderLayout from './OrderLayout'
 
 class Orders extends Component {
     constructor(props) {

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import WelcomeLayout from './layouts/WelcomeLayout'
-import Recipes from './Recipes'
+import WelcomeLayout from './WelcomeLayout'
+import Recipes from '../cooker/Recipes'
 
 
 class Welcome extends React.Component {

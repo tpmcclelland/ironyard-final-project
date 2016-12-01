@@ -1,6 +1,6 @@
 import React from 'react'
 
-import AppLayout from './layouts/AppLayout'
+import AppLayout from './AppLayout'
 
 class App extends React.Component {
     constructor(props) {

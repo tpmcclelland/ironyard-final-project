@@ -1,12 +1,12 @@
 import React from 'react'
 
-import Header from '../Header'
-import LeftNav from '../LeftNav'
+import Header from '../common/Header'
+import CookerLeftNav from './CookerLeftNav'
 
-const InfiniteScrollLayout = (props) => <div>
+const CookerLayout = (props) => <div>
     <Header />
     <main className="row">
-        <LeftNav />
+        <CookerLeftNav />
         <div className="col-xs-12">
             <section className="col-xs-12 main-section">
               {props.children}
@@ -15,4 +15,4 @@ const InfiniteScrollLayout = (props) => <div>
     </main>
     </div>
 
-export default InfiniteScrollLayout
+export default CookerLayout

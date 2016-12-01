@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Header from './Header'
+import Header from '../common/Header'
 import DriverLeftNav from './DriverLeftNav'
 
 class DriverLayout extends React.Component {

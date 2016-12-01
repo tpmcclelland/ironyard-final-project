@@ -4,7 +4,7 @@ import Recipes from './Recipes'
 import ShoppingList from './ShoppingList'
 import Schedule from './Schedule'
 import Payment from './Payment'
-import CookerLayout from './layouts/CookerLayout'
+import CookerLayout from './CookerLayout'
 
 class Cooker extends Component {
     constructor(props) {

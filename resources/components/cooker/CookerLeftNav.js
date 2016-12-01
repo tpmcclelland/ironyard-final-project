@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LeftNav = (props) => <section className="col-xs-12 col-sm-2 left-side-navbar hidden-print">
+const CookerLeftNav = (props) => <section className="col-xs-12 col-sm-2 left-side-navbar hidden-print">
   <ul className="list-group side-nav">
     <a href="#recipe-anchor" className="list-group-item red-background"><img src="../assets/recipe.png" alt="recipe" /></a>
     <a href="#shopping" className="list-group-item green-background"><img src="../assets/shopping-list.png" alt="shopping list" /></a>
@@ -9,4 +9,4 @@ const LeftNav = (props) => <section className="col-xs-12 col-sm-2 left-side-navb
   </ul>
 </section>
 
-export default LeftNav
+export default CookerLeftNav
