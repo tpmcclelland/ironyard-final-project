@@ -31,7 +31,7 @@ class Schedule extends Component {
     typing(e) {
         var updatedState = {}
         updatedState[e.target.name] = e.target.value
-        console.log(updatedState)
+        // console.log(updatedState)
         this.setState(updatedState)
         // this.collectShippingAddress()
 
