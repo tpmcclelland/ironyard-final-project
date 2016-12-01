@@ -86,6 +86,13 @@
             width: 90%;
         }
     }
+    .anchor:before {
+        display: block;
+        content: " ";
+        margin-top: -95px;
+        height: 100px;
+        visibility: hidden;
+    }
 }
 // end left navbar
 
@@ -97,5 +104,12 @@
 }
 .full-screen {
     height: 100vh;
+}
+.anchor:before {
+  display: block;
+  content: " ";
+  margin-top: -120px;
+  height: 115px;
+  visibility: hidden;
 }
 // end main content section
