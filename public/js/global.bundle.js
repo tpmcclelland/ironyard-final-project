@@ -21843,7 +21843,7 @@
 	      { className: "list-group side-nav" },
 	      _react2.default.createElement(
 	        "a",
-	        { href: "#recipes", className: "list-group-item red-background" },
+	        { href: "#recipe-anchor", className: "list-group-item red-background" },
 	        _react2.default.createElement("img", { src: "../assets/recipe.png", alt: "recipe" })
 	      ),
 	      _react2.default.createElement(
@@ -22318,12 +22318,13 @@
 	  },
 	  content: {
 	    top: '50%',
-	    left: '50%',
+	    left: '48%',
 	    right: 'auto',
 	    bottom: 'auto',
 	    marginRight: '-50%',
 	    transform: 'translate(-50%, -50%)',
-	    maxHeight: '500px'
+	    maxHeight: '500px',
+	    maxWidth: '95%'
 	  }
 	};
 
@@ -22336,55 +22337,49 @@
 	    var _this = _possibleConstructorReturn(this, (Recipes.__proto__ || Object.getPrototypeOf(Recipes)).call(this, props));
 
 	    (0, _classAutoBind2.default)(_this);
-	    _this.state = (0, _sharedState.sharedState)();
+	    _this.state = {
+	      modalIsOpen: false,
+	      recipes: [],
+	      recipeDetails: {},
+	      ingredients: [],
+	      searchTerm: ''
+	    };
 	    return _this;
 	  }
 
 	  _createClass(Recipes, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      (0, _sharedState.attachSharedState)(this);
-	      (0, _sharedState.sharedState)({
-	        modalIsOpen: false,
-	        recipes: [],
-	        recipeDetails: {},
-	        ingredients: []
-	      });
-	    }
-	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6").then(function (response) {
+	      this.fetchRecipes();
+	    }
+	  }, {
+	    key: 'fetchRecipes',
+	    value: function fetchRecipes() {
+	      fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=20&q=" + encodeURIComponent(this.state.searchTerm)).then(function (response) {
 	        return response.json();
 	      }).then(this.updateRecipeDisplay);
 	    }
 	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      console.log(this.state.searchTerm);
-	      (0, _sharedState.detachSharedState)(this);
-	    }
-	  }, {
 	    key: 'updateRecipeDisplay',
 	    value: function updateRecipeDisplay(response) {
-	      (0, _sharedState.sharedState)({
+	      this.setState({
 	        recipes: response.matches
 	      });
 	    }
 	  }, {
 	    key: 'openModal',
 	    value: function openModal(recipe) {
-	      (0, _sharedState.sharedState)({
+	      this.setState({
 	        modalIsOpen: true
 	      });
-	      fetch("https://api.yummly.com/v1/api/recipe/" + recipe + "?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6").then(function (response) {
+	      fetch("http://api.yummly.com/v1/api/recipe/" + recipe + "?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6").then(function (response) {
 	        return response.json();
 	      }).then(this.updateRecipeDetails);
 	    }
 	  }, {
 	    key: 'updateRecipeDetails',
 	    value: function updateRecipeDetails(response) {
-	      (0, _sharedState.sharedState)({
+	      this.setState({
 	        recipeDetails: response,
 	        ingredients: response.ingredientLines,
 	        recipeImage: response.images[0].imageUrlsBySize["360"],
@@ -22393,32 +22388,37 @@
 	      });
 	    }
 	  }, {
-	    key: 'searchEnter',
-	    value: function searchEnter(e) {
-	      if (e.keycode === 13) {
-	        this.search();
-	      } else {
-	        (0, _sharedState.sharedState)({
-	          searchTerm: e.target.value
-	        });
-	      }
+	    key: 'search',
+	    value: function search(e) {
+	      e.preventDefault();
+	      this.fetchRecipes();
+	      this.setState({
+	        searchTerm: ''
+	      });
 	    }
 	  }, {
-	    key: 'search',
-	    value: function search() {
-	      var searchValue = this.state.searchTerm;
-	      console.log(this.state.searchTerm);
-	      // fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&q=" + encodeURIComponent(searchValue))
-	      //     .then(response => response.json())
-	      //     .then(this.updateRecipeDisplay)
+	    key: 'updateSearchTerm',
+	    value: function updateSearchTerm(e) {
+	      this.setState({
+	        searchTerm: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'favorite',
+	    value: function favorite() {
+	      console.log('favorited');
+	    }
+	  }, {
+	    key: 'addToList',
+	    value: function addToList() {
+	      console.log('added to list');
 	    }
 	  }, {
 	    key: 'closeModal',
 	    value: function closeModal() {
-	      (0, _sharedState.sharedState)({
+	      this.setState({
 	        modalIsOpen: false
 	      });
-	      console.log(this.state.searchTerm);
 	    }
 	  }, {
 	    key: 'render',
@@ -22428,7 +22428,7 @@
 	      var recipes = this.state.recipes.map(function (recipe, i) {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'col-xs-6 col-sm-4 bring-to-front', key: i },
+	          { className: 'col-xs-6 col-sm-3 bring-to-front', key: i },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'recipe-panel', onClick: function onClick() {
@@ -22461,7 +22461,7 @@
 	            { className: 'col-sm-9 col-xs-6' },
 	            _react2.default.createElement(
 	              'h1',
-	              null,
+	              { id: 'recipe-anchor', className: 'anchor' },
 	              'Recipes'
 	            )
 	          ),
@@ -22470,15 +22470,15 @@
 	            { className: 'col-sm-3 col-xs-6 search-bar' },
 	            _react2.default.createElement(
 	              'form',
-	              { className: 'navbar-form navbar-left' },
+	              { className: 'navbar-form navbar-left', onSubmit: this.search },
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'form-group' },
-	                _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search', onChange: this.searchEnter })
+	                _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search', value: this.state.searchTerm, onChange: this.updateSearchTerm })
 	              ),
 	              _react2.default.createElement(
 	                'button',
-	                { className: 'btn btn-default search-button', onClick: this.search },
+	                { type: 'button', className: 'btn btn-default search-button', onClick: this.search },
 	                'Search'
 	              )
 	            )
@@ -22527,13 +22527,24 @@
 	              { className: 'row' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'col-sm-6' },
+	                { className: 'col-sm-6 col-sm-push-6' },
+	                _react2.default.createElement('img', { className: 'modal-image', src: this.state.recipeImage }),
+	                _react2.default.createElement(
+	                  'p',
+	                  { className: 'small text-right' },
+	                  'From: ',
+	                  this.state.recipeOwner
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'col-sm-6 col-sm-pull-6' },
 	                _react2.default.createElement(
 	                  'div',
 	                  { className: 'row' },
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'col-sm-6' },
+	                    { className: 'col-xs-6' },
 	                    _react2.default.createElement(
 	                      'p',
 	                      null,
@@ -22561,15 +22572,15 @@
 	                  ),
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'col-sm-6' },
+	                    { className: 'col-xs-6' },
 	                    _react2.default.createElement(
 	                      'button',
-	                      { className: 'btn btn-default btn-danger btn-block' },
+	                      { className: 'btn btn-default btn-danger btn-block', onClick: this.favorite },
 	                      'Favorite'
 	                    ),
 	                    _react2.default.createElement(
 	                      'button',
-	                      { className: 'btn btn-default btn-success btn-block' },
+	                      { className: 'btn btn-default btn-success btn-block', onClick: this.addToList },
 	                      'Add to List'
 	                    )
 	                  )
@@ -22592,31 +22603,12 @@
 	                    )
 	                  )
 	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'col-sm-6' },
-	                _react2.default.createElement('img', { className: 'modal-image', src: this.state.recipeImage }),
-	                _react2.default.createElement(
-	                  'p',
-	                  { className: 'small text-right' },
-	                  'From: ',
-	                  this.state.recipeOwner
-	                )
 	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'row' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'col-xs-12' },
-	                _react2.default.createElement(
-	                  'h3',
-	                  null,
-	                  'Directions'
-	                )
-	              )
+	              _react2.default.createElement('div', { className: 'col-xs-12' })
 	            )
 	          )
 	        )
