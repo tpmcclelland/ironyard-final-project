@@ -13,7 +13,7 @@ class DriverLayout extends React.Component {
         <Header />
         <main className="row">
             <DriverLeftNav />
-            <div id="driver" className="col-xs-12">
+            <div className="col-xs-12 driver">
                 <section className="col-xs-12 main-section">
                     {this.props.children}
                 </section>
