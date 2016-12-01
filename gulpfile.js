@@ -27,7 +27,7 @@ var gutil = require("gulp-util");
 
 gulp.task('browserSync', function() {
     browserSync.init ( {
-      proxy: "localhost:3333",
+      proxy: "localhost:5000",
         // server: {
         //     baseDir: "./",
         // }
