@@ -1,0 +1,71 @@
+{
+  "name": "adonis-app",
+  "version": "3.1.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon --watch app --watch bootstrap --watch config --watch .env -x node server.js",
+    "start": "node server.js",
+    "lint": "standard",
+    "webpack": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "engines": {
+    "node": "6.9.1",
+    "npm": "3.10.8"
+  },
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "adonis-ace": "^3.0.4",
+    "adonis-auth": "^1.0.4",
+    "adonis-commands": "^2.1.2",
+    "adonis-fold": "^3.0.3",
+    "adonis-framework": "^3.0.5",
+    "adonis-lucid": "^3.0.10",
+    "adonis-middleware": "^1.0.8",
+    "pg": "^6.1.0",
+    "react-addons-update": "^15.4.1",
+    "react-modal": "^1.5.2",
+    "standard": "^8.4.0",
+    "youch": "^1.0.1"
+  },
+  "standard": {
+    "global": [
+      "use",
+      "make"
+    ]
+  },
+  "autoload": {
+    "App": "./app"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.16.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-react": "^6.11.1",
+    "browser-sync": "^2.18.2",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-util": "^3.0.7",
+    "nodemon": "^1.11.0",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "react-helpers": "https://github.com/tiyindyfee/react-helpers.git",
+    "react-localstorage": "^0.3.0",
+    "react-mixin": "^3.0.5",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.6.0",
+    "react-router-redux": "^4.0.5",
+    "redux": "^3.5.2",
+    "redux-devtools": "^3.3.1",
+    "redux-devtools-dock-monitor": "^1.1.1",
+    "redux-devtools-log-monitor": "^1.0.11",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-stream": "^3.2.0"
+  }
+}

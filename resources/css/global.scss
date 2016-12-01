@@ -1,0 +1,101 @@
+@import "variables";
+@import "shoppingList";
+@import "recipes";
+@import "schedule";
+
+* { box-sizing: border-box; }
+.lightBlue-background { background-color: $lightBlue; }
+.green-background { background-color: $green; }
+.red-background { background-color: $red; }
+.yellow-background { background-color: $yellow; }
+.lightBlue { color: $lightBlue; }
+.green { color: $green; }
+.red { color: $red; }
+.yellow { color: $yellow; }
+.overflow-scroll { overflow-y: scroll; }
+.push-down { padding-top: 50px; }
+.bring-to-front { z-index: 0; }
+// end global
+
+
+// start top navbar
+.header {
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+}
+.user-icon {
+    height: 25px;
+}
+// end top navbar
+
+// start left navbar
+.left-side-navbar {
+    position: fixed;
+    top: 55px;
+    z-index: 1;
+}
+.side-nav {
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    .list-group-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        border: none;
+    }
+    a {
+        height: 40px;
+        margin: 10px 15px 0px 15px;
+        border-radius: 5px;
+    }
+    img {
+        height: 35px;
+        width: 75%;
+    }
+}
+@media (min-width: 768px) {
+    .left-side-navbar {
+        height: 100vh;
+    }
+    .bring-to-front {
+        z-index: 1;
+    }
+    .push-down {
+        padding-top: 10px;
+    }
+    .side-nav {
+        display: block;
+        margin: 0 auto;
+        margin-top: 20px;
+        .list-group-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+        a {
+            width: 33%;
+            height: 80px;
+            border-radius: 5px;
+        }
+        img {
+            height: 50px;
+            width: 90%;
+        }
+    }
+}
+// end left navbar
+
+// start main content section
+.main-section {
+    position: absolute;
+    right: 0;
+    top: 55px;
+}
+.full-screen {
+    height: 100vh;
+}
+// end main content section
