@@ -47,12 +47,23 @@ class Recipes extends Component {
         this.fetchRecipes()
     }
     fetchRecipes() {
-      console.log(this.state.resultSize)
-      fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + this.state.resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
-          .then(response => response.json())
-          .then(this.updateRecipeDisplay)
+
+
+        if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm) {
+            fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + this.state.resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
+                .then(response => response.json())
+                .then(this.updateRecipeDisplay)
+        } else {
+            this.updateRecipeDisplay({
+                matches: window.cachedRecipes
+            })
+        }
+
     }
+
     updateRecipeDisplay(response) {
+        window.cachedRecipes = response.matches
+        window.cachedSearchTerm = this.state.searchTerm
       this.setState({
         recipes: response.matches
       })

@@ -21,15 +21,16 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
-var webpack = require('webpack-stream')
+var webpack = require('webpack')
 var WebpackDevServer = require("webpack-dev-server")
 var gutil = require("gulp-util");
 
 gulp.task('browserSync', function() {
     browserSync.init ( {
-        server: {
-            baseDir: "./"
-        }
+      proxy: "localhost:3333",
+        // server: {
+        //     baseDir: "./",
+        // }
     });
 });
 
@@ -53,36 +54,38 @@ gulp.task('sass:watch', function () {
 
 gulp.task('serve', ['sass', 'browserSync'], function(){
     gulp.watch("*.html").on('change', browserSync.reload);
-    // gulp.watch("./js/**/*.js").on('change', browserSync.reload);
-    gulp.watch("./resources/components/**/*.js", ['webpack']);
-    gulp.watch("./resources/js/**/*.js", ['webpack']);
-    gulp.watch("./resources/css/**/*.scss", ['sass']);
-    // gulp.watch("css/*.css").on('change', browserSync.reload);
+
+    gulp.watch("./resources/components/**/*.js", ['webpack'])
+    gulp.watch("./resources/js/**/*.js", ['webpack'])
+    gulp.watch("./resources/css/**/*.scss", ['sass'])
+
+    gulp.watch("./public/js/**/*.js").on('change', browserSync.reload);
+    gulp.watch("./public/css/*.css").on('change', browserSync.reload);
 });
 
 
-gulp.task('webpack', function() {
-  return gulp.src('./resources/js/global.js')
-    .pipe(webpack( require('./webpack.config.js') ))
-    .pipe(gulp.dest('./public/js'));
+// gulp.task('webpack', function() {
+//   return gulp.src('./resources/js/global.js')
+//     .pipe(webpack( require('./webpack.config.js') ))
+//     .pipe(gulp.dest('./public/js'));
+// });
+
+// modify some webpack config options
+var myDevConfig = Object.create(require('./webpack.config.js'));
+
+// create a single instance of the compiler to allow caching
+var devCompiler = webpack(myDevConfig);
+
+gulp.task("webpack", function(callback) {
+	// run webpack
+	devCompiler.run(function(err, stats) {
+		if(err) throw new gutil.PluginError("webpack", err);
+		gutil.log("[webpack]", stats.toString({
+			colors: true
+		}));
+		callback();
+	});
 });
 
-gulp.task("webpack-dev-server", function(callback) {
-    // Start a webpack-dev-server
-    var compiler = webpack({
-        // configuration
-    });
-
-    new WebpackDevServer(compiler, {
-        // server and middleware options
-    }).listen(8080, "localhost", function(err) {
-        if(err) throw new gutil.PluginError("webpack-dev-server", err);
-        // Server listening
-        gutil.log("[webpack-dev-server]", "http://localhost:8080/webpack-dev-server/index.html");
-
-        // keep the server alive or continue?
-        // callback();
-    });
-});
 // gulp.task('default', ['sass:watch']);
-gulp.task('default', ['serve']);
+gulp.task('default', ['sass','webpack','serve']);
