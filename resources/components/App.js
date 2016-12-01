@@ -2,7 +2,6 @@ import React from 'react'
 
 import AppLayout from './layouts/AppLayout'
 
-
 class App extends React.Component {
     constructor(props) {
         super(props)
