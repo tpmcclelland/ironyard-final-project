@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import OrderLayout from './layouts/OrderLayout'
+
 class Orders extends Component {
     constructor(props) {
         super(props)
@@ -14,9 +16,9 @@ class Orders extends Component {
     }
 
     render() {
-        return <OrdersLayout>
-            <h1>Order</h1>
-        </OrdersLayout>
+        return <OrderLayout>
+            <h1>Orders</h1>
+        </OrderLayout>
     }
 }
 
