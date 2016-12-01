@@ -30,19 +30,26 @@ class Recipes extends Component {
     constructor(props) {
         super(props)
         classAutoBind(this)
+
+        var resultSize = this.props.resultSize || 20
+
         this.state = {
           modalIsOpen: false,
           recipes: [],
           recipeDetails: {},
           ingredients: [],
-          searchTerm: ''
+          searchTerm: '',
+          resultSize: resultSize
         }
     }
     componentDidMount() {
+
+
         this.fetchRecipes()
     }
     fetchRecipes() {
-      fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=20&q=" + encodeURIComponent(this.state.searchTerm))
+      console.log(this.state.resultSize)
+      fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + this.state.resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
           .then(response => response.json())
           .then(this.updateRecipeDisplay)
     }
@@ -104,7 +111,7 @@ class Recipes extends Component {
       var ingredients = this.state.ingredients.map((ingredient, i) => {
         return <li key={i}>{ingredient}</li>
       })
-        return <div className="container-fluid">
+        return <div id="recipes" className="container-fluid">
         <div className="row">
             <div className="col-sm-9 col-xs-6">
                 <h1 id="recipe-anchor" className="anchor">Recipes</h1>

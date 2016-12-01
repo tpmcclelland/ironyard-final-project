@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class Template extends Component {
+class Orders extends Component {
     constructor(props) {
         super(props)
 
@@ -14,8 +14,10 @@ class Template extends Component {
     }
 
     render() {
-
+        return <OrdersLayout>
+            <h1>Order</h1>
+        </OrdersLayout>
     }
 }
 
-export default Template
+export default Orders
