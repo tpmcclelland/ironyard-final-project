@@ -1,8 +1,7 @@
 import React from 'react'
 
 import DriverLayout from './DriverLayout'
-import ActiveOrders from './ActiveOrders'
-import AvailableOrders from './AvailableOrders'
+import DriverOrders from './DriverOrders'
 import DriverMetrics from './DriverMetrics'
 
 class Driver extends React.Component {
@@ -15,12 +14,12 @@ class Driver extends React.Component {
             <DriverLayout>
                 <div className="row full-screen red-background overflow-scroll push-down hidden-print">
                   <div id="active-orders" className="col-sm-11 col-sm-offset-1">
-                    <ActiveOrders />
+                    <DriverOrders activeOrders={true}/>
                   </div>
                 </div>
                 <div className="row full-screen green-background overflow-scroll">
                   <div id="available-orders" className="col-sm-11 col-sm-offset-1">
-                    <AvailableOrders />
+                    <DriverOrders activeOrders={false} />
                   </div>
                 </div>
                 <div className="row full-screen lightBlue-background overflow-scroll hidden-print">
