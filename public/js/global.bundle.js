@@ -21565,7 +21565,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21594,6 +21594,10 @@
 
 	var _Schedule2 = _interopRequireDefault(_Schedule);
 
+	var _Payment = __webpack_require__(209);
+
+	var _Payment2 = _interopRequireDefault(_Payment);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21603,71 +21607,75 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var App = function (_React$Component) {
-	  _inherits(App, _React$Component);
+	    _inherits(App, _React$Component);
 
-	  function App(props) {
-	    _classCallCheck(this, App);
+	    function App(props) {
+	        _classCallCheck(this, App);
 
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-	  }
-
-	  _createClass(App, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(_Header2.default, null),
-	        _react2.default.createElement(
-	          'main',
-	          { className: 'row' },
-	          _react2.default.createElement(_LeftNav2.default, null),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-xs-12' },
-	            _react2.default.createElement(
-	              'section',
-	              { className: 'col-xs-12 main-section' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row full-screen red-background overflow-scroll push-down hidden-print' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { id: 'recipes', className: 'col-sm-11 col-sm-offset-1' },
-	                  _react2.default.createElement(_Recipes2.default, null)
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row full-screen green-background overflow-scroll' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { id: 'shopping', className: 'col-sm-11 col-sm-offset-1' },
-	                  _react2.default.createElement(_ShoppingList2.default, null)
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row full-screen lightBlue-background overflow-scroll hidden-print' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { id: 'schedule', className: 'col-sm-11 col-sm-offset-1' },
-	                  _react2.default.createElement(_Schedule2.default, null)
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'row full-screen yellow-background overflow-scroll hidden-print' },
-	                _react2.default.createElement('div', { id: 'payment', className: 'col-sm-11 col-sm-offset-1' })
-	              )
-	            )
-	          )
-	        )
-	      );
+	        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	    }
-	  }]);
 
-	  return App;
+	    _createClass(App, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_Header2.default, null),
+	                _react2.default.createElement(
+	                    'main',
+	                    { className: 'row' },
+	                    _react2.default.createElement(_LeftNav2.default, null),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'col-xs-12' },
+	                        _react2.default.createElement(
+	                            'section',
+	                            { className: 'col-xs-12 main-section' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row full-screen red-background overflow-scroll push-down hidden-print' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { id: 'recipes', className: 'col-sm-11 col-sm-offset-1' },
+	                                    _react2.default.createElement(_Recipes2.default, null)
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row full-screen green-background overflow-scroll' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { id: 'shopping', className: 'col-sm-11 col-sm-offset-1' },
+	                                    _react2.default.createElement(_ShoppingList2.default, null)
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row full-screen lightBlue-background overflow-scroll hidden-print' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { id: 'schedule', className: 'col-sm-11 col-sm-offset-1' },
+	                                    _react2.default.createElement(_Schedule2.default, null)
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row full-screen yellow-background overflow-scroll hidden-print' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { id: 'payment', className: 'col-sm-11 col-sm-offset-1' },
+	                                    _react2.default.createElement(_Payment2.default, null)
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return App;
 	}(_react2.default.Component);
 
 	exports.default = App;
@@ -24626,7 +24634,24 @@
 	    function Schedule(props) {
 	        _classCallCheck(this, Schedule);
 
-	        return _possibleConstructorReturn(this, (Schedule.__proto__ || Object.getPrototypeOf(Schedule)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Schedule.__proto__ || Object.getPrototypeOf(Schedule)).call(this, props));
+
+	        _this.state = {
+	            startDeliveryWindow: "",
+	            endDeliveryWindow: "",
+	            shippingFirstName: "",
+	            shippingLastName: "",
+	            email: "",
+	            shippingTelephone: "",
+	            shippingAddress: "",
+	            shippingAddressAdditional: "",
+	            shippingCity: "",
+	            shippingState: "",
+	            shippingZipcode: "",
+	            ship_to_address: ""
+	        };
+	        _this.typing = _this.typing.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(Schedule, [{
@@ -24635,6 +24660,15 @@
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {}
+	    }, {
+	        key: 'typing',
+	        value: function typing(e) {
+	            var updatedState = {};
+	            updatedState[e.target.name] = e.target.value;
+	            console.log(updatedState);
+	            this.setState(updatedState);
+	            // this.collectShippingAddress()
+	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
@@ -24666,7 +24700,7 @@
 	                                        { htmlFor: 'startDeliveryWindow' },
 	                                        'Start'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'startDeliveryWindow', id: 'startDeliveryWindow', placeholder: '6pm', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'startDeliveryWindow', id: 'startDeliveryWindow', value: this.state.startDeliveryWindow, onChange: this.typing, placeholder: '6pm', required: true })
 	                                ),
 	                                _react2.default.createElement(
 	                                    'div',
@@ -24676,7 +24710,7 @@
 	                                        { htmlFor: 'endDeliveryWindow' },
 	                                        'End'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'endDeliveryWindow', id: 'endDeliveryWindow', placeholder: '8pm', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'endDeliveryWindow', id: 'endDeliveryWindow', value: this.state.endDeliveryWindow, onChange: this.typing, placeholder: '8pm', required: true })
 	                                )
 	                            )
 	                        ),
@@ -24699,7 +24733,7 @@
 	                                        { htmlFor: 'shippingFirstName' },
 	                                        'First Name'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingFirstName', id: 'shippingFirstName', placeholder: 'Snow', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingFirstName', id: 'shippingFirstName', value: this.state.shippingFirstName, onChange: this.typing, placeholder: 'Snow', required: true })
 	                                ),
 	                                _react2.default.createElement(
 	                                    'div',
@@ -24709,7 +24743,7 @@
 	                                        { htmlFor: 'shippingLastName' },
 	                                        'Last Name'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingLastName', id: 'shippingLastName', placeholder: 'White', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingLastName', id: 'shippingLastName', value: this.state.shippingLastName, onChange: this.typing, placeholder: 'White', required: true })
 	                                )
 	                            ),
 	                            _react2.default.createElement(
@@ -24724,7 +24758,7 @@
 	                                        { htmlFor: 'email' },
 	                                        'Email'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'email', name: 'email', id: 'email', placeholder: 'Winter@is.coming', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'email', name: 'email', id: 'email', value: this.state.email, onChange: this.typing, placeholder: 'Winter@is.coming', required: true })
 	                                ),
 	                                _react2.default.createElement(
 	                                    'div',
@@ -24734,7 +24768,7 @@
 	                                        { htmlFor: 'shippingTelephone' },
 	                                        'Telephone'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'tel', name: 'shippingTelephone', id: 'shippingTelephone', placeholder: '123 456 7890', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'tel', name: 'shippingTelephone', id: 'shippingTelephone', value: this.state.shippingTelephone, onChange: this.typing, placeholder: '123 456 7890', required: true })
 	                                )
 	                            ),
 	                            _react2.default.createElement(
@@ -24749,7 +24783,7 @@
 	                                        { htmlFor: 'shippingAddress' },
 	                                        'Address'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingAddress', id: 'shippingAddress', placeholder: '12 Upup Downdown PKWY', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingAddress', id: 'shippingAddress', value: this.state.shippingAddress, onChange: this.typing, placeholder: '12 Upup Downdown PKWY', required: true })
 	                                )
 	                            ),
 	                            _react2.default.createElement(
@@ -24759,7 +24793,7 @@
 	                                _react2.default.createElement(
 	                                    'div',
 	                                    { className: 'col-sm-12' },
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingAddressAdditional', id: 'shippingAddressAdditional', placeholder: 'Unit Left Right Left Right' })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingAddressAdditional', id: 'shippingAddressAdditional', value: this.state.shippingAddressAdditional, onChange: this.typing, placeholder: 'Unit Left Right Left Right' })
 	                                )
 	                            ),
 	                            _react2.default.createElement(
@@ -24774,7 +24808,7 @@
 	                                        { htmlFor: 'shippingCity' },
 	                                        'City'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingCity', id: 'shippingCity', placeholder: 'Bee Ayystart', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingCity', id: 'shippingCity', value: this.state.shippingCity, onChange: this.typing, placeholder: 'Bee Ayystart', required: true })
 	                                )
 	                            ),
 	                            _react2.default.createElement(
@@ -24791,7 +24825,7 @@
 	                                    ),
 	                                    _react2.default.createElement(
 	                                        'select',
-	                                        { id: 'shippingState', name: 'shippingState', className: 'form-control' },
+	                                        { id: 'shippingState', name: 'shippingState', className: 'form-control', value: this.state.shippingState, onChange: this.typing },
 	                                        _react2.default.createElement(
 	                                            'option',
 	                                            { disabled: true, value: 'default' },
@@ -25062,7 +25096,7 @@
 	                                        { htmlFor: 'shippingZipcode' },
 	                                        'Zipcode'
 	                                    ),
-	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingZipcode', id: 'shippingZipcode', placeholder: '46202', required: true })
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'shippingZipcode', id: 'shippingZipcode', value: this.state.shippingZipcode, onChange: this.typing, placeholder: '46202', required: true })
 	                                )
 	                            )
 	                        ),
@@ -25081,6 +25115,634 @@
 	}(_react.Component);
 
 	exports.default = Schedule;
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(32);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Payment = function (_Component) {
+	    _inherits(Payment, _Component);
+
+	    function Payment(props) {
+	        _classCallCheck(this, Payment);
+
+	        var _this = _possibleConstructorReturn(this, (Payment.__proto__ || Object.getPrototypeOf(Payment)).call(this, props));
+
+	        _this.state = {
+	            billingFirstName: "",
+	            billingLastName: "",
+	            billingTelephone: "",
+	            billingAddress: "",
+	            billingAddressAdditional: "",
+	            billingCity: "",
+	            billingState: "",
+	            billingZipcode: "",
+	            cardType: "",
+	            paymentCardNumber: "",
+	            paymentCardHolderName: "",
+	            paymentExpirationMonth: "",
+	            paymentExpirationYear: "",
+	            paymentVerificationNumber: "",
+	            ship_to_address: ""
+	        };
+	        _this.typing = _this.typing.bind(_this);
+	        _this.displayState = _this.displayState.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(Payment, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {}
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {}
+	    }, {
+	        key: 'displayState',
+	        value: function displayState() {
+	            console.log(this.state);
+	        }
+	    }, {
+	        key: 'typing',
+	        value: function typing(e) {
+	            var updatedState = {};
+	            updatedState[e.target.name] = e.target.value;
+	            // console.log(updatedState)
+	            this.setState(updatedState);
+	            // this.collectShippingAddress()
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            return _react2.default.createElement(
+	                'form',
+	                { encType: 'multipart/form-data' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'anchor-top-margin' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'form-group col-xs-6 col-xs-offset-3 well' },
+	                        _react2.default.createElement(
+	                            'h2',
+	                            null,
+	                            'Payment'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'form-group well' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-12' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'paymentCardHolderName' },
+	                                        'Cardholder Name'
+	                                    ),
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'paymentCardHolderName', id: 'paymentCardHolderName', value: this.state.paymentCardHolderName, onChange: this.typing, placeholder: 'Joseph P Sampsonite', required: true })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-12' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'paymentCardNumber' },
+	                                        'Card #'
+	                                    ),
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'paymentCardNumber', id: 'paymentCardNumber', value: this.state.paymentCardNumber, onChange: this.typing, placeholder: '1234567890123456', required: true })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-6' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'paymentExpirationMonth' },
+	                                        'Exp Month'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'select',
+	                                        { id: 'paymentExpirationMonth', name: 'paymentExpirationMonth', className: 'form-control', value: this.state.paymentExpirationMonth, onChange: this.typing },
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '01' },
+	                                            '01-January'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '02' },
+	                                            '02-February'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '03' },
+	                                            '03-March'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '04' },
+	                                            '04-April'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '05' },
+	                                            '05-May'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '06' },
+	                                            '06-June'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '07' },
+	                                            '07-July'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '08' },
+	                                            '08-August'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '09' },
+	                                            '09-September'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '10' },
+	                                            '10-October'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '11' },
+	                                            '11-November'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '12' },
+	                                            '12-December'
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-6' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'paymentExpirationYear' },
+	                                        'Exp Year'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'select',
+	                                        { id: 'paymentExpirationYear', name: 'paymentExpirationYear', className: 'form-control', value: this.state.paymentExpirationYear, onChange: this.typing },
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '2016' },
+	                                            '2016'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '2017' },
+	                                            '2017'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '2018' },
+	                                            '2018'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '2019' },
+	                                            '2019'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '2020' },
+	                                            '2020'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: '2021' },
+	                                            '2021'
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'h2',
+	                            null,
+	                            'Billing Address'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'form-group well' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-6' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'billingFirstName' },
+	                                        'First Name'
+	                                    ),
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'billingFirstName', id: 'billingFirstName', value: this.state.billingFirstName, onChange: this.typing, placeholder: 'Snow', required: true })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-6' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'billingLastName' },
+	                                        'Last Name'
+	                                    ),
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'billingLastName', id: 'billingLastName', value: this.state.billingLastName, onChange: this.typing, placeholder: 'White', required: true })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement('br', null),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-12' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'billingAddress' },
+	                                        'Address'
+	                                    ),
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'billingAddress', id: 'billingAddress', value: this.state.billingAddress, onChange: this.typing, placeholder: '12 Upup Downdown PKWY', required: true })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement('br', null),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-12' },
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'billingAddressAdditional', id: 'billingAddressAdditional', value: this.state.billingAddressAdditional, onChange: this.typing, placeholder: 'Unit Left Right Left Right' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement('br', null),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-12' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'billingCity' },
+	                                        'City'
+	                                    ),
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'billingCity', id: 'billingCity', value: this.state.billingCity, onChange: this.typing, placeholder: 'Bee Ayystart', required: true })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement('br', null),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-6' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'billingState' },
+	                                        'State'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'select',
+	                                        { id: 'billingState', name: 'billingState', className: 'form-control', value: this.state.billingState, onChange: this.typing },
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { disabled: true, value: 'default' },
+	                                            '-Select State-'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'AL' },
+	                                            'Alabama'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'AK' },
+	                                            'Alaska'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'AZ' },
+	                                            'Arizona'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'AR' },
+	                                            'Arkansas'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'CA' },
+	                                            'California'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'CO' },
+	                                            'Colorado'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'CT' },
+	                                            'Connecticut'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'DE' },
+	                                            'Delaware'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'DC' },
+	                                            'District Of Columbia'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'FL' },
+	                                            'Florida'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'GA' },
+	                                            'Georgia'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'HI' },
+	                                            'Hawaii'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'ID' },
+	                                            'Idaho'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'IL' },
+	                                            'Illinois'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'IN' },
+	                                            'Indiana'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'IA' },
+	                                            'Iowa'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'KS' },
+	                                            'Kansas'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'KY' },
+	                                            'Kentucky'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'LA' },
+	                                            'Louisiana'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'ME' },
+	                                            'Maine'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'MD' },
+	                                            'Maryland'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'MA' },
+	                                            'Massachusetts'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'MI' },
+	                                            'Michigan'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'MN' },
+	                                            'Minnesota'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'MS' },
+	                                            'Mississippi'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'MO' },
+	                                            'Missouri'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'MT' },
+	                                            'Montana'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'NE' },
+	                                            'Nebraska'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'NV' },
+	                                            'Nevada'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'NH' },
+	                                            'New Hampshire'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'NJ' },
+	                                            'New Jersey'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'NM' },
+	                                            'New Mexico'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'NY' },
+	                                            'New York'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'NC' },
+	                                            'North Carolina'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'ND' },
+	                                            'North Dakota'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'OH' },
+	                                            'Ohio'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'OK' },
+	                                            'Oklahoma'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'OR' },
+	                                            'Oregon'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'PA' },
+	                                            'Pennsylvania'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'RI' },
+	                                            'Rhode Island'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'SC' },
+	                                            'South Carolina'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'SD' },
+	                                            'South Dakota'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'TN' },
+	                                            'Tennessee'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'TX' },
+	                                            'Texas'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'UT' },
+	                                            'Utah'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'VT' },
+	                                            'Vermont'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'VA' },
+	                                            'Virginia'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'WA' },
+	                                            'Washington'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'WV' },
+	                                            'West Virginia'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'WI' },
+	                                            'Wisconsin'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'option',
+	                                            { value: 'WY' },
+	                                            'Wyoming'
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-sm-6' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { htmlFor: 'billingZipcode' },
+	                                        'Zipcode'
+	                                    ),
+	                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'billingZipcode', id: 'billingZipcode', value: this.state.billingZipcode, onChange: this.typing, placeholder: '46202', required: true })
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'button',
+	                            { className: 'col-xs-12', onClick: function onClick() {
+	                                    return _this2.displayState();
+	                                } },
+	                            'Submit Address'
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Payment;
+	}(_react.Component);
+
+	exports.default = Payment;
 
 /***/ }
 /******/ ]);
