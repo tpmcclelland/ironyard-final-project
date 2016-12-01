@@ -4,13 +4,36 @@ import ReactDOM from 'react-dom'
 class Schedule extends Component {
     constructor(props) {
         super(props)
-
+        this.state = {
+            startDeliveryWindow: "",
+            endDeliveryWindow: "",
+            shippingFirstName: "",
+            shippingLastName: "",
+            email: "",
+            shippingTelephone: "",
+            shippingAddress: "",
+            shippingAddressAdditional: "",
+            shippingCity: "",
+            shippingState: "",
+            shippingZipcode: "",
+            ship_to_address: "",
+        }
+        this.typing = this.typing.bind(this)
     }
 
     componentWillMount() {
 
     }
     componentDidMount() {
+
+    }
+
+    typing(e) {
+        var updatedState = {}
+        updatedState[e.target.name] = e.target.value
+        // console.log(updatedState)
+        this.setState(updatedState)
+        // this.collectShippingAddress()
 
     }
 
@@ -23,11 +46,11 @@ class Schedule extends Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <label htmlFor="startDeliveryWindow">Start</label>
-                            <input className="form-control" type="text" name="startDeliveryWindow" id="startDeliveryWindow" placeholder="6pm" required/>
+                            <input className="form-control" type="text" name="startDeliveryWindow" id="startDeliveryWindow" value={this.state.startDeliveryWindow} onChange={this.typing} placeholder="6pm" required/>
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="endDeliveryWindow">End</label>
-                            <input className="form-control" type="text" name="endDeliveryWindow" id="endDeliveryWindow" placeholder="8pm" required/>
+                            <input className="form-control" type="text" name="endDeliveryWindow" id="endDeliveryWindow" value={this.state.endDeliveryWindow} onChange={this.typing} placeholder="8pm" required/>
                         </div>
                     </div>
                 </div>
@@ -36,49 +59,49 @@ class Schedule extends Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <label htmlFor="shippingFirstName">First Name</label>
-                            <input className="form-control" type="text" name="shippingFirstName" id="shippingFirstName" placeholder="Snow" required/>
+                            <input className="form-control" type="text" name="shippingFirstName" id="shippingFirstName" value={this.state.shippingFirstName} onChange={this.typing} placeholder="Snow" required/>
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingLastName">Last Name</label>
-                            <input className="form-control" type="text" name="shippingLastName" id="shippingLastName" placeholder="White" required/>
+                            <input className="form-control" type="text" name="shippingLastName" id="shippingLastName" value={this.state.shippingLastName} onChange={this.typing} placeholder="White" required/>
                         </div>
                     </div>
                     <div className="row">
                         <br />
                         <div className="col-sm-6">
                             <label htmlFor="email">Email</label>
-                            <input className="form-control" type="email" name="email" id="email" placeholder="Winter@is.coming" required/>
+                            <input className="form-control" type="email" name="email" id="email" value={this.state.email} onChange={this.typing} placeholder="Winter@is.coming" required/>
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingTelephone">Telephone</label>
-                            <input className="form-control" type="tel" name="shippingTelephone" id="shippingTelephone" placeholder="123 456 7890" required/>
+                            <input className="form-control" type="tel" name="shippingTelephone" id="shippingTelephone" value={this.state.shippingTelephone} onChange={this.typing} placeholder="123 456 7890" required/>
                         </div>
                     </div>
                     <div className="row">
                         <br />
                         <div className="col-sm-12">
                             <label htmlFor="shippingAddress">Address</label>
-                            <input className="form-control" type="text" name="shippingAddress" id="shippingAddress" placeholder="12 Upup Downdown PKWY" required/>
+                            <input className="form-control" type="text" name="shippingAddress" id="shippingAddress" value={this.state.shippingAddress} onChange={this.typing} placeholder="12 Upup Downdown PKWY" required/>
                         </div>
                     </div>
                     <div className="row">
                         <br />
                         <div className="col-sm-12">
-                            <input className="form-control" type="text" name="shippingAddressAdditional" id="shippingAddressAdditional"  placeholder="Unit Left Right Left Right" />
+                            <input className="form-control" type="text" name="shippingAddressAdditional" id="shippingAddressAdditional" value={this.state.shippingAddressAdditional} onChange={this.typing} placeholder="Unit Left Right Left Right" />
                         </div>
                     </div>
                     <div className="row">
                         <br />
                         <div className="col-sm-12">
                             <label htmlFor="shippingCity">City</label>
-                            <input className="form-control" type="text" name="shippingCity" id="shippingCity" placeholder="Bee Ayystart" required/>
+                            <input className="form-control" type="text" name="shippingCity" id="shippingCity" value={this.state.shippingCity} onChange={this.typing} placeholder="Bee Ayystart" required/>
                         </div>
                     </div>
                     <div className="row">
                         <br />
                         <div className="col-sm-6">
                             <label htmlFor="shippingState">State</label>
-                            <select id="shippingState" name="shippingState" className="form-control">
+                            <select id="shippingState" name="shippingState" className="form-control" value={this.state.shippingState} onChange={this.typing}>
                                 <option disabled value="default">-Select State-</option>
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
@@ -135,11 +158,12 @@ class Schedule extends Component {
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingZipcode">Zipcode</label>
-                            <input className="form-control" type="text" name="shippingZipcode" id="shippingZipcode" placeholder="46202" required/>
+                            <input className="form-control" type="text" name="shippingZipcode" id="shippingZipcode" value={this.state.shippingZipcode} onChange={this.typing} placeholder="46202" required/>
                             {/* <input className="form-control" type="text" name="shippingZipcode" id="shippingZipcode" value={this.state.shippingZipcode} onChange={this.typing} placeholder="46202" required/> */}
                         </div>
                     </div>
                 </div>
+                {/* Button doesn't push content anywhere yet. */}
                 <button className="col-xs-12"type="submit">Submit Address</button>
             </div>
         </div>
