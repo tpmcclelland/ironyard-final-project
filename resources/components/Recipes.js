@@ -41,7 +41,7 @@ class Recipes extends Component {
       })
     }
     componentDidMount() {
-        fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6")
+        fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6")
             .then(response => response.json())
             .then(this.updateRecipeDisplay)
     }
@@ -58,7 +58,7 @@ class Recipes extends Component {
       sharedState({
         modalIsOpen: true,
       })
-      fetch("http://api.yummly.com/v1/api/recipe/" + recipe + "?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6")
+      fetch("https://api.yummly.com/v1/api/recipe/" + recipe + "?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6")
           .then(response => response.json())
           .then(this.updateRecipeDetails)
     }
@@ -83,7 +83,7 @@ class Recipes extends Component {
     search() {
       var searchValue = this.state.searchTerm
       console.log(this.state.searchTerm)
-      // fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&q=" + encodeURIComponent(searchValue))
+      // fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&q=" + encodeURIComponent(searchValue))
       //     .then(response => response.json())
       //     .then(this.updateRecipeDisplay)
     }
