@@ -50,6 +50,18 @@
 #driver h1 {
   color: white; }
 
+#driver .list-group-item {
+  margin-bottom: 5px;
+  border-radius: 4px; }
+
+#driver .list-group-button {
+  padding-top: 5px; }
+
+#driver .order-heading {
+  border-bottom: 2px solid gray;
+  padding-bottom: 5px;
+  margin-bottom: 5px; }
+
 * {
   box-sizing: border-box; }
 

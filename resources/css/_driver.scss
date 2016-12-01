@@ -4,4 +4,16 @@
     h1 {
         color: white;
     }
+    .list-group-item {
+        margin-bottom: 5px;
+        border-radius: 4px;
+    }
+    .list-group-button {
+        padding-top: 5px;
+    }
+    .order-heading {
+        border-bottom: 2px solid gray;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
 }
