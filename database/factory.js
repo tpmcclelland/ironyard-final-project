@@ -102,14 +102,28 @@ Factory.blueprint('App/Model/Store', (fake) => {
     location_lat: fake.latitude(),
     location_long: fake.longitude()
   }
+})
 
 Factory.blueprint('App/Model/ShoppingList', (fake) => {
   return {
     quantity: fake.integer({min: 1, max: 5}),
-    estimated_price: fake.floating({min: 0, max: 5, fixed: 2})
+    estimated_price: fake.floating({min: 0, max: 5, fixed: 2}),
+    unit: fake.string({length: 5})
+  }
+})
+
+Factory.blueprint('App/Model/Order', (fake) => {
+  return {
+    total_cost: fake.integer({min: 1, max: 150}),
+    delivery_start_time: fake.date(),
+    delivery_end_time: fake.date(),
+    payment_received: fake.bool(),
+    driver_paid: fake.bool()
+  }
+})
+
+Factory.blueprint('App/Model/IngredientShoppingList', (fake) => {
+  return {
 
   }
-Factory.blueprint('App/Model/Order', (fake) => {
-
-})
 })

@@ -32,13 +32,13 @@ class ShoppingListSeeder {
   //}
 
   * createShoppingList(num) {
-    const user = Factory.model('App/Model/User').make()
+    const order = Database.from('orders').first()
+    const orderId = order.id
     const cooker = Factory.model('App/Model/Cooker').make()
     const shoppingList = Factory.model('App/Model/ShoppingList').make(num)
-    //shoppingList.cooker_id = 1
-    yield user.save()
-    yield user.cooker().save(cooker)
     yield cooker.save()
+    shoppingList.cooker_id = cooker.id
+    shoppingList.order_id = orderId
     yield cooker.shoppingLists().save(shoppingList)
 
   }
