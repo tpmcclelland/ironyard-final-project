@@ -4,6 +4,7 @@
 @import "schedule";
 @import "payment";
 @import "driver";
+@import "welcome";
 
 * { box-sizing: border-box; }
 .lightBlue-background { background-color: $lightBlue; }
@@ -102,7 +103,7 @@
 .main-section {
     position: absolute;
     right: 0;
-    top: 55px;
+    top: 0;
 }
 .full-screen {
     height: 100vh;
