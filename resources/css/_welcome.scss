@@ -1,0 +1,23 @@
+#welcome {
+  .welcome-padding {
+    height: 50vh;
+    padding-bottom: 30px;
+    padding-right: 50px;
+  }
+  .well {
+    //background: rgba(0,0,0,0);
+    //background: $yellow;
+    //border: 5px solid $yellow;
+    //border-radius: 25px;
+  }
+  .welcome-centered {
+    padding-top: 125px;
+  }
+  a, .recipe-panel {
+    border-radius: 10px;
+    border: 5px solid $yellow;
+  }
+  img {
+    border-radius: 25px;
+  }
+}
