@@ -96,6 +96,9 @@
         height: 100px;
         visibility: hidden;
     }
+    .main-section {
+        top: 0px;
+    }
 }
 // end left navbar
 
@@ -103,7 +106,7 @@
 .main-section {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 55px;
 }
 .full-screen {
     height: 100vh;
