@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 
 import WelcomeLayout from './WelcomeLayout'
 import Recipes from '../cooker/Recipes'
+import WelcomeMetrics from './WelcomeMetrics'
 
 
 class Welcome extends React.Component {
@@ -13,7 +14,7 @@ class Welcome extends React.Component {
     render() {
         return <WelcomeLayout>
             <h1>Welcome!</h1>
-
+            <WelcomeMetrics />
             <Recipes resultSize={5} />
             <div className="well">
                 <div className="form-group">
