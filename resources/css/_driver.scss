@@ -1,9 +1,6 @@
 @import "variables";
 
-#driver {
-    h1 {
-        color: white;
-    }
+.driver {
     .list-group-item {
         margin-bottom: 5px;
         border-radius: 4px;
@@ -15,5 +12,45 @@
         border-bottom: 2px solid gray;
         padding-bottom: 5px;
         margin-bottom: 5px;
+    }
+    .total-amount {
+        padding-top: 15px;
+        .input-group {
+            width: 60%;
+        }
+    }
+}
+.order-status-button {
+    padding: 10px 5px;
+}
+.map {
+    width: 100%;
+    height: 300px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: whitesmoke;
+    margin-bottom: 10px;
+}
+.hidden {
+    display: none;
+}
+.modal-subheading {
+    margin-top: 0px;
+}
+@media (min-width: 768px) {
+    .total-amount {
+        label {
+        margin-right: 10px;
+        }
+        .form-group {
+            width: 100%;
+            text-align: right;
+        }
+        .input-group {
+            width: 50%;
+        }
+    }
+    .hide-total-amount {
+        margin-left: 10px;
     }
 }
