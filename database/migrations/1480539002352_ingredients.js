@@ -9,7 +9,6 @@ class IngredientsTableSchema extends Schema {
       table.increments()
       table.string('name')
       table.float('unit_cost')
-
       table.timestamps()
     })
   }

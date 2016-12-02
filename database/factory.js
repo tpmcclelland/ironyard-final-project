@@ -12,6 +12,7 @@
 */
 
 const Factory = use('Factory')
+const Database = use('Database')
 
 /*
 |--------------------------------------------------------------------------
@@ -49,5 +50,56 @@ Factory.blueprint('App/Model/Cooker', (fake) => {
     // need to add zip
     home_lat: fake.latitude(),
     home_long: fake.longitude()
+  }
+})
+
+Factory.blueprint('App/Model/Recipe', (fake) => {
+  return {
+    api_id: fake.string({length: 15}),
+    name: fake.sentence({words: 5}),
+    serving_size: fake.natural({min: 1, max: 7}),
+    instructions: fake.paragraph(),
+    prep_time: fake.minute(),
+    total_time: fake.minute()
+    // need to add image
+  }
+})
+
+Factory.blueprint('App/Model/IngredientRecipe', (fake) => {
+  return {
+    quantity: fake.integer({min: 1, max: 10}),
+    unit: fake.string({length: 6})
+  }
+})
+
+Factory.blueprint('App/Model/Ingredient', (fake) => {
+  return {
+    name: fake.string({length: 8}),
+    unit_cost: fake.integer({min: 1, max: 20})
+  }
+})
+
+Factory.blueprint('App/Model/Status', (fake) => {
+  return {
+    type: fake.string({length: 6})
+  }
+})
+
+Factory.blueprint('App/Model/Favorite', (fake) => {
+  return {
+
+  }
+})
+
+
+Factory.blueprint('App/Model/Store', (fake) => {
+  return {
+    name: fake.string({length: 8}),
+    address: fake.address(),
+    city: fake.city(),
+    state: fake.state(),
+    zip: fake.zip(),
+    location_lat: fake.latitude(),
+    location_long: fake.longitude()
   }
 })

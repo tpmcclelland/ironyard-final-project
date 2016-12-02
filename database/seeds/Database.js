@@ -15,7 +15,6 @@
 const Factory = use('Factory')
 // const User = use('App/Model/User')
 // const Driver = use('App/Model/Driver')
-const Database = use('Database')
 
 class DatabaseSeeder {
 
@@ -42,11 +41,8 @@ class DatabaseSeeder {
   }
 
   * run () {
-    // yield this.resetDb()
-    // yield this.createUser(2) //don't need this since we create a new user when creating a cooker/driver
     yield this.createDriver()
     yield this.createCooker()
-
   }
 
 }

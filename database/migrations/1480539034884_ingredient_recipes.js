@@ -5,7 +5,7 @@ const Schema = use('Schema')
 class IngredientRecipeTableSchema extends Schema {
 
   up () {
-    this.create('ingredient_recipe', (table) => {
+    this.create('ingredient_recipes', (table) => {
       table.increments()
       table.integer('quantity')
       table.string('unit')
@@ -21,7 +21,7 @@ class IngredientRecipeTableSchema extends Schema {
   }
 
   down () {
-    this.drop('ingredient_recipe')
+    this.drop('ingredient_recipes')
   }
 
 }

@@ -26,7 +26,7 @@ class WelcomeMetrics extends React.Component {
     var chartOptions = {
         scales: {
             xAxes: [{
-                type: 'linear',  789
+                type: 'linear',
                 position: 'bottom'
             }]
         }
