@@ -27,3 +27,6 @@ lib-cov
 
 public/css/global.css
 public/js/global.bundle.js
+
+# Webstorm Files
+.idea/*

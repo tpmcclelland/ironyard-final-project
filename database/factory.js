@@ -51,3 +51,14 @@ Factory.blueprint('App/Model/Cooker', (fake) => {
     home_long: fake.longitude()
   }
 })
+
+Factory.blueprint('App/Model/ShoppingList', (fake) => {
+  return {
+    quantity: fake.integer({min: 1, max: 5}),
+    estimated_price: fake.floating({min: 0, max: 5, fixed: 2})
+
+  }
+Factory.blueprint('App/Model/Order', (fake) => {
+
+})
+})
