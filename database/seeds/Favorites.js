@@ -13,9 +13,8 @@
 */
 
 const Factory = use('Factory')
-const Database = use('Database')
 
-class DatabaseSeeder {
+class FavoritesSeeder {
 
   * createFavorite() {
       const cooker = Factory.model('App/Model/Cooker').make()
@@ -34,4 +33,4 @@ class DatabaseSeeder {
 
 }
 
-module.exports = DatabaseSeeder
+module.exports = FavoritesSeeder

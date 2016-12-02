@@ -15,7 +15,7 @@
 const Factory = use('Factory')
 const Database = use('Database')
 
-class DatabaseSeeder {
+class StoreSeeder {
 
   * createStore() {
       const store = Factory.model('App/Model/Store').make()
@@ -28,4 +28,4 @@ class DatabaseSeeder {
 
 }
 
-module.exports = DatabaseSeeder
+module.exports = StoreSeeder

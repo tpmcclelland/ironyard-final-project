@@ -15,7 +15,7 @@
 const Factory = use('Factory')
 const Database = use('Database')
 
-class DatabaseSeeder {
+class IngredientRecipeSeeder {
 
   * createIngredientRecipe() {
       const ingredient = Factory.model('App/Model/Ingredient').make()
@@ -34,4 +34,4 @@ class DatabaseSeeder {
 
 }
 
-module.exports = DatabaseSeeder
+module.exports = IngredientRecipeSeeder

@@ -13,9 +13,8 @@
 */
 
 const Factory = use('Factory')
-const Database = use('Database')
 
-class DatabaseSeeder {
+class IngredientSeeder {
 
   * createIngredient() {
       const ingredient = Factory.model('App/Model/Ingredient').make()
@@ -28,4 +27,4 @@ class DatabaseSeeder {
 
 }
 
-module.exports = DatabaseSeeder
+module.exports = IngredientSeeder

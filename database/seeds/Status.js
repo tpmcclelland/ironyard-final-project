@@ -15,7 +15,7 @@
 const Factory = use('Factory')
 const Database = use('Database')
 
-class DatabaseSeeder {
+class StatusSeeder {
 
   * createStatus() {
       const status = Factory.model('App/Model/Status').make()
@@ -28,4 +28,4 @@ class DatabaseSeeder {
 
 }
 
-module.exports = DatabaseSeeder
+module.exports = StatusSeeder
