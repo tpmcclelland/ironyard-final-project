@@ -4,8 +4,6 @@ import { Link } from 'react-router'
 import WelcomeLayout from './WelcomeLayout'
 import Recipes from '../cooker/Recipes'
 import WelcomeMetrics from './WelcomeMetrics'
-import CustomerReviews from './CustomerReviews'
-
 
 class Welcome extends React.Component {
     constructor(props) {
@@ -51,7 +49,6 @@ class Welcome extends React.Component {
                 <WelcomeMetrics />
               </div>
             </div>
-            <CustomerReviews />
         </WelcomeLayout>
     }
 }
