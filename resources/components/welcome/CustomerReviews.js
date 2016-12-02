@@ -7,7 +7,7 @@ class CustomerReviews extends React.Component {
     render() {
         return <div className="container-fluid">
             <h1>Customer Reviews</h1>
-            <div className="row">
+            <div className="row reviews">
                 <div className="col-xs-3 well">
                     <div className="panel panel-default">
                     <div className="panel-body">
@@ -17,10 +17,20 @@ class CustomerReviews extends React.Component {
                     </div>
                 </div>
                 <div className="col-xs-3 well">
-                    <p>I love this place!</p>
+                    <div className="panel panel-default">
+                    <div className="panel-body">
+                        <p>I love the recipes!</p>
+                        <p>- Whitney</p>
+                    </div>
+                    </div>
                 </div>
                 <div className="col-xs-3 well">
-                    <p>I love this place!</p>
+                    <div className="panel panel-default">
+                    <div className="panel-body">
+                        <p>Best delivery ever!</p>
+                        <p>- Joel</p>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,6 +3,8 @@ import React from 'react'
 var LineChart = require("react-chartjs").Line;
 var DoughnutChart = require("react-chartjs").Doughnut;
 
+import CustomerReviews from './CustomerReviews'
+
 
 class WelcomeMetrics extends React.Component {
     constructor(props) {
@@ -56,6 +58,7 @@ class WelcomeMetrics extends React.Component {
                 <DoughnutChart className="chart" data={doughnutChartData} height="300" width="350"/>
                 </div>
             </div>
+            <CustomerReviews />
         </div>
     }
 }
