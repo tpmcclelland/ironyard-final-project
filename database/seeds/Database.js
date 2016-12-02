@@ -12,12 +12,41 @@
 |
 */
 
-// const Factory = use('Factory')
+const Factory = use('Factory')
+// const User = use('App/Model/User')
+// const Driver = use('App/Model/Driver')
+const Database = use('Database')
 
 class DatabaseSeeder {
 
+  * resetDb() {
+    // TODO: need to figure out how to delete all the seed data before rerunning the seed
+  }
+
+  * createUser(num) {
+    yield Factory.model('App/Model/User').create(num)
+  }
+
+  * createDriver() {
+    const user = Factory.model('App/Model/User').make()
+    const driver = Factory.model('App/Model/Driver').make()
+    yield user.save()
+    yield user.driver().save(driver)
+  }
+
+  * createCooker() {
+    const user = Factory.model('App/Model/User').make()
+    const cooker = Factory.model('App/Model/Cooker').make()
+    yield user.save()
+    yield user.cooker().save(cooker)
+  }
+
   * run () {
-    // yield Factory.model('App/Model/User').create(5)
+    // yield this.resetDb()
+    // yield this.createUser(2) //don't need this since we create a new user when creating a cooker/driver
+    yield this.createDriver()
+    yield this.createCooker()
+
   }
 
 }

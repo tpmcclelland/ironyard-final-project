@@ -28,3 +28,26 @@ Factory.blueprint('App/Model/User', (fake) => {
     password: fake.password()
   }
 })
+
+Factory.blueprint('App/Model/Driver', (fake) => {
+  return {
+    license: fake.integer({min: 1}),
+    license_expiration: fake.date(),
+    driving_location: fake.coordinates(),
+    driving_location_lat: fake.latitude(),
+    driving_location_long: fake.longitude(),
+    rating: fake.integer({min: 1, max: 5})
+  }
+})
+
+Factory.blueprint('App/Model/Cooker', (fake) => {
+  return {
+    stripe_id: fake.guid(),
+    home_address: fake.address(),
+    home_city: fake.city(),
+    home_state: fake.state(),
+    // need to add zip
+    home_lat: fake.latitude(),
+    home_long: fake.longitude()
+  }
+})

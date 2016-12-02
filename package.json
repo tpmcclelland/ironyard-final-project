@@ -25,8 +25,10 @@
     "adonis-framework": "^3.0.5",
     "adonis-lucid": "^3.0.10",
     "adonis-middleware": "^1.0.8",
+    "chart.js": "^1.1.1",
     "pg": "^6.1.0",
     "react-addons-update": "^15.4.1",
+    "react-chartjs": "^0.8.0",
     "react-modal": "^1.5.2",
     "standard": "^8.4.0",
     "youch": "^1.0.1"
