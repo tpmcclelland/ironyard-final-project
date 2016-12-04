@@ -11,6 +11,7 @@ class CookersTableSchema extends Schema {
         table.string('home_address')
         table.string('home_city')
         table.string('home_state')
+        table.string('home_zip')
         table.string('home_lat')
         table.string('home_long')
 

@@ -47,7 +47,7 @@ class ShoppingListSeeder {
     // yield this.resetDb()
     // yield this.createUser(2) //don't need this since we create a new user when creating a cooker/driver
     //yield this.resetShoppingList()
-    yield this.createShoppingList(1)
+    // yield this.createShoppingList(1)
 
   }
 

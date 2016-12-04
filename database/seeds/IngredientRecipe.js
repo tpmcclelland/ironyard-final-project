@@ -29,7 +29,7 @@ class IngredientRecipeSeeder {
   }
 
   * run () {
-    yield this.createIngredientRecipe()
+    // yield this.createIngredientRecipe()
   }
 
 }

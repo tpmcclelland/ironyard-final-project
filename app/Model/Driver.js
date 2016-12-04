@@ -10,6 +10,10 @@ class Driver extends Lucid {
     orders () {
       return this.hasMany('App/Model/Order')
     }
+
+    ratings() {
+      return this.hasMany('App/Model/Rating')
+    }
 }
 
 module.exports = Driver

@@ -22,7 +22,7 @@ class IngredientSeeder {
   }
 
   * run () {
-    yield this.createIngredient()
+    // yield this.createIngredient()
   }
 
 }

@@ -5,7 +5,7 @@ const Schema = use('Schema')
 class IngredientShoppingListTableSchema extends Schema {
 
   up () {
-    this.create('ingredient_shopping_list', (table) => {
+    this.create('ingredient_shopping_lists', (table) => {
       table.increments()
       table.integer('shopping_list_id').references('id').inTable('shopping_lists')
       table.integer('ingredient_recipe_id').references('id').inTable('ingredient_recipes')
@@ -17,7 +17,7 @@ class IngredientShoppingListTableSchema extends Schema {
   }
 
   down () {
-    this.drop('ingredient_shopping_list')
+    this.drop('ingredient_shopping_lists')
   }
 
 }

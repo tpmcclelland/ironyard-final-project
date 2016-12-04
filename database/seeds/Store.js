@@ -23,7 +23,7 @@ class StoreSeeder {
   }
 
   * run () {
-    yield this.createStore()
+    // yield this.createStore()
   }
 
 }

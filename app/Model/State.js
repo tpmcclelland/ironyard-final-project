@@ -2,10 +2,10 @@
 
 const Lucid = use('Lucid')
 
-class Status extends Lucid {
+class State extends Lucid {
     orders () {
       return this.hasMany('App/Model/Order')
     }
 }
 
-module.exports = Status
+module.exports = State

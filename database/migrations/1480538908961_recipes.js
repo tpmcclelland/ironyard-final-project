@@ -13,6 +13,8 @@ class RecipesTableSchema extends Schema {
         table.text('instructions')
         table.string('prep_time')
         table.string('total_time')
+        table.binary('image')
+        table.json('api_data')
 
       table.timestamps()
     })

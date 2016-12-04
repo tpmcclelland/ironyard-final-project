@@ -23,7 +23,7 @@ class StatusSeeder {
   }
 
   * run () {
-    yield this.createStatus()
+    // yield this.createStatus()
   }
 
 }

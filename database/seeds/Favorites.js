@@ -28,7 +28,7 @@ class FavoritesSeeder {
   }
 
   * run () {
-    yield this.createFavorite()
+    // yield this.createFavorite()
   }
 
 }

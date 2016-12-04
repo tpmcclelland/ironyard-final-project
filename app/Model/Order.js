@@ -3,8 +3,8 @@
 const Lucid = use('Lucid')
 
 class Order extends Lucid {
-    status () {
-        return this.belongsTo('App/Model/Status')
+    state () {
+        return this.belongsTo('App/Model/State')
     }
 
     driver () {
@@ -17,6 +17,11 @@ class Order extends Lucid {
 
     shoppingList () {
       return this.hasOne('App/Model/ShoppingList')
+    }
+
+    review() {
+      return this.hasOne('App/Model/Review')
+
     }
 
 }

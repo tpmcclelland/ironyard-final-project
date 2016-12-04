@@ -15,11 +15,11 @@ class OrdersTableSchema extends Schema {
 
       table.integer('driver_id').references('id').inTable('drivers')
       table.integer('store_id').references('id').inTable('stores')
-      table.integer('status_id').references('id').inTable('statuses')
+      table.integer('state_id').references('id').inTable('states')
 
       table.index('driver_id')
       table.index('store_id')
-      table.index('status_id')
+      table.index('state_id')
 
       table.timestamps()
     })

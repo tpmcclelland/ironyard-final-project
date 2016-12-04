@@ -12,7 +12,6 @@ class DriversTableSchema extends Schema {
       table.string('driving_location')
       table.string('driving_location_lat')
       table.string('driving_location_long')
-      table.integer('rating')
 
       table.integer('user_id').references('id').inTable('users')
 

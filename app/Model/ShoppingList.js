@@ -11,17 +11,14 @@ class ShoppingList extends Lucid {
         return this.belongsTo('App/Model/Cooker')
     }
 
-    // shoppingListIngredients () {
-    //   return this.hasMany('App/Model/IngredientShoppingList')
-    // }
-    //
-    // recipeIngredients () {
-    // return this.hasManyThrough('App/Model/IngredientRecipe', 'App/Model/IngredientShoppingList')
-    // }
+    shoppingListIngredients () {
+      return this.hasMany('App/Model/IngredientShoppingList')
+    }
 
     recipeIngredients () {
-    return this.belongsToMany('App/Model/IngredientRecipe')
+    return this.hasManyThrough('App/Model/IngredientRecipe', 'App/Model/IngredientShoppingList')
     }
+
 }
 
 module.exports = ShoppingList

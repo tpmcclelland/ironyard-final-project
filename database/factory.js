@@ -36,8 +36,7 @@ Factory.blueprint('App/Model/Driver', (fake) => {
     license_expiration: fake.date(),
     driving_location: fake.coordinates(),
     driving_location_lat: fake.latitude(),
-    driving_location_long: fake.longitude(),
-    rating: fake.integer({min: 1, max: 5})
+    driving_location_long: fake.longitude()
   }
 })
 
@@ -47,7 +46,7 @@ Factory.blueprint('App/Model/Cooker', (fake) => {
     home_address: fake.address(),
     home_city: fake.city(),
     home_state: fake.state(),
-    // need to add zip
+    home_zip: fake.zip(),
     home_lat: fake.latitude(),
     home_long: fake.longitude()
   }
@@ -79,9 +78,9 @@ Factory.blueprint('App/Model/Ingredient', (fake) => {
   }
 })
 
-Factory.blueprint('App/Model/Status', (fake) => {
+Factory.blueprint('App/Model/State', (fake) => {
   return {
-    type: fake.string({length: 6})
+    // type: fake.string({length: 6})
   }
 })
 
@@ -114,7 +113,7 @@ Factory.blueprint('App/Model/ShoppingList', (fake) => {
 
 Factory.blueprint('App/Model/Order', (fake) => {
   return {
-    total_cost: fake.integer({min: 1, max: 150}),
+    total_cost: fake.floating({min: 0, max: 100, fixed: 2}),
     delivery_start_time: fake.date(),
     delivery_end_time: fake.date(),
     payment_received: fake.bool(),
@@ -125,5 +124,18 @@ Factory.blueprint('App/Model/Order', (fake) => {
 Factory.blueprint('App/Model/IngredientShoppingList', (fake) => {
   return {
 
+  }
+})
+
+Factory.blueprint('App/Model/Rating', (fake) => {
+  return {
+    rating: fake.integer({min: 1, max:5})
+
+  }
+})
+
+Factory.blueprint('App/Model/Review', (fake) => {
+  return {
+    review: fake.paragraph()
   }
 })

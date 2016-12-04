@@ -23,7 +23,7 @@ class RecipeSeeder {
   }
 
   * run () {
-    yield this.createRecipe()
+    // yield this.createRecipe()
   }
 
 }
