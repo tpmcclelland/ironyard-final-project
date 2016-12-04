@@ -4,6 +4,7 @@
 @import "schedule";
 @import "payment";
 @import "driver";
+@import "welcome";
 
 * { box-sizing: border-box; }
 .lightBlue-background { background-color: $lightBlue; }
@@ -94,6 +95,9 @@
         margin-top: -95px;
         height: 100px;
         visibility: hidden;
+    }
+    .main-section {
+        top: 0px;
     }
 }
 // end left navbar
