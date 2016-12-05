@@ -26,6 +26,7 @@
     "adonis-lucid": "^3.0.10",
     "adonis-middleware": "^1.0.8",
     "chart.js": "^1.1.1",
+    "ingredients-parser": "^1.2.0",
     "pg": "^6.1.0",
     "react-addons-update": "^15.4.1",
     "react-chartjs": "^0.8.0",
