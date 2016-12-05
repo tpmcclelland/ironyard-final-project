@@ -1,5 +1,6 @@
 'use strict'
 
+
 class CookerController {
 
   * index(request, response) {
@@ -8,11 +9,11 @@ class CookerController {
   }
 
   * create(request, response) {
-    //
+
   }
 
   * store(request, response) {
-    //
+
   }
 
   * show(request, response) {

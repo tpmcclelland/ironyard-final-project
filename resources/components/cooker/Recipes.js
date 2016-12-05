@@ -38,17 +38,22 @@ class Recipes extends Component {
           recipeDetails: {},
           ingredients: [],
           searchTerm: '',
-          resultSize: resultSize
+          resultSize: resultSize,
+          api_id: '',
+          name: '',
+          serving_size: 0,
+          instructions: '',
+          prep_time: '',
+          total_time: '',
+          cook_time: '',
+          image: '',
+          api_data: ''
         }
     }
     componentDidMount() {
-
-
         this.fetchRecipes()
     }
     fetchRecipes() {
-
-
         if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm) {
             fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + this.state.resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
                 .then(response => response.json())
@@ -58,9 +63,7 @@ class Recipes extends Component {
                 matches: window.cachedRecipes
             })
         }
-
     }
-
     updateRecipeDisplay(response) {
         window.cachedRecipes = response.matches
         window.cachedSearchTerm = this.state.searchTerm
@@ -77,12 +80,20 @@ class Recipes extends Component {
           .then(this.updateRecipeDetails)
     }
     updateRecipeDetails(response) {
+      console.log(response)
       this.setState({
         recipeDetails: response,
         ingredients: response.ingredientLines,
         recipeImage: response.images[0].imageUrlsBySize["360"],
         recipeDirections: response.source.sourceRecipeUrl,
         recipeOwner: response.source.sourceDisplayName,
+        api_id: response.id,
+        name: response.name,
+        serving_size: response.numberOfServings,
+        prep_time: response.prepTime,
+        total_time: response.totalTime,
+        cook_time: response.cookTime,
+        api_data: response
       })
     }
     search(e) {
@@ -97,11 +108,42 @@ class Recipes extends Component {
           searchTerm: e.target.value
         })
     }
+    saveRecipe(type) {
+      fetch('/api/v1/recipes', {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          type: type,
+          api_id: this.state.api_id,
+          name: this.state.name,
+          serving_size: this.state.serving_size,
+          instructions: this.state.recipeDirections,
+          prep_time: this.state.prep_time,
+          total_time: this.state.total_time,
+          // cook_time: this.state.cook_time,
+          image: this.state.recipeImage,
+          recipe_ingredients: this.state.ingredients,
+          api_data: this.state.api_data
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(function(response) {
+        if(response.ok) {
+          console.log(response)
+        } else {
+          throw 'Network response was not ok.'
+        }
+      })
+    }
     favorite() {
       console.log('favorited')
+      this.saveRecipe('favorite')
     }
     addToList() {
       console.log('added to list')
+      this.saveRecipe('add')
     }
     closeModal() {
       this.setState({
