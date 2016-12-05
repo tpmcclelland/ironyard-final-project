@@ -9,6 +9,10 @@ class User extends Lucid {
     this.addHook('beforeCreate', 'User.encryptPassword')
   }
 
+  static get hidden () {
+    return ['password']
+  }
+
   apiTokens () {
     return this.hasMany('App/Model/Token')
   }
