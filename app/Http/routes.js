@@ -30,6 +30,7 @@ Route.group('v1', function () {
  Route.resource('/stores', 'api/StoreController')
  Route.resource('/users', 'api/UserController')
  Route.post('/login', 'AuthController.login')
+  Route.get('/logout', 'AuthController.logout')
  Route.post('/register', 'RegisterController.register')
 }).prefix('/api/v1')
 
