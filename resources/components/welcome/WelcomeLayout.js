@@ -14,7 +14,7 @@ class WelcomeLayout extends React.Component {
       <main className="row">
         <WelcomeLeftNav />
         <div id="order" className="col-xs-12">
-          <section className="col-xs-12 main-section">
+          <section className="col-xs-12 main-section landing-page">
             {this.props.children}
           </section>
         </div>

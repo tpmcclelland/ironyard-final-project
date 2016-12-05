@@ -107,6 +107,9 @@
     position: absolute;
     right: 0;
     top: 55px;
+    &.landing-page {
+        top: 0;
+    }
 }
 .full-screen {
     height: 100vh;
