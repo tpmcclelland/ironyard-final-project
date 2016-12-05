@@ -17,8 +17,6 @@
 
 const Route = use('Route')
 
-Route.get('/profile', 'SessionController.profile')
-Route.post('/login', 'SessionController.login')
 
 Route.group('v1', function () {
  Route.resource('/cookers', 'api/CookerController')
@@ -31,6 +29,8 @@ Route.group('v1', function () {
  Route.resource('/statuses', 'api/StatusController')
  Route.resource('/stores', 'api/StoreController')
  Route.resource('/users', 'api/UserController')
+ Route.post('/login', 'AuthController.login')
+ Route.post('/register', 'RegisterController.register')
 }).prefix('/api/v1')
 
 
