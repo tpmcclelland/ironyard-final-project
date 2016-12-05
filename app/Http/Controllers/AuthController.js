@@ -1,7 +1,8 @@
 'use strict'
 
 const User = use('App/Model/User')
-const Hash = use('Hash')
+const Cooker = use('App/Model/Cooker')
+const Driver = use('App/Model/Driver')
 
 class AuthController {
 
@@ -21,16 +22,31 @@ class AuthController {
     // Attempt to login with email and password
     const authCheck = yield request.auth.attempt(email, password)
     if (authCheck) {
-      return response.redirect('/')
+      const user = yield request.auth.getUser()
+      // const user = request.currentUser
+
+      // console.log(user)
+
+      const cooker = yield Cooker.findBy('user_id', user.id)
+
+
+      var type
+      // user.cooker()? type = 'cooker': type = 'driver'
+      cooker? type = 'cooker': type = 'driver'
+
+      // console.log(user.cooker().id)
+      // console.log(user.driver().id)
+
+      return response.json({success: loginMessage.success, user: user, route: type})
     }
 
-    yield response.sendView('login', { error: loginMessage.error })
+    yield response.json({ error: loginMessage.error })
   }
 
   * logout(request, response) {
     yield request.auth.logout()
 
-    return response.redirect('/')
+    return response.json(true)
   }
 }
 

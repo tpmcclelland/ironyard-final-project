@@ -1,9 +1,23 @@
 import React from 'react'
+import classAutoBind from 'react-helpers/dist/classAutoBind'
+import { Link, browserHistory} from 'react-router'
 
 
 class Header extends React.Component {
   constructor(props) {
     super(props)
+    classAutoBind(this)
+  }
+
+  logout() {
+    fetch('api/v1/logout', {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(response => {
+        sessionStorage.removeItem('user')
+        browserHistory.push('/')
+      })
   }
 
   render() {
@@ -34,7 +48,7 @@ class Header extends React.Component {
                 <li><a href="#">My Orders</a></li>
                 <li><a href="#">My Profile</a></li>
                 <li role="separator" className="divider"></li>
-                <li><a href="#">Log Out</a></li>
+                <li><a href="#" onClick={this.logout}>Log Out</a></li>
               </ul>
             </li>
           </ul>

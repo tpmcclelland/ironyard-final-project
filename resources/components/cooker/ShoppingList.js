@@ -9,7 +9,8 @@ class ShoppingList extends Component {
         this.state = {
             results: [],
             title: '',
-            ingredients: []
+            ingredients: [],
+            shoppingListId: ''
         }
         // this.state = sharedState()
         this.removeItem = this.removeItem.bind(this)
@@ -22,21 +23,52 @@ class ShoppingList extends Component {
     }
     componentDidMount() {
         attachSharedState(this)
+        //
+        // fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&q=pizza&maxResult=1")
+        // .then(response => response.json())
+        // // .then(response => console.log(response))
+        // .then(response => {
+        //     console.log(response.matches[0].ingredients)
+        //     // sharedState({
+        //     //     results: response.matches,
+        //     //     // ingredients: response.matches.ingredients
+        //     // })
+        //     this.setState({
+        //         results: response.matches[0].ingredients,
+        //     })
+        // })
 
-        fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&q=pizza&maxResult=1")
-        .then(response => response.json())
-        // .then(response => console.log(response))
-        .then(response => {
-            console.log(response.matches[0].ingredients)
-            // sharedState({
-            //     results: response.matches,
-            //     // ingredients: response.matches.ingredients
-            // })
-            this.setState({
-                results: response.matches[0].ingredients,
-            })
+      var user = JSON.parse(sessionStorage.getItem('user'))
+
+      fetch('/api/v1/shoppinglists?id=' + user.id, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(function(response) {
+          if(response.ok) {
+            return response.json()
+          } else {
+            throw 'Network response was not ok.'
+          }
+        })
+        .then(this.handleInitialFetch)
+        .catch(function(error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message)
         })
     }
+
+    handleInitialFetch(response) {
+      console.log('fetch', response)
+      this.setState({
+        shoppingListId: response.shoppingListId,
+        results: response.ingredients
+      })
+
+    }
+
     componenetWillUnmount() {
         detachSharedState(this)
 
@@ -53,11 +85,37 @@ class ShoppingList extends Component {
         })
     }
     removeItem(i) {
-        let updatedIngredients = this.state.ingredients
-        this.setState({
-            results: update(this.state.results, {$splice: [[i, 1]]})
-        })
-        // updatedIngredients[i].
+      //   let updatedIngredients = this.state.ingredients
+      //
+      // fetch('/api/v1/shoppinglists/' + this.state.shoppingListId, {
+      //   method: 'PUT',
+      //   credentials: 'same-origin',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: {
+      //     ingredientId: i
+      //   }
+      // })
+      //   .then(function(response) {
+      //     if(response.ok) {
+      //       return response.json()
+      //     } else {
+      //       throw 'Network response was not ok.'
+      //     }
+      //   })
+      //   .then(this.handleRemoveItem(i))
+      //   .catch(function(error) {
+      //     console.log('There has been a problem with your fetch operation: ' + error.message)
+      //   })
+
+    }
+
+    handleRemoveItem() {
+
+      this.setState({
+        results: update(this.state.results, {$splice: [[i, 1]]})
+      })
     }
 
     render() {
@@ -78,7 +136,7 @@ class ShoppingList extends Component {
                     </div>
                 </div>
             // })
-            return splitIngredients
+            // return splitIngredients
         })
         // var displayList = this.state.results.map((item, i) => {
         //     var splitIngredients = item.ingredients.map((ingredient, i) => {
