@@ -12,10 +12,13 @@ class DriverSignup extends React.Component {
             email: '',
             password: '',
             username: '',
-            avatar: '',
+            license: '',
+          license_expiration: '',
+            driving_location: '',
             mock: false
         }
     }
+
 
     componentDidMount() {
         attachSharedState(this, (state) => this.setState({sharedState: state}))
@@ -42,16 +45,22 @@ class DriverSignup extends React.Component {
 
     signup() {
         if(!this.state.mock) {
-            var data = new FormData()
-            data.append('email', this.state.email)
-            data.append('password', this.state.password)
-            data.append('username', this.state.name)
-            data.append('avatar', this.state.avatar)
-
-            fetch(sharedState().api + '/api/signup', {
-                body: data,
-                method: 'POST'
-            })
+          fetch('/api/v1/register', {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: JSON.stringify({
+              type: 'driver',
+              email: this.state.email,
+              password: this.state.password,
+              username: this.state.username,
+              license: this.state.license,
+              license_expiration: this.state.license_expiration,
+              driving_location: this.state.driving_location,
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
             .then(function(response) {
               if(response.ok) {
                 return response.json()
@@ -69,30 +78,28 @@ class DriverSignup extends React.Component {
     }
 
     signedUpHandler(response){
-        // response = ['error 1', 'error 2']
-        // response.user = undefined
-        // console.log(this.state)
+      // response = ['error 1', 'error 2']
+      // response = ['error 1', 'error 2']
+      // response.user = undefined
+      // console.log(this.state)
+      // console.log(response)
 
-        if(typeof response.user != 'undefined') {
-            sessionStorage.setItem('chirp-api-token', response.user.api_token)
-            sessionStorage.setItem('chirp-user', JSON.stringify(response.user))
-            sharedState({
-                user: response.user})
-            // TODO: Add redirect after sign up
-            // console.log('signed up:', response)
-            browserHistory.push(sharedState().path + 'chirp')
-        } else {
-            response.forEach(function(error) {
-                var errorDiv = document.createElement('div')
-                errorDiv.classList.add('alert', 'alert-danger')
-                errorDiv.innerHTML = error
-                document.querySelector('#errors').appendChild(errorDiv)
-            })
-        }
+      if(typeof response.user != 'undefined') {
+        sessionStorage.setItem('user', JSON.stringify(response.user))
+
+        browserHistory.push('/driver')
+        // } else {
+        //     response.forEach(function(error) {
+        //         var errorDiv = document.createElement('div')
+        //         errorDiv.classList.add('alert', 'alert-danger')
+        //         errorDiv.innerHTML = error
+        //         document.querySelector('#errors').appendChild(errorDiv)
+        //     })
+      }
     }
 
     handleClick() {
-        // this.signup()
+        this.signup()
     }
 
     render() {
@@ -116,6 +123,18 @@ class DriverSignup extends React.Component {
                       <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <input type="password" id="password" name="password" className="form-control" required value={this.state.password} onChange={(e) => this.setState({password:e.target.value})}/>
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="license">License Number</label>
+                        <input type="text" id="license" name="state" className="form-control" required value={this.state.license} onChange={(e) => this.setState({license: e.target.value})}/>
+                     </div>
+                      <div className="form-group">
+                        <label htmlFor="license_expiration">License Expiration</label>
+                        <input type="text" id="license_expiration" name="license_expiration" className="form-control" required value={this.state.license_expiration} onChange={(e) => this.setState({license_expiration: e.target.value})}/>
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="location">Preferred Location</label>
+                        <input type="text" id="location" name="location" className="form-control" required value={this.state.driving_location} onChange={(e) => this.setState({driving_location: e.target.value})}/>
                       </div>
                       <div className="form-group">
                         <button id="signup" type="button" className="btn btn-success btn-block" onClick={this.handleClick}>Sign Up</button>

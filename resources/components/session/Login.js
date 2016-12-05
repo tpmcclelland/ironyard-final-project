@@ -42,12 +42,13 @@ class Login extends React.Component {
 
         if (!this.state.mock) {
             // console.log(this.state)
-            fetch(sharedState().api + '/api/login', {
+            fetch('/api/v1/login', {
                 body: JSON.stringify({
                     email: this.state.email,
                     password: this.state.password
                 }),
                 method: 'POST',
+                credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -70,30 +71,24 @@ class Login extends React.Component {
     loggedInHandler(response) {
         // response = ['error 1', 'error 2']
         // response.user = undefined
-        // console.log(typeof response.user)
+        console.log(response.user)
 
         if(typeof response.user != 'undefined') {
-            sessionStorage.setItem('chirp-api-token', response.user.api_token)
-            sessionStorage.setItem('chirp-user', JSON.stringify(response.user))
-            sharedState({
-                user: response.user})
-            // TODO: add redirect after signin
-            // console.log('logged in: ', response)
-            // window.location.href = '/chirp.html'
-            browserHistory.push(sharedState().path + 'chirp')
+          sessionStorage.setItem('user', JSON.stringify(response.user))
+          browserHistory.push('/' + response.route)
             // document.cookie = 'phetchly=' + response.user.api_token + '; expires=Thu, 2 Aug 2001 20:47:11 UTC'
-        } else {
-            response.forEach(function(error) {
-                var errorDiv = document.createElement('div')
-                errorDiv.classList.add('alert', 'alert-danger')
-                errorDiv.innerHTML = error
-                document.querySelector('#errors').appendChild(errorDiv)
-            })
+        // } else {
+        //     response.forEach(function(error) {
+        //         var errorDiv = document.createElement('div')
+        //         errorDiv.classList.add('alert', 'alert-danger')
+        //         errorDiv.innerHTML = error
+        //         document.querySelector('#errors').appendChild(errorDiv)
+        //     })
         }
     }
 
     handleClick() {
-        // this.login()
+        this.login()
     }
 
     handleEmailChange(e) {

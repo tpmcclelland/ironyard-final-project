@@ -51,6 +51,7 @@ class CookerSignup extends React.Component {
               method: 'POST',
               credentials: 'same-origin',
               body: JSON.stringify({
+                type: 'cooker',
                 email: this.state.email,
                 password: this.state.password,
                 username: this.state.username,
@@ -137,16 +138,16 @@ class CookerSignup extends React.Component {
                       </div>
                       <div className="form-group">
                         <label htmlFor="city">City</label>
-                        <input type="city" id="city" name="city" className="form-control" required value={this.state.city} onChange={(e) => this.setState({city: e.target.value})}/>
+                        <input type="text" id="city" name="city" className="form-control" required value={this.state.city} onChange={(e) => this.setState({city: e.target.value})}/>
                       </div>
                       <div className="form-group">
                         <label htmlFor="state">State</label>
-                        <input type="state" id="state" name="state" className="form-control" required value={this.state.state} onChange={(e) => this.setState({state: e.target.value})}/>
+                        <input type="text" id="state" name="state" className="form-control" required value={this.state.state} onChange={(e) => this.setState({state: e.target.value})}/>
                       </div>
 
                       <div className="form-group">
                         <label htmlFor="state">Zip</label>
-                        <input type="zip" id="zip" name="zip" className="form-control" required value={this.state.zip} onChange={(e) => this.setState({zip:e.target.value})}/>
+                        <input type="text" id="zip" name="zip" className="form-control" required value={this.state.zip} onChange={(e) => this.setState({zip:e.target.value})}/>
                       </div>
                       <div className="form-group">
                         <button id="signup" type="button" className="btn btn-success btn-block" onClick={this.handleClick}>Sign Up</button>
