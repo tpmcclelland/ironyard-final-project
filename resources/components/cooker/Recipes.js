@@ -120,7 +120,7 @@ class Recipes extends Component {
           instructions: this.state.recipeDirections,
           prep_time: this.state.prep_time,
           total_time: this.state.total_time,
-          // cook_time: this.state.cook_time,
+          cook_time: this.state.cook_time,
           image: this.state.recipeImage,
           recipe_ingredients: this.state.ingredients,
           api_data: this.state.api_data
@@ -138,11 +138,9 @@ class Recipes extends Component {
       })
     }
     favorite() {
-      console.log('favorited')
       this.saveRecipe('favorite')
     }
     addToList() {
-      console.log('added to list')
       this.saveRecipe('add')
     }
     closeModal() {
