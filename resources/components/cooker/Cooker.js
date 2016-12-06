@@ -23,7 +23,7 @@ class Cooker extends Component {
         return <CookerLayout>
           <div className="row full-screen red-background overflow-scroll push-down hidden-print">
             <div className="col-sm-11 col-sm-offset-1">
-              <Recipes />
+              <Recipes resultSize={20} />
             </div>
           </div>
           <div className="row full-screen green-background overflow-scroll">
