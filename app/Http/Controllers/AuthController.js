@@ -23,12 +23,13 @@ class AuthController {
     const authCheck = yield request.auth.attempt(email, password)
     if (authCheck) {
       const user = yield request.auth.getUser()
+
       // const user = request.currentUser
 
       // console.log(user)
 
       const cooker = yield Cooker.findBy('user_id', user.id)
-
+      const driver = yield Driver.findBy('user_id', user.id)
 
       var type
       // user.cooker()? type = 'cooker': type = 'driver'
@@ -37,7 +38,7 @@ class AuthController {
       // console.log(user.cooker().id)
       // console.log(user.driver().id)
 
-      return response.json({success: loginMessage.success, user: user, route: type})
+      return response.json({success: loginMessage.success, user: {user, cooker, driver}, route: type})
     }
 
     yield response.json({ error: loginMessage.error })
