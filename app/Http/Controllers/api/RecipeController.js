@@ -34,49 +34,68 @@ class RecipeController {
       const user = yield request.auth.getUser()
       const cooker = yield Cooker.findBy('user_id', user.id)
 
-      // create new Recipe
-      const recipe = new Recipe()
+      // check to see if recipe has already been saved
+      const recipeCheck = yield Recipe.query().where('api_id', request.input('api_id')).pluck('id')
+      console.log(Number(recipeCheck))
+      if (Number(recipeCheck) === 0) {
+        // create new Recipe
+        const recipe = new Recipe()
 
-      recipe.api_id = request.input('api_id')
-      recipe.name = request.input('name')
-      recipe.serving_size = request.input('serving_size')
-      recipe.instructions = request.input('instructions')
-      recipe.prep_time = request.input('prep_time')
-      recipe.total_time = request.input('total_time')
-      // recipe.cook_time = request.input('cook_time')
-      recipe.image = request.input('image')
-      recipe.api_data = request.input('api_data')
+        recipe.api_id = request.input('api_id')
+        recipe.name = request.input('name')
+        recipe.serving_size = request.input('serving_size')
+        recipe.instructions = request.input('instructions')
+        recipe.prep_time = request.input('prep_time')
+        recipe.total_time = request.input('total_time')
+        recipe.cook_time = request.input('cook_time')
+        recipe.image = request.input('image')
+        recipe.api_data = request.input('api_data')
 
-      yield recipe.save()
+        yield recipe.save()
+        var recipeId = recipe.id
+      } else {
+        var recipeId = Number(recipeCheck)
+      }
+
 
       // if statement for add or favorite
       var type = request.input('type')
       if (type === 'add') {
-        console.log('add')
-        // create new ShoppingList
-        const shoppingList = new ShoppingList()
+        // check if cooker has an active shopping list
+        const shoppingListCheck = yield ShoppingList.query().where('cooker_id', cooker.id).where('order_id', null).pluck('id')
+        console.log(Number(shoppingListCheck))
+        if (Number(shoppingListCheck) === 0) {
+          // create new ShoppingList
+          const shoppingList = new ShoppingList()
+          shoppingList.cooker().associate(cooker)
+          yield shoppingList.save()
+          var shoppingListId = shoppingList.id
+        } else {
+          var shoppingListId = Number(shoppingListCheck)
+        }
 
-        shoppingList.cooker().associate(cooker)
-        yield shoppingList.save()
-
-        // empty arrays to be filled later through forEach loops
+        // empty arrays to be filled later through for/forEach loops
         var ingredientArray = []
         var ingredientRecipeArray = []
         var ingredientShoppingListArray = []
 
         // ingredients array from request
         var ingredients = request.input('recipe_ingredients')
-        ingredients.forEach((ingredient) => {
+        for (let i = 0; i < ingredients.length; i++) {
+          var ingredient = ingredients[i]
           // npm parser for ingredient, amount, and unit
           var result = parser.parse(ingredient)
 
-          // ingredientArrayItem added to ingredientArray to use for createMany in the Ingredient table
-          var ingredientArrayItem = {
-            name: result.ingredient
+          // check to see if ingredient already exists
+          var ingredientCheck = Number(yield this.findIngredient(result.ingredient).next().value)
+          if (ingredientCheck === 0) {
+            // ingredientArrayItem added to ingredientArray to use for createMany in the Ingredient table
+            var ingredientArrayItem = {
+              name: result.ingredient
+            }
+            ingredientArray.push(ingredientArrayItem)
           }
-          ingredientArray.push(ingredientArrayItem)
-
-        })
+        }
         // create ingredients
         yield Ingredient.createMany(ingredientArray)
 
@@ -85,6 +104,7 @@ class RecipeController {
           var ingredient = ingredients[i]
           var result = parser.parse(ingredient)
 
+          // if quantity can't be converted to an integer, value is null
           if (isNaN(parseInt(result.amount, 10))) {
             var quantity = null
           } else {
@@ -94,7 +114,7 @@ class RecipeController {
           var ingredientRecipeArrayItem = {
             quantity: quantity,
             unit: result.unit,
-            recipe_id: recipe.id,
+            recipe_id: recipeId,
             ingredient_id: Number(yield this.findIngredient(result.ingredient).next().value)
           }
           ingredientRecipeArray.push(ingredientRecipeArrayItem)
@@ -105,26 +125,38 @@ class RecipeController {
         for (let i = 0; i < ingredients.length; i++) {
           var ingredient = ingredients[i]
           var result = parser.parse(ingredient)
+          // use findIngredient method to get the ingredient id to pass to the findRecipeIngredient method later
           var ingredient_id = Number(yield this.findIngredient(result.ingredient).next().value)
 
+          // if quantity can't be converted to an integer, value is null
+          if (isNaN(parseInt(result.amount, 10))) {
+            var quantity = null
+          } else {
+            var quantity = parseInt(result.amount, 10)
+          }
+
           var ingredientShoppingListArrayItem = {
-            shopping_list_id: shoppingList.id,
+            quantity: quantity,
+            unit: result.unit,
+            shopping_list_id: shoppingListId,
             ingredient_recipe_id: Number(yield this.findRecipeIngredient(ingredient_id).next().value)
           }
           ingredientShoppingListArray.push(ingredientShoppingListArrayItem)
         }
-        console.log(ingredientShoppingListArray)
         yield IngredientShoppingList.createMany(ingredientShoppingListArray)
 
       } else if (type === 'favorite') {
-        console.log('favorite')
-        const favorite = new Favorite()
-
-        favorite.recipe().associate(recipe)
-        favorite.cooker().associate(cooker)
-        yield favorite.save()
+        // check if favorite already exists
+        const favoriteCheck = yield Favorite.query().where('cooker_id', cooker.id).where('recipe_id', recipeId).pluck('id')
+        console.log(Number(favoriteCheck))
+        if (Number(favoriteCheck) === 0) {
+          // create new favorite
+          const favorite = new Favorite()
+          favorite.recipe_id = recipeId
+          favorite.cooker().associate(cooker)
+          yield favorite.save()
+        }
       }
-
 
       response.json({
         // recipe: recipe,
