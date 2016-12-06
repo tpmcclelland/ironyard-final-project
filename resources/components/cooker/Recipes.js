@@ -21,7 +21,7 @@ const customStyles = {
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
     maxHeight             : '500px',
-    maxWidth              : '95%'
+    maxWidth              : '95%',
   }
 };
 
@@ -46,7 +46,11 @@ class Recipes extends Component {
           total_time: '',
           cook_time: '',
           image: '',
-          api_data: ''
+          api_data: '',
+          displayAlertPanel: false,
+          displayFavorited: false,
+          favorited: false,
+          added: false
         }
     }
     componentDidMount() {
@@ -85,7 +89,6 @@ class Recipes extends Component {
           .then(this.updateRecipeDetails)
     }
     updateRecipeDetails(response) {
-      console.log(response)
       this.setState({
         recipeDetails: response,
         ingredients: response.ingredientLines,
@@ -144,13 +147,44 @@ class Recipes extends Component {
     }
     favorite() {
       this.saveRecipe('favorite')
+      this.setState({
+        displayAlertPanel: true,
+        displayFavorited: true,
+        favorited: true
+      })
+      this.hideAlertPanel()
     }
     addToList() {
       this.saveRecipe('add')
+      this.setState({
+        displayAlertPanel: true,
+        displayFavorited: false,
+        added: true
+      })
+      this.hideAlertPanel()
+    }
+    hideAlertPanel() {
+      var alert = setTimeout(() => {this.setState({displayAlertPanel: false})}, 1000)
+    }
+    changeFocus(ref) {
+      switch (ref) {
+        case 'search':
+          var target = this.refs.search
+          break;
+        case 'favorite':
+          var target = this.refs.favorite
+          break;
+        case 'add':
+          var target = this.refs.add
+          break;
+      }
+      var change = setTimeout(() => target.blur(), 1000)
     }
     closeModal() {
       this.setState({
         modalIsOpen: false,
+        favorited: false,
+        added: false
       })
     }
 
@@ -166,18 +200,18 @@ class Recipes extends Component {
       var ingredients = this.state.ingredients.map((ingredient, i) => {
         return <li key={i}>{ingredient}</li>
       })
-        return <div id="recipes" className="container-fluid">
-        <div className="row">
-            <div className="col-sm-9 col-xs-6">
-                <h1 id="recipe-anchor" className="anchor">Recipes</h1>
-            </div>
-            <div className="col-sm-3 col-xs-6 search-bar">
+        return <div id="recipes" className="container">
+        <div id="recipe-anchor" className="row anchor">
+            <div className="col-sm-4 col-sm-push-8 col-xs-12 search-bar">
                 <form className="navbar-form navbar-left" onSubmit={this.search}>
                     <div className="form-group">
                         <input type="text" className="form-control" placeholder="Search" value={this.state.searchTerm} onChange={this.updateSearchTerm} />
                     </div>
-                    <button type="button" className="btn btn-default search-button" onClick={this.search}>Search</button>
+                    <button type="button" className="btn btn-default search-button" onClick={this.search} onFocus={() => this.changeFocus('search')} ref='search'>Search</button>
                 </form>
+            </div>
+            <div className="col-sm-8 col-sm-pull-4 col-xs-12">
+                <h1>Recipes</h1>
             </div>
         </div>
         <div className="row">
@@ -214,8 +248,8 @@ class Recipes extends Component {
                   <p>Total Time: {this.state.recipeDetails.totalTime}</p>
                 </div>
                 <div className="col-xs-6">
-                  <button className="btn btn-default btn-danger btn-block" onClick={this.favorite}>Favorite</button>
-                  <button className="btn btn-default btn-success btn-block" onClick={this.addToList}>Add to List</button>
+                  <button className={this.state.favorited?'btn btn-default btn-block favorite-button-clicked ':'btn btn-default btn-block favorite-button'} onClick={this.favorite} ref='favorite' onFocus={() => this.changeFocus('favorite')}>{this.state.favorited?'Favorited':'Favorite'}</button>
+                  <button className={this.state.added?'btn btn-default btn-block add-button-clicked':'btn btn-default btn-block add-button'} onClick={this.addToList} ref="add" onFocus={() => this.changeFocus('add')}>{this.state.favorited?'Added to List':'Add to List'}</button>
                 </div>
               </div>
               <div className="row">
@@ -235,6 +269,11 @@ class Recipes extends Component {
               {/* <iframe width="100%" height="350px" src={this.state.recipeDirections}>
               <p>Your browser does not support iframes view directions <a href={this.state.recipeDirections}></a>.</p>
               </iframe> */}
+            </div>
+          </div>
+          <div className={this.state.displayAlertPanel?'panel panel-default alert':'alert-hidden'}>
+            <div className="panel-body">
+              <h3 className="lead">{this.state.displayFavorited?'Added to your favorites':'Added to your shopping list'}</h3>
             </div>
           </div>
           </Modal>
