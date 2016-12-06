@@ -27,7 +27,7 @@ class ShoppingList extends Component {
 
       var user = JSON.parse(sessionStorage.getItem('user'))
 
-      fetch('/api/v1/shoppinglists?id=' + user.id, {
+      fetch('/api/v1/shoppinglists?id=' + user.user.id, {
         method: 'GET',
         credentials: 'same-origin',
         headers: {
