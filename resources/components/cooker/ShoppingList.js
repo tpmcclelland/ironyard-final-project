@@ -16,6 +16,7 @@ class ShoppingList extends Component {
         this.removeItem = this.removeItem.bind(this)
         // this.updateShoppingList = this.updateShoppingList.bind(this)
         this.setIngredientList = this.setIngredientList.bind(this)
+        this.handleInitialFetch = this.handleInitialFetch.bind(this)
     }
 
     componentWillMount() {
@@ -23,20 +24,6 @@ class ShoppingList extends Component {
     }
     componentDidMount() {
         attachSharedState(this)
-        //
-        // fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&q=pizza&maxResult=1")
-        // .then(response => response.json())
-        // // .then(response => console.log(response))
-        // .then(response => {
-        //     console.log(response.matches[0].ingredients)
-        //     // sharedState({
-        //     //     results: response.matches,
-        //     //     // ingredients: response.matches.ingredients
-        //     // })
-        //     this.setState({
-        //         results: response.matches[0].ingredients,
-        //     })
-        // })
 
       var user = JSON.parse(sessionStorage.getItem('user'))
 
@@ -62,14 +49,16 @@ class ShoppingList extends Component {
 
     handleInitialFetch(response) {
       console.log('fetch', response)
+      console.log('fetch', response[0].id)
+      console.log('fetch', response[0].recipeIngredients)
       this.setState({
-        shoppingListId: response.shoppingListId,
-        results: response.ingredients
+        shoppingListId: response[0].id,
+        results: response[0].recipeIngredients
       })
 
     }
 
-    componenetWillUnmount() {
+    componentWillUnmount() {
         detachSharedState(this)
 
     }
@@ -85,29 +74,29 @@ class ShoppingList extends Component {
         })
     }
     removeItem(i) {
-      //   let updatedIngredients = this.state.ingredients
-      //
-      // fetch('/api/v1/shoppinglists/' + this.state.shoppingListId, {
-      //   method: 'PUT',
-      //   credentials: 'same-origin',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: {
-      //     ingredientId: i
-      //   }
-      // })
-      //   .then(function(response) {
-      //     if(response.ok) {
-      //       return response.json()
-      //     } else {
-      //       throw 'Network response was not ok.'
-      //     }
-      //   })
-      //   .then(this.handleRemoveItem(i))
-      //   .catch(function(error) {
-      //     console.log('There has been a problem with your fetch operation: ' + error.message)
-      //   })
+        let updatedIngredients = this.state.ingredients
+
+      fetch('/api/v1/shoppinglists/' + this.state.shoppingListId, {
+        method: 'PUT',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          ingredientId: i
+        }
+      })
+        .then(function(response) {
+          if(response.ok) {
+            return response.json()
+          } else {
+            throw 'Network response was not ok.'
+          }
+        })
+        .then(this.handleRemoveItem(i))
+        .catch(function(error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message)
+        })
 
     }
 
@@ -124,15 +113,22 @@ class ShoppingList extends Component {
         //     return
         // })
 
+      console.log('render', this.state.results)
+      console.log('render', this.state.shoppingListId)
+
 
         var displayList = this.state.results.map((item, i) => {
             // var splitIngredients = item.ingredients.map((ingredient, i) => {
                 // this.setIngredientList(ingredient)
                 // console.log(pos)
+                console.log(item)
                 return <div className="row" key={i} onClick={() => this.removeItem(i)}>
                     <div className="col-xs-8 col-xs-offset-2 listItem" >
                         {/* Quantity: <input type="text" value="1" /> */}
-                        <h2>{item}</h2>
+                        <h2>{item.ingredient.name}</h2>
+                        <p>{item.quantity}</p>
+                        <p>{item.unit}</p>
+                        <p>{item.ingredient.unit_cost}</p>
                     </div>
                 </div>
             // })

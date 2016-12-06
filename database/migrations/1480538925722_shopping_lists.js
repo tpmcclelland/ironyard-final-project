@@ -7,9 +7,7 @@ class ShoppingListsTableSchema extends Schema {
   up () {
     this.create('shopping_lists', (table) => {
         table.increments()
-        table.integer('quantity')
         table.float('estimated_price')
-        table.string('unit')
 
         table.integer('cooker_id').references('id').inTable('cookers')
         table.integer('order_id').references('id').inTable('orders')
