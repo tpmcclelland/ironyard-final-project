@@ -59,8 +59,9 @@ Factory.blueprint('App/Model/Recipe', (fake) => {
     serving_size: fake.natural({min: 1, max: 7}),
     instructions: fake.paragraph(),
     prep_time: fake.minute(),
-    total_time: fake.minute()
-    // need to add image
+    total_time: fake.minute(),
+    cook_time: fake.minute(),
+    image: fake.avatar({protocol: 'https'})
   }
 })
 
@@ -105,9 +106,7 @@ Factory.blueprint('App/Model/Store', (fake) => {
 
 Factory.blueprint('App/Model/ShoppingList', (fake) => {
   return {
-    quantity: fake.integer({min: 1, max: 5}),
     estimated_price: fake.floating({min: 0, max: 5, fixed: 2}),
-    unit: fake.string({length: 5})
   }
 })
 
@@ -123,7 +122,8 @@ Factory.blueprint('App/Model/Order', (fake) => {
 
 Factory.blueprint('App/Model/IngredientShoppingList', (fake) => {
   return {
-
+    quantity: fake.integer({min: 1, max: 5}),
+    unit: fake.string({length: 5})
   }
 })
 

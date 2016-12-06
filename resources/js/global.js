@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
+import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 
 import App from '../components/app/App'
 import Welcome from '../components/welcome/Welcome'
@@ -10,6 +11,12 @@ import Driver from '../components/driver/Driver'
 import Login from '../components/session/Login'
 import DriverSignup from '../components/session/DriverSignup'
 import CookerSignup from '../components/session/CookerSignup'
+
+
+// sharedState({
+//
+// })
+
 
 ReactDOM.render(
     <Router history={browserHistory}>

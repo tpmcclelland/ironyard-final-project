@@ -9,6 +9,8 @@ class IngredientShoppingListTableSchema extends Schema {
       table.increments()
       table.integer('shopping_list_id').references('id').inTable('shopping_lists')
       table.integer('ingredient_recipe_id').references('id').inTable('ingredient_recipes')
+      table.integer('quantity')
+      table.string('unit')
 
       table.index('shopping_list_id')
       table.index('ingredient_recipe_id')
