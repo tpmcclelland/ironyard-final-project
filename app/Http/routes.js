@@ -26,6 +26,7 @@ Route.group('v1', function () {
  Route.resource('/orders', 'api/OrderController')
  Route.resource('/recipes', 'api/RecipeController')
  Route.resource('/shoppinglists', 'api/ShoppingListController')
+ Route.resource('/shoppinglistIngredient', 'api/ShoppingListIngredientController')
  Route.resource('/statuses', 'api/StatusController')
  Route.resource('/stores', 'api/StoreController')
  Route.resource('/users', 'api/UserController')

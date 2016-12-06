@@ -49,7 +49,6 @@ class ShoppingList extends Component {
 
     handleInitialFetch(response) {
       console.log('fetch', response)
-      console.log('fetch', response[0].id)
       console.log('fetch', response[0].recipeIngredients)
       this.setState({
         shoppingListId: response[0].id,
@@ -62,30 +61,31 @@ class ShoppingList extends Component {
         detachSharedState(this)
 
     }
-    // updateShoppingList(update) {
-    //     this.setState({
-    //         results: update
-    //     })
-    //     console.log(update)
-    // }
+
     setIngredientList(ingredient) {
         this.setState({
             ingredients: update(this.state.ingredients, {$push: [[ingredient]]})
         })
     }
-    removeItem(i) {
-        let updatedIngredients = this.state.ingredients
+    removeItem(item) {
 
-      fetch('/api/v1/shoppinglists/' + this.state.shoppingListId, {
-        method: 'PUT',
+      fetch('/api/v1/shoppinglistIngredient?shopping_list_id=' + item.shopping_list_id + '&ingredient_recipe_id=' + item.id, {
+        method: 'GET',
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: {
-          ingredientId: i
         }
       })
+        .then(response => response.json())
+        .then(response => fetch('/api/v1/shoppinglistIngredient/' + response[0].id, {
+          method: 'DELETE',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+        )
+
         .then(function(response) {
           if(response.ok) {
             return response.json()
@@ -93,11 +93,10 @@ class ShoppingList extends Component {
             throw 'Network response was not ok.'
           }
         })
-        .then(this.handleRemoveItem(i))
+        .then(response => this.handleRemoveItem())
         .catch(function(error) {
           console.log('There has been a problem with your fetch operation: ' + error.message)
         })
-
     }
 
     handleRemoveItem() {
@@ -105,49 +104,47 @@ class ShoppingList extends Component {
       this.setState({
         results: update(this.state.results, {$splice: [[i, 1]]})
       })
+
     }
 
     render() {
 
-        // const removeItemEvent = this.state.results.map((item, i) => {
-        //     return
-        // })
 
       console.log('render', this.state.results)
       console.log('render', this.state.shoppingListId)
 
 
         var displayList = this.state.results.map((item, i) => {
-            // var splitIngredients = item.ingredients.map((ingredient, i) => {
-                // this.setIngredientList(ingredient)
-                // console.log(pos)
-                console.log(item)
-                return <div className="row" key={i} onClick={() => this.removeItem(i)}>
-                    <div className="col-xs-8 col-xs-offset-2 listItem" >
-                        {/* Quantity: <input type="text" value="1" /> */}
-                        <h2>{item.ingredient.name}</h2>
-                        <p>{item.quantity}</p>
-                        <p>{item.unit}</p>
-                        <p>{item.ingredient.unit_cost}</p>
+                return <div className="row" key={i} onClick={() => this.removeItem(item)}>
+                    <div className="col-xs-12 listItem" >
+                      <div className="row form-group">
+                        <h4 className="col-xs-1">qty:
+                          {
+                            (item.quantity !== null)
+                            ? item.quantity
+                            : "1"
+                          }
+                          </h4>
+                        {
+                          (item.unit !== null)
+                            ? <div>
+                                <h4 className="col-xs-2">{item.unit}</h4>
+                                <h4 className="col-xs-8">{item.ingredient.name}</h4>
+                                <h4 className="col-xs-1">{item.unit_cost}</h4>
+                              </div>
+                            :
+                            <div>
+                              <h4 className="col-xs-10">{item.ingredient.name}</h4>
+                              <h4 className="col-xs-1">{item.unit_cost}</h4>
+                            </div>
+                        }
+                      </div>
                     </div>
                 </div>
-            // })
-            // return splitIngredients
         })
-        // var displayList = this.state.results.map((item, i) => {
-        //     var splitIngredients = item.ingredients.map((ingredient, i) => {
-        //         // this.setIngredientList(ingredient)
-        //         // console.log(pos)
-        //         return <div className="row" key={i} onClick={() => this.removeItem(i)}>
-        //             <div className="col-xs-8 col-xs-offset-2 listItem" >
-        //                 {/* Quantity: <input type="text" value="1" /> */}
-        //                 <h2>{ingredient}</h2>
-        //             </div>
-        //         </div>
-        //     })
-        //     return splitIngredients
-        // })
-        return <div className="anchor-top-margin">
+
+        return <div className="anchor-top-margin well col-xs-6 col-xs-offset-3">
+          <h2>Ingredient List</h2>
             {displayList}
             <div className="row col-xs-offset-3">
             <button className="col-xs-4" onClick={() => window.print()}>Print List</button>
