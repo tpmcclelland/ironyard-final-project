@@ -38,7 +38,6 @@ class Recipes extends Component {
           recipeDetails: {},
           ingredients: [],
           searchTerm: '',
-          resultSize: resultSize,
           api_id: '',
           name: '',
           serving_size: 0,
@@ -51,11 +50,17 @@ class Recipes extends Component {
         }
     }
     componentDidMount() {
-        this.fetchRecipes()
+        this.fetchRecipes(this.props.resultSize, true)
     }
-    fetchRecipes() {
-        if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm) {
-            fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + this.state.resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
+
+    componentWillReceiveProps(nextProps) {
+      this.fetchRecipes(nextProps.resultSize, true)
+    }
+
+    fetchRecipes(resultSize, forceUpdate) {
+      console.log(resultSize, forceUpdate)
+        if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm || forceUpdate) {
+            fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
                 .then(response => response.json())
                 .then(this.updateRecipeDisplay)
         } else {

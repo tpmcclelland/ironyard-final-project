@@ -6,24 +6,53 @@ import Schedule from './Schedule'
 import Payment from './Payment'
 import CookerLayout from './CookerLayout'
 
+import { connect } from 'react-redux'
+import store from '../redux/_ReduxStore'
+import classAutoBind from 'react-helpers/dist/classAutoBind'
+
 class Cooker extends Component {
     constructor(props) {
         super(props)
+        classAutoBind(this)
 
     }
 
-    componentWillMount() {
+    componentWillUnMount() {
 
     }
+
     componentDidMount() {
+      this.getFavoriteCount()
+    }
 
+    getFavoriteCount() {
+      fetch('api/v1/favorites', {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(function(response) {
+          if(response.ok) {
+            return response.json()
+          } else {
+            throw 'Network response was not ok.'
+          }
+        })
+        .then(response => {
+          console.log('favorites', response)
+        })
+        .catch(function(error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message)
+        })
     }
 
     render() {
         return <CookerLayout>
           <div className="row full-screen red-background overflow-scroll push-down hidden-print">
             <div className="col-sm-11 col-sm-offset-1">
-              <Recipes resultSize={20} />
+              <Recipes resultSize={this.props.currentUser? 20: 4} />
             </div>
           </div>
           <div className="row full-screen green-background overflow-scroll">
@@ -46,4 +75,10 @@ class Cooker extends Component {
     }
 }
 
-export default Cooker
+const mapStateToProps = function(store) {
+  return {
+    currentUser: store.sharedUser.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(Cooker)

@@ -3,6 +3,9 @@ import { Link, browserHistory } from 'react-router'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 
+import { connect } from 'react-redux'
+import store from '../redux/_ReduxStore'
+
 class Login extends React.Component {
     constructor(props) {
         super(props)
@@ -16,12 +19,12 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
-        attachSharedState(this, (state) => this.setState({sharedState: state}))
+        // attachSharedState(this, (state) => this.setState({sharedState: state}))
         // attachSharedState(this)
     }
 
     componentWillUnmount() {
-        detachSharedState(this)
+        // detachSharedState(this)
     }
 
     mockResponse() {
@@ -75,15 +78,9 @@ class Login extends React.Component {
 
         if(typeof response.user != 'undefined') {
           sessionStorage.setItem('user', JSON.stringify(response.user))
+          store.dispatch({type:'MESSAGE', message:'Welcome'})
+          store.dispatch({type:'CURRENT_USER', user: response.user})
           browserHistory.push('/' + response.route)
-            // document.cookie = 'phetchly=' + response.user.api_token + '; expires=Thu, 2 Aug 2001 20:47:11 UTC'
-        // } else {
-        //     response.forEach(function(error) {
-        //         var errorDiv = document.createElement('div')
-        //         errorDiv.classList.add('alert', 'alert-danger')
-        //         errorDiv.innerHTML = error
-        //         document.querySelector('#errors').appendChild(errorDiv)
-        //     })
         }
     }
 
@@ -133,4 +130,12 @@ class Login extends React.Component {
     }
 }
 
-export default Login
+const mapStateToProps = function(store) {
+  return {
+    sharedMessage: store.sharedState.sharedMessage,
+    currentUser: store.sharedUser.currentUser
+    // currentUser: store.sharedUser.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(Login)
