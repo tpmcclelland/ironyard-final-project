@@ -93,16 +93,16 @@ class ShoppingList extends Component {
             throw 'Network response was not ok.'
           }
         })
-        .then(response => this.handleRemoveItem())
+        .then(response => this.handleRemoveItem(item))
         .catch(function(error) {
           console.log('There has been a problem with your fetch operation: ' + error.message)
         })
     }
 
-    handleRemoveItem() {
+    handleRemoveItem(item) {
 
       this.setState({
-        results: update(this.state.results, {$splice: [[i, 1]]})
+        results: update(this.state.results, {$splice: [[item, 1]]})
       })
 
     }
