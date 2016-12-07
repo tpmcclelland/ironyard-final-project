@@ -194,7 +194,7 @@ class Payment extends Component {
 
                 {/* Button doesn't go anywhere but /# for now.  Need to push the field state content to backend still. */}
                 {/* <button className="col-xs-12" type="submit" onClick={() => this.displayState()}>Submit Address</button> */}
-                <button className="col-xs-12" onClick={() => this.displayState()}>Submit Address</button>
+                <button className="btn btn-default btn-block" onClick={() => this.displayState()}>Submit Address</button>
             </div>
         </div>
     </form>

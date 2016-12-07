@@ -48,8 +48,8 @@ class ShoppingList extends Component {
     }
 
     handleInitialFetch(response) {
-      console.log('fetch', response)
-      console.log('fetch', response[0].recipeIngredients)
+    //   console.log('fetch', response)
+    //   console.log('fetch', response[0].recipeIngredients)
       this.setState({
         shoppingListId: response[0].id,
         results: response[0].recipeIngredients
@@ -93,16 +93,16 @@ class ShoppingList extends Component {
             throw 'Network response was not ok.'
           }
         })
-        .then(response => this.handleRemoveItem())
+        .then(response => this.handleRemoveItem(item))
         .catch(function(error) {
           console.log('There has been a problem with your fetch operation: ' + error.message)
         })
     }
 
-    handleRemoveItem() {
+    handleRemoveItem(item) {
 
       this.setState({
-        results: update(this.state.results, {$splice: [[i, 1]]})
+        results: update(this.state.results, {$splice: [[item, 1]]})
       })
 
     }
@@ -110,8 +110,8 @@ class ShoppingList extends Component {
     render() {
 
 
-      console.log('render', this.state.results)
-      console.log('render', this.state.shoppingListId)
+    //   console.log('render', this.state.results)
+    //   console.log('render', this.state.shoppingListId)
 
 
         var displayList = this.state.results.map((item, i) => {

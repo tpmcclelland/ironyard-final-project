@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
+import moment from 'moment'
 
 class Schedule extends Component {
     constructor(props) {
@@ -20,13 +21,10 @@ class Schedule extends Component {
             ship_to_address: "",
         }
     }
-
     componentWillMount() {
 
     }
     componentDidMount() {
-        var today = new Date()
-        console.log(today)
         var storage = JSON.parse(sessionStorage.getItem('user'))
         var user = storage.user
         var cooker = storage.cooker
@@ -49,21 +47,20 @@ class Schedule extends Component {
     }
     submitOrder(e) {
         e.preventDefault()
-        // this.createOrder()
+        this.createOrder()
     }
     createOrder() {
         fetch('/api/v1/orders', {
             method: 'POST',
             credentials: 'same-origin',
             body: JSON.stringify({
-                delivery_start_time: this.state.startDelivery,
+                delivery_start_time: this.state.startDeliveryWindow,
                 delivery_end_time: this.state.endDeliveryWindow,
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        .then(response => console.log(response))
         .then(function(response) {
             if(response.ok) {
                 console.log(response)
@@ -74,6 +71,8 @@ class Schedule extends Component {
     }
 
     render() {
+        var today = moment().format('YYYY-MM-DD')
+
         return <form action="#payment" encType="multipart/form-data">
         <div className="anchor-top-margin">
             <div className="form-group col-xs-6 col-xs-offset-3 well">
@@ -83,63 +82,61 @@ class Schedule extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="startDeliveryWindow">Start</label>
                             <select id="startDeliveryWindow" name="startDeliveryWindow" className="form-control" value={this.state.startDeliveryWindow} onChange={this.typing} required>
-                                <option disabled defaultValue="">-Select Start Time-</option>
-                                <option value="anytime">Anytime</option>
-                                <option value="2013-02-08 09:30:26">12:00 AM</option>
-                                <option value="1 AM">1:00 AM</option>
-                                <option value="2 AM">2:00 AM</option>
-                                <option value="3 AM">3:00 AM</option>
-                                <option value="4 AM">4:00 AM</option>
-                                <option value="5 AM">5:00 AM</option>
-                                <option value="6 AM">6:00 AM</option>
-                                <option value="7 AM">7:00 AM</option>
-                                <option value="8 AM">8:00 AM</option>
-                                <option value="9 AM">9:00 AM</option>
-                                <option value="10 AM">10:00 AM</option>
-                                <option value="11 AM">11:00 AM</option>
-                                <option value="12 PM">12:00 PM</option>
-                                <option value="1 PM">1:00 PM</option>
-                                <option value="2 PM">2:00 PM</option>
-                                <option value="3 PM">3:00 PM</option>
-                                <option value="4 PM">4:00 PM</option>
-                                <option value="5 PM">5:00 PM</option>
-                                <option value="6 PM">6:00 PM</option>
-                                <option value="7 PM">7:00 PM</option>
-                                <option value="8 PM">8:00 PM</option>
-                                <option value="9 PM">9:00 PM</option>
-                                <option value="10 PM">10:00 PM</option>
-                                <option value="11 PM">11:00 PM</option>
+                                <option defaultValue="">Anytime</option>
+                                <option value={today + ' 07:00:00'}>7:00 AM</option>
+                                <option value={today + ' 08:00:00'}>8:00 AM</option>
+                                <option value={today + ' 09:00:00'}>9:00 AM</option>
+                                <option value={today + ' 10:00:00'}>10:00 AM</option>
+                                <option value={today + ' 11:00:00'}>11:00 AM</option>
+                                <option value={today + ' 12:00:00'}>12:00 PM</option>
+                                <option value={today + ' 13:00:00'}>1:00 PM</option>
+                                <option value={today + ' 14:00:00'}>2:00 PM</option>
+                                <option value={today + ' 15:00:00'}>3:00 PM</option>
+                                <option value={today + ' 16:00:00'}>4:00 PM</option>
+                                <option value={today + ' 17:00:00'}>5:00 PM</option>
+                                <option value={today + ' 18:00:00'}>6:00 PM</option>
+                                <option value={today + ' 19:00:00'}>7:00 PM</option>
+                                <option value={today + ' 20:00:00'}>8:00 PM</option>
+                                <option value={today + ' 21:00:00'}>9:00 PM</option>
+                                <option value={today + ' 22:00:00'}>10:00 PM</option>
+                                <option value={today + ' 23:00:00'}>11:00 PM</option>
+                                <option value={today + ' 24:00:00'}>12:00 AM</option>
+                                <option value={today + ' 01:00:00'}>1:00 AM</option>
+                                <option value={today + ' 02:00:00'}>2:00 AM</option>
+                                <option value={today + ' 03:00:00'}>3:00 AM</option>
+                                <option value={today + ' 04:00:00'}>4:00 AM</option>
+                                <option value={today + ' 05:00:00'}>5:00 AM</option>
+                                <option value={today + ' 06:00:00'}>6:00 AM</option>
                             </select>
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="endDeliveryWindow">End</label>
                             <select id="endDeliveryWindow" name="endDeliveryWindow" className="form-control" value={this.state.endDeliveryWindow} onChange={this.typing}>
-                                <option disabled defaultValue="">-Select End Time-</option>
-                                <option value="anytime">Anytime</option>
-                                <option value="12 AM">12:00 AM</option>
-                                <option value="1 AM">1:00 AM</option>
-                                <option value="2 AM">2:00 AM</option>
-                                <option value="3 AM">3:00 AM</option>
-                                <option value="4 AM">4:00 AM</option>
-                                <option value="5 AM">5:00 AM</option>
-                                <option value="6 AM">6:00 AM</option>
-                                <option value="7 AM">7:00 AM</option>
-                                <option value="8 AM">8:00 AM</option>
-                                <option value="9 AM">9:00 AM</option>
-                                <option value="10 AM">10:00 AM</option>
-                                <option value="11 AM">11:00 AM</option>
-                                <option value="12 PM">12:00 PM</option>
-                                <option value="1 PM">1:00 PM</option>
-                                <option value="2 PM">2:00 PM</option>
-                                <option value="3 PM">3:00 PM</option>
-                                <option value="4 PM">4:00 PM</option>
-                                <option value="5 PM">5:00 PM</option>
-                                <option value="6 PM">6:00 PM</option>
-                                <option value="7 PM">7:00 PM</option>
-                                <option value="8 PM">8:00 PM</option>
-                                <option value="9 PM">9:00 PM</option>
-                                <option value="10 PM">10:00 PM</option>
-                                <option value="11 PM">11:00 PM</option>
+                                <option defaultValue="">Anytime</option>
+                                <option value={today + ' 07:00:00'}>7:00 AM</option>
+                                <option value={today + ' 08:00:00'}>8:00 AM</option>
+                                <option value={today + ' 09:00:00'}>9:00 AM</option>
+                                <option value={today + ' 10:00:00'}>10:00 AM</option>
+                                <option value={today + ' 11:00:00'}>11:00 AM</option>
+                                <option value={today + ' 12:00:00'}>12:00 PM</option>
+                                <option value={today + ' 13:00:00'}>1:00 PM</option>
+                                <option value={today + ' 14:00:00'}>2:00 PM</option>
+                                <option value={today + ' 15:00:00'}>3:00 PM</option>
+                                <option value={today + ' 16:00:00'}>4:00 PM</option>
+                                <option value={today + ' 17:00:00'}>5:00 PM</option>
+                                <option value={today + ' 18:00:00'}>6:00 PM</option>
+                                <option value={today + ' 19:00:00'}>7:00 PM</option>
+                                <option value={today + ' 20:00:00'}>8:00 PM</option>
+                                <option value={today + ' 21:00:00'}>9:00 PM</option>
+                                <option value={today + ' 22:00:00'}>10:00 PM</option>
+                                <option value={today + ' 23:00:00'}>11:00 PM</option>
+                                <option value={today + ' 24:00:00'}>12:00 AM</option>
+                                <option value={today + ' 01:00:00'}>1:00 AM</option>
+                                <option value={today + ' 02:00:00'}>2:00 AM</option>
+                                <option value={today + ' 03:00:00'}>3:00 AM</option>
+                                <option value={today + ' 04:00:00'}>4:00 AM</option>
+                                <option value={today + ' 05:00:00'}>5:00 AM</option>
+                                <option value={today + ' 06:00:00'}>6:00 AM</option>
                             </select>
                         </div>
                     </div>
@@ -254,7 +251,7 @@ class Schedule extends Component {
                     </div>
                 </div>
                 {/* Button doesn't push content anywhere yet. */}
-                <button className="col-xs-12" className="btn btn-default btn-block" onClick={this.submitOrder}>Submit Address</button>
+                <button className="btn btn-default btn-block" onClick={this.submitOrder}>Submit Address</button>
             </div>
         </div>
     </form>
