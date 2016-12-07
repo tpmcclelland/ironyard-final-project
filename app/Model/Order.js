@@ -24,6 +24,10 @@ class Order extends Lucid {
 
     }
 
+  static scopePending (builder) {
+    builder.where('state_id', null)
+  }
+
 }
 
 module.exports = Order

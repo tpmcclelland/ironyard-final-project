@@ -36,6 +36,8 @@ class OrderController {
       .table('shopping_lists')
       .where('id', shoppingListUpdate)
       .update('order_id', order.id)
+
+    return response.json({orderSaved: true})
   }
 
   * show(request, response) {

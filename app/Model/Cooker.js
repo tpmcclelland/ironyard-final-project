@@ -23,7 +23,14 @@ class Cooker extends Lucid {
   }
 
   orders () {
-  return this.hasManyThrough('App/Model/Order', 'App/Model/ShoppingList')
+  return this.hasManyThrough(
+    'App/Model/Order',
+    'App/Model/ShoppingList',
+    'id',
+    'cooker_id',
+    'order_id',
+    'id'
+    )
   }
 
 //This was the rails model code to get favorite recipes for a cooker

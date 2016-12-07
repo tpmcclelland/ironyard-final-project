@@ -71,20 +71,20 @@ class Recipes extends Component {
     fetchRecipes(resultSize, showFavorites, forceUpdate) {
       console.log('favorite', showFavorites)
 
-        if (showFavorites) {
-          console.log('fetchRecipes', this.props.favoriteRecipes )
-
-          var matches = this.props.favoriteRecipes.map((recipe) => {
-            return recipe.api_data
-          })
-
-          console.log('matches', matches)
-
-          this.updateRecipeDisplay({
-            matches: matches
-          })
-          return
-        }
+        // if (showFavorites) {
+        //   console.log('fetchRecipes', this.props.favoriteRecipes )
+        //
+        //   var matches = this.props.favoriteRecipes.map((recipe) => {
+        //     return recipe.api_data
+        //   })
+        //
+        //   console.log('matches', matches)
+        //
+        //   this.updateRecipeDisplay({
+        //     matches: matches
+        //   })
+        //   return
+        // }
 
           if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm || forceUpdate) {
             fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))

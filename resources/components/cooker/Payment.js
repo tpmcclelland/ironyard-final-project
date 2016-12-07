@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import classAutoBind from 'react-helpers/dist/classAutoBind'
+// const Env = use('Env')
 
 class Payment extends Component {
     constructor(props) {
@@ -13,27 +15,117 @@ class Payment extends Component {
             billingCity: "",
             billingState: "",
             billingZipcode: "",
-            cardType: "",
-            paymentCardNumber: "",
             paymentCardHolderName: "",
-            paymentExpirationMonth: "",
-            paymentExpirationYear: "",
-            paymentVerificationNumber: "",
             ship_to_address: "",
         }
-        this.typing = this.typing.bind(this)
-        this.displayState = this.displayState.bind(this)
+      classAutoBind(this)
     }
 
     componentWillMount() {
+      // Stripe.setPublishableKey(Env.get('STRIPE_PUBLISHABLE_KEY'));
+      Stripe.setPublishableKey('pk_test_bJhtDy3CDmQ77XOQ1JQgCUde');
 
     }
     componentDidMount() {
 
     }
-    displayState() {
-        console.log(this.state)
+
+
+  submitPayment(e) {
+    var $form = $('#payment-form');
+
+    // Disable the submit button to prevent repeated clicks:
+    $form.find('#submit-button').prop('disabled', true);
+
+    // Request a token from Stripe:
+    Stripe.card.createToken($form, this.stripeResponseHandler);
+
+    // Prevent the form from being submitted:
+    return false;
     }
+
+  stripeResponseHandler(status, response) {
+    // Grab the form:
+    var $form = $('#payment-form');
+
+
+    if (response.error) { // Problem!
+
+      // Show the errors on the form:
+      $form.find('.payment-errors').text(response.error.message);
+      $form.find('#submit-button').prop('disabled', false); // Re-enable submission
+
+    } else { // Token was created!
+
+      // Get the token ID:
+      var token = response.id;
+
+      fetch('/api/v1/payment', {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: JSON.stringify(
+          {
+            stripeToken: token,
+            // stripeEmail: this.state.email,
+            // customerFirstName: this.state.firstName,
+            // customerLastName: this.state.lastName,
+            // customerShippingStreetAddress: this.state.shippingStreetAddress,
+            // customerShippingCity: this.state.shippingCity,
+            // customerShippingState: this.state.shippingState,
+            // customerShippingZipCode: this.state.shippingZipCode,
+            // customerShippingCountry: this.state.shippingCountry,
+            // customerBillingStreetAddress: this.state.billingStreetAddress,
+            // customerBillingCity: this.state.billingCity,
+            // customerBillingState: this.state.billingState,
+            // customerBillingZipCode: this.state.billingZipCode,
+            // customerBillingCountry: this.state.billingCountry,
+          }
+        ),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(this.handleStripResponse)
+
+    }
+  }
+
+  handleStripResponse(response) {
+    console.log('handleStripResponse', response)
+
+    fetch('/api/v1/payment/save', {
+      method: 'POST',
+      credentials: 'same-origin',
+      body: JSON.stringify(
+        {
+          stripe_customer: response.stripe_customer,
+        }
+      ),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(response => {
+        $form.find('#submit-button').prop('disabled', false);
+        console.log('saved', response)
+      })
+
+  }
+
+    // if (response.success) {
+    //   sharedState({
+    //     line_items: [],
+    //     itemsInCart: 0,
+    //     cartToken: '',
+    //     checkedOut: true,
+    //     cart: {}
+    //   })
+    //   browserHistory.push('/')
+    // }
+
+
     typing(e) {
         var updatedState = {}
         updatedState[e.target.name] = e.target.value
@@ -45,7 +137,8 @@ class Payment extends Component {
 
     render() {
         // Form Action set to route to /#.  Need to update this to push billing information appropriately.
-        return <form action="#" encType="multipart/form-data">
+        return <form action="/api/v1/payment" method="POST" id="payment-form">
+        <span className="payment-errors"></span>
         <div className="anchor-top-margin">
             <div className="form-group col-xs-6 col-xs-offset-3 well">
                 <h2>Payment</h2>
@@ -59,13 +152,19 @@ class Payment extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <label htmlFor="paymentCardNumber">Card #</label>
-                            <input className="form-control" type="text" name="paymentCardNumber" id="paymentCardNumber" value={this.state.paymentCardNumber} onChange={this.typing} placeholder="1234567890123456" required/>
+                            <input className="form-control" type="text" id="paymentCardNumber" data-stripe="number" required/>
                         </div>
                     </div>
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <label htmlFor="paymentCvc">CVC</label>
+                      <input className="form-control" type="text"  data-stripe="cvc" required/>
+                    </div>
+                  </div>
                     <div className="row">
                         <div className="col-sm-6">
                             <label htmlFor="paymentExpirationMonth">Exp Month</label>
-                            <select id="paymentExpirationMonth" name="paymentExpirationMonth" className="form-control" value={this.state.paymentExpirationMonth} onChange={this.typing}>
+                            <select id="paymentExpirationMonth" className="form-control" data-stripe="exp_month" required>
                                 <option value="01">01-January</option>
                                 <option value="02">02-February</option>
                                 <option value="03">03-March</option>
@@ -82,7 +181,7 @@ class Payment extends Component {
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="paymentExpirationYear">Exp Year</label>
-                            <select id="paymentExpirationYear" name="paymentExpirationYear" className="form-control" value={this.state.paymentExpirationYear} onChange={this.typing}>
+                            <select id="paymentExpirationYear" className="form-control" data-stripe="exp_year">
                                 <option value="2016">2016</option>
                                 <option value="2017">2017</option>
                                 <option value="2018">2018</option>
@@ -194,7 +293,7 @@ class Payment extends Component {
 
                 {/* Button doesn't go anywhere but /# for now.  Need to push the field state content to backend still. */}
                 {/* <button className="col-xs-12" type="submit" onClick={() => this.displayState()}>Submit Address</button> */}
-                <button className="btn btn-default btn-block" onClick={() => this.displayState()}>Submit Address</button>
+                <button id="submit-button" className="btn btn-default btn-block" onClick={this.submitPayment}>Submit Payment</button>
             </div>
         </div>
     </form>

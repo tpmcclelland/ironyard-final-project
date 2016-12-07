@@ -20,4 +20,4 @@ const Database = use('Database')
 
 Event.when('Http.error.*', 'Http.handleError')
 Event.when('Http.start', 'Http.onStart')
-Database.on('sql', console.log)
+// Database.on('sql', console.log)
