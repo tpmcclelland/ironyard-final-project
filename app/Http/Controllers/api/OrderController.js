@@ -9,7 +9,9 @@ const Database = use('Database')
 class OrderController {
 
   * index(request, response) {
-    //
+    const orders = yield Order.query().with('store', 'state', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'driver.ratings', 'review').fetch()
+
+    response.send(orders)
   }
 
   * create(request, response) {
@@ -49,7 +51,10 @@ class OrderController {
   }
 
   * update(request, response) {
-    //
+    const update = yield Database
+      .table('orders')
+      .where('id', request.param('id'))
+       .update({ state_id: request.input('state_id'), driver_id: request.input('driver_id')})
   }
 
   * destroy(request, response) {

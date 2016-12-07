@@ -23,6 +23,9 @@ class RegisterController {
     user.email = request.input('email')
     // user.password = yield Hash.make(request.input('password'))
     user.password = request.input('password')
+    user.first_name = request.input('first_name')
+    user.last_name = request.input('last_name')
+    user.phone = request.input('phone')
 
     yield user.save()
 
