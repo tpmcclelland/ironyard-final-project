@@ -39,7 +39,12 @@ class ShoppingListController {
   }
 
   * update(request, response) {
-    //
+    const shoppingList = yield ShoppingList.query().where('id', request.param('id'))
+    console.log(shoppingList)
+    shoppingList.update('order_id', request.input('order_id'))
+    yield shoppingList.save()
+
+    response.send(shoppingList.order_id)
   }
 
   * destroy(request, response) {
