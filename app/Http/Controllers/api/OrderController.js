@@ -49,7 +49,10 @@ class OrderController {
   }
 
   * update(request, response) {
-    //
+    const update = yield Database
+      .table('orders')
+      .where('id', request.param('id'))
+       .update({ state_id: request.input('state_id'), driver_id: request.input('driver_id')})
   }
 
   * destroy(request, response) {

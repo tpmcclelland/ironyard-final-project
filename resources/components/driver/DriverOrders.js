@@ -2,6 +2,8 @@ import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import Modal from 'react-modal'
 import moment from 'moment'
+import ActiveOrderItem from './DriverActiveOrderItem'
+import AvailableOrderItem from './DriverAvailableOrderItem'
 
 const customStyles = {
   overlay : {
@@ -35,6 +37,7 @@ class DriverOrders extends React.Component {
         this.state = {
           modalIsOpen: false,
           totalCostShown: false,
+          detailsShown: false,
           activeOrders: this.props.activeOrders,
           heading: heading,
           anchor: anchor,
@@ -42,7 +45,9 @@ class DriverOrders extends React.Component {
           activeOrderSet: [],
           availableOrderSet: [],
           historyOrderSet: [],
-          driverId: ''
+          ingredients: [],
+          driverId: '',
+          update: false
         }
     }
     componentDidMount() {
@@ -52,6 +57,9 @@ class DriverOrders extends React.Component {
       this.setState({
         driverId: driver.id
       })
+      this.updateOrders()
+    }
+    updateOrders() {
       fetch('/api/v1/orders', {
         method: 'GET',
         credentials: 'same-origin',
@@ -60,7 +68,6 @@ class DriverOrders extends React.Component {
         }
       })
       .then(response => response.json())
-      // .then(response => console.log(response))
       .then(this.handleOrders)
       // .then(function(response) {
       //     if(response.ok) {
@@ -70,25 +77,50 @@ class DriverOrders extends React.Component {
       //     }
       // })
     }
+    shouldComponentUpdate(nextProps, nextState) {
+      if (this.state.availableOrderSet !== nextState.availableOrderSet || this.state.activeOrderSet !== nextState.activeOrderSet) {
+        return true
+      }
+      return true
+    }
     handleOrders(response) {
-      console.log(response)
       response.forEach((res) => {
         if (res.driver_id == this.state.driverId) {
           if (res.state_id == 1 || res.state_id == 3) {
-            console.log('active', res)
+            let updatedActiveOrderSet = this.state.activeOrderSet
+            if (res.state_id == 3) { var pickedUp = true }
+            else { var pickedUp = false }
+            updatedActiveOrderSet.push({
+              order: res,
+              detailsShown: false,
+              totalCostShown: false,
+              pickedUp: pickedUp,
+              delivered: false,
+            })
             this.setState({
-              activeOrderSet: response
+              activeOrderSet: updatedActiveOrderSet
             })
           } else {
-            console.log('history', res)
+            let updatedHistoryOrderSet = this.state.historyOrderSet
+            updatedHistoryOrderSet.push({
+              order: res,
+              detailsShown: false,
+              totalCostShown: false,
+            })
             this.setState({
-              historyOrderSet: response
+              historyOrderSet: updatedHistoryOrderSet
             })
           }
-        } else if (res.state_id == 2) {
-          console.log('availalbe', res)
+        } else if (res.state_id == 2 || res.state_id == null) {
+          let updatedAvailableOrderSet = this.state.availableOrderSet
+          updatedAvailableOrderSet.push({
+            order: res,
+            detailsShown: false,
+            totalCostShown: false,
+            accepted: false
+          })
           this.setState({
-            availableOrderSet: response
+            availableOrderSet: updatedAvailableOrderSet
           })
         } else {
           console.log('none')
@@ -107,47 +139,105 @@ class DriverOrders extends React.Component {
         locationSearchTerm: e.target.value
       })
     }
-    delivered() {
-      alert('Delivered!')
+    delivered(currentIndex) {
+      let updatedActiveOrderSet = this.state.activeOrderSet
+      let item = updatedActiveOrderSet[currentIndex]
+      if (item.delivered === false) {
+        this.updateOrderState(item.order.id, 4)
+      }
+      item.delivered = true
+      updatedActiveOrderSet.splice(currentIndex, 1)
       this.setState({
-        modalIsOpen: false
+        activeOrderSet: updatedActiveOrderSet,
       })
     }
-    accepted() {
-      alert('Accepted!')
+    accepted(currentIndex) {
+      let updatedAvailableOrderSet = this.state.availableOrderSet
+      let item = updatedAvailableOrderSet[currentIndex]
+      if (item.accepted === false) {
+        this.updateOrderState(item.order.id, 1)
+      }
+      item.accepted = true
+      updatedAvailableOrderSet.splice(currentIndex, 1)
+      let updatedActiveOrderSet = this.state.activeOrderSet
+      updatedActiveOrderSet.push({
+        order: item.order,
+        detailsShown: false,
+        totalCostShown: false,
+        pickedUp: false,
+        delivered: false,
+      })
       this.setState({
-        modalIsOpen: false
+        availableOrderSet: updatedAvailableOrderSet,
+        activeOrderSet: updatedActiveOrderSet
       })
     }
-    openModal() {
+    pickedUp(currentIndex) {
+      let updatedActiveOrderSet = this.state.activeOrderSet
+      let item = updatedActiveOrderSet[currentIndex]
+      item.totalCostShown = !item.totalCostShown
+      if (item.pickedUp === false) {
+        this.updateOrderState(item.order.id, 3)
+      }
+      item.pickedUp = true
       this.setState({
-        modalIsOpen: true
+        activeOrderSet: updatedActiveOrderSet
       })
     }
-    showTotalCost() {
+    showDetails(currentIndex) {
+      let updatedActiveOrderSet = this.state.activeOrderSet
+      updatedActiveOrderSet[currentIndex].detailsShown = !updatedActiveOrderSet[currentIndex].detailsShown
       this.setState({
-        totalCostShown: !this.state.totalCostShown
+        activeOrderSet: updatedActiveOrderSet
       })
     }
-    closeModal() {
+    showAvailableDetails(currentIndex) {
+      let updatedAvailableOrderSet = this.state.availableOrderSet
+      updatedAvailableOrderSet[currentIndex].detailsShown = !updatedAvailableOrderSet[currentIndex].detailsShown
       this.setState({
-        modalIsOpen: false,
+        availableOrderSet: updatedAvailableOrderSet
       })
+    }
+    updateOrderState(orderId, stateId) {
+      fetch('/api/v1/orders/' + orderId, {
+        method: 'PATCH',
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          state_id: stateId,
+          driver_id: this.state.driverId
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(response => console.log(response))
     }
     render() {
-        var activeOrders = this.state.activeOrderSet.map((active, i) => {
-          return <div>
-                  <div className="col-xs-12 order-heading">
-                    <h3 className="list-group-item-heading">Delivery To: Address</h3>
-                  </div>
-                  <div className="col-xs-12 col-sm-3">
-                    <h4 className="list-group-item-text">From 2:00 PM to 5:00 PM</h4>
-                  </div>
-                  <div className="col-xs-12 col-sm-3">
-                    <h4 className="list-group-item-text">Kroger</h4>
-                  </div>
-                </div>
+      var activeOrders = this.state.activeOrderSet.map((item, i) => {
+        let startTime = moment(item.order.delivery_start_time).format('LT')
+        let endTime = moment(item.order.delivery_end_time).format('LT')
+        var ingredients = item.order.shoppingList.recipeIngredients.map((item, i) => {
+              return <ul key={i}>
+                <li>{item.ingredient.name}</li>
+              </ul>
+          })
+
+        return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} />
         })
+
+      var availableOrders = this.state.availableOrderSet.map((item, i) => {
+        let startTime = moment(item.order.delivery_start_time).format('LT')
+        let endTime = moment(item.order.delivery_end_time).format('LT')
+        var ingredients = item.order.shoppingList.recipeIngredients.map((item, i) => {
+              return <ul key={i}>
+                <li>{item.ingredient.name}</li>
+              </ul>
+          })
+
+        return <AvailableOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} showDetails={() => this.showAvailableDetails(i)} accepted={() => this.accepted(i)} />
+        })
+
         return <div className="container">
           <div id={this.state.anchor} className="row anchor">
               <div className={this.state.activeOrders?'col-sm-4 col-sm-push-8 col-xs-12':'hidden'}>
@@ -164,108 +254,8 @@ class DriverOrders extends React.Component {
 
           </div>
             <div className="list-group container-fluid">
-              <div className="list-group-item row">
-                {/* <div className="col-xs-12 order-heading">
-                  <h3 className="list-group-item-heading">Delivery To: Address</h3>
-                </div>
-                <div className="col-xs-12 col-sm-3">
-                  <h4 className="list-group-item-text">From 2:00 PM to 5:00 PM</h4>
-                </div>
-                <div className="col-xs-12 col-sm-3">
-                  <h4 className="list-group-item-text">Kroger</h4>
-                </div> */}
-                <div className={this.state.activeOrders?'col-xs-4 col-sm-2 list-group-button':'col-xs-6 col-sm-3 list-group-button'}>
-                  <button type="button" className="btn btn-default btn-block" onClick={this.openModal}>Details</button>
-                </div>
-                <div className={this.state.activeOrders?'col-xs-4 col-sm-2 list-group-button':'hidden'}>
-                  <button type="button" className="btn btn-default btn-block" onClick={this.showTotalCost}>Picked Up</button>
-                </div>
-                <div className={this.state.activeOrders?'col-xs-4 col-sm-2 list-group-button':'hidden'}>
-                  <button type="button" className="btn btn-default btn-block" onClick={this.delivered}>Delivered</button>
-                </div>
-                <div className={this.state.activeOrders?'hidden':'col-xs-6 col-sm-3 list-group-button'}>
-                  <button type="button" className="btn btn-default btn-block" onClick={this.accepted}>Accept</button>
-                </div>
-                <div className={this.state.totalCostShown?'row':'hidden'}>
-                  <form className="form-inline col-xs-12 col-sm-7 col-sm-offset-5 total-amount">
-                    <div className="form-group">
-                        <label htmlFor="total-amount">Total Amount:</label>
-                      <div className="input-group text-center">
-                        <div className="input-group-addon">$</div>
-                        <input type="text" className="form-control" id="total-amount" />
-                      </div>
-                      <button type="button" className="btn btn-default hide-total-amount" onClick={this.showTotalCost}>Close</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
+            {this.props.activeOrders?activeOrders:availableOrders}
             </div>
-
-            {/* Being Modal */}
-                <div className="container">
-                  <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeModal}
-                    style={customStyles}
-                    contentLabel="Active Order Modal"
-                  >
-                  <div className="row">
-                    <div className="col-xs-10">
-                      <h2>Delivery To: Address</h2>
-                    </div>
-                    <div className="col-xs-2 text-right">
-                      <button className="btn btn-default" onClick={this.closeModal}>X</button>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-sm-6">
-                      <div className="col-xs-12">
-                        <p>From 2:00 PM to 5:00 PM</p>
-                        <p>Kroger</p>
-                        <p>Customer Name</p>
-                        <p>555-555-5555</p>
-                      </div>
-                      <div className="col-xs-12">
-                        <h3 className="modal-subheading">Map</h3>
-                        <div className="map"></div>
-                      </div>
-                    </div>
-                    <div className="col-sm-6">
-                      <div className="col-xs-12">
-                        <h3 className="modal-subheading">Shopping List</h3>
-                        <ul>
-                          <li>flour</li>
-                          <li>sugar</li>
-                          <li>butter</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className={this.state.activeOrders?'col-xs-6 col-sm-5 col-sm-offset-1 order-status-button':'hidden'}>
-                      <button type="button" className="btn btn-default btn-block" onClick={this.showTotalCost}>Picked Up</button>
-                    </div>
-                    <div className={this.state.activeOrders?'col-xs-6 col-sm-5 order-status-button':'hidden'}>
-                      <button type="button" className="btn btn-default btn-block" onClick={this.delivered}>Delivered</button>
-                    </div>
-                    <div className={this.state.activeOrders?'hidden':'col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 order-status-button'}>
-                      <button type="button" className="btn btn-default btn-block" onClick={this.accepted}>Accept</button>
-                    </div>
-                  </div>
-                  <div className={this.state.totalCostShown?'row':'hidden'}>
-                    <form className="form-inline col-xs-12 total-amount">
-                      <div className="form-group text-center">
-                          <label htmlFor="total-amount">Total Amount:</label>
-                        <div className="input-group">
-                          <div className="input-group-addon">$</div>
-                          <input type="text" className="form-control" id="total-amount" />
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  </Modal>
-                </div>
-                {/* End Modal */}
         </div>
     }
 }
