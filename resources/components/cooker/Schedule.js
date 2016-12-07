@@ -251,7 +251,7 @@ class Schedule extends Component {
                     </div>
                 </div>
                 {/* Button doesn't push content anywhere yet. */}
-                <button className="col-xs-12" className="btn btn-default btn-block" onClick={this.submitOrder}>Submit Address</button>
+                <button className="btn btn-default btn-block" onClick={this.submitOrder}>Submit Address</button>
             </div>
         </div>
     </form>
