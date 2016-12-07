@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import classAutoBind from 'react-helpers/dist/classAutoBind'
 
 class Schedule extends Component {
     constructor(props) {
         super(props)
+        classAutoBind(this)
         this.state = {
             startDeliveryWindow: "",
             endDeliveryWindow: "",
@@ -17,14 +19,25 @@ class Schedule extends Component {
             shippingZipcode: "",
             ship_to_address: "",
         }
-        this.typing = this.typing.bind(this)
     }
 
     componentWillMount() {
 
     }
     componentDidMount() {
+        var today = new Date()
+        console.log(today)
+        var storage = JSON.parse(sessionStorage.getItem('user'))
+        var user = storage.user
+        var cooker = storage.cooker
 
+        this.setState({
+            email: user.email,
+            shippingAddress: cooker.home_address,
+            shippingCity: cooker.home_city,
+            shippingState: (cooker.home_state).toUpperCase(),
+            shippingZipcode: cooker.home_zip,
+        })
     }
 
     typing(e) {
@@ -33,7 +46,31 @@ class Schedule extends Component {
         // console.log(updatedState)
         this.setState(updatedState)
         // this.collectShippingAddress()
-
+    }
+    submitOrder(e) {
+        e.preventDefault()
+        // this.createOrder()
+    }
+    createOrder() {
+        fetch('/api/v1/orders', {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                delivery_start_time: this.state.startDelivery,
+                delivery_end_time: this.state.endDeliveryWindow,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => console.log(response))
+        .then(function(response) {
+            if(response.ok) {
+                console.log(response)
+            } else {
+                throw 'Network response was not ok.'
+            }
+        })
     }
 
     render() {
@@ -45,11 +82,65 @@ class Schedule extends Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <label htmlFor="startDeliveryWindow">Start</label>
-                            <input className="form-control" type="text" name="startDeliveryWindow" id="startDeliveryWindow" value={this.state.startDeliveryWindow} onChange={this.typing} placeholder="6pm" required/>
+                            <select id="startDeliveryWindow" name="startDeliveryWindow" className="form-control" value={this.state.startDeliveryWindow} onChange={this.typing} required>
+                                <option disabled defaultValue="">-Select Start Time-</option>
+                                <option value="anytime">Anytime</option>
+                                <option value="2013-02-08 09:30:26">12:00 AM</option>
+                                <option value="1 AM">1:00 AM</option>
+                                <option value="2 AM">2:00 AM</option>
+                                <option value="3 AM">3:00 AM</option>
+                                <option value="4 AM">4:00 AM</option>
+                                <option value="5 AM">5:00 AM</option>
+                                <option value="6 AM">6:00 AM</option>
+                                <option value="7 AM">7:00 AM</option>
+                                <option value="8 AM">8:00 AM</option>
+                                <option value="9 AM">9:00 AM</option>
+                                <option value="10 AM">10:00 AM</option>
+                                <option value="11 AM">11:00 AM</option>
+                                <option value="12 PM">12:00 PM</option>
+                                <option value="1 PM">1:00 PM</option>
+                                <option value="2 PM">2:00 PM</option>
+                                <option value="3 PM">3:00 PM</option>
+                                <option value="4 PM">4:00 PM</option>
+                                <option value="5 PM">5:00 PM</option>
+                                <option value="6 PM">6:00 PM</option>
+                                <option value="7 PM">7:00 PM</option>
+                                <option value="8 PM">8:00 PM</option>
+                                <option value="9 PM">9:00 PM</option>
+                                <option value="10 PM">10:00 PM</option>
+                                <option value="11 PM">11:00 PM</option>
+                            </select>
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="endDeliveryWindow">End</label>
-                            <input className="form-control" type="text" name="endDeliveryWindow" id="endDeliveryWindow" value={this.state.endDeliveryWindow} onChange={this.typing} placeholder="8pm" required/>
+                            <select id="endDeliveryWindow" name="endDeliveryWindow" className="form-control" value={this.state.endDeliveryWindow} onChange={this.typing}>
+                                <option disabled defaultValue="">-Select End Time-</option>
+                                <option value="anytime">Anytime</option>
+                                <option value="12 AM">12:00 AM</option>
+                                <option value="1 AM">1:00 AM</option>
+                                <option value="2 AM">2:00 AM</option>
+                                <option value="3 AM">3:00 AM</option>
+                                <option value="4 AM">4:00 AM</option>
+                                <option value="5 AM">5:00 AM</option>
+                                <option value="6 AM">6:00 AM</option>
+                                <option value="7 AM">7:00 AM</option>
+                                <option value="8 AM">8:00 AM</option>
+                                <option value="9 AM">9:00 AM</option>
+                                <option value="10 AM">10:00 AM</option>
+                                <option value="11 AM">11:00 AM</option>
+                                <option value="12 PM">12:00 PM</option>
+                                <option value="1 PM">1:00 PM</option>
+                                <option value="2 PM">2:00 PM</option>
+                                <option value="3 PM">3:00 PM</option>
+                                <option value="4 PM">4:00 PM</option>
+                                <option value="5 PM">5:00 PM</option>
+                                <option value="6 PM">6:00 PM</option>
+                                <option value="7 PM">7:00 PM</option>
+                                <option value="8 PM">8:00 PM</option>
+                                <option value="9 PM">9:00 PM</option>
+                                <option value="10 PM">10:00 PM</option>
+                                <option value="11 PM">11:00 PM</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -163,7 +254,7 @@ class Schedule extends Component {
                     </div>
                 </div>
                 {/* Button doesn't push content anywhere yet. */}
-                <button className="col-xs-12"type="submit">Submit Address</button>
+                <button className="col-xs-12" className="btn btn-default btn-block" onClick={this.submitOrder}>Submit Address</button>
             </div>
         </div>
     </form>
