@@ -1,6 +1,7 @@
 import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import Modal from 'react-modal'
+import moment from 'moment'
 
 const customStyles = {
   overlay : {
@@ -38,7 +39,61 @@ class DriverOrders extends React.Component {
           heading: heading,
           anchor: anchor,
           locationSearchTerm: '',
+          activeOrderSet: [],
+          availableOrderSet: [],
+          historyOrderSet: [],
+          driverId: ''
         }
+    }
+    componentDidMount() {
+      var storage = JSON.parse(sessionStorage.getItem('user'))
+      var user = storage.user
+      var driver = storage.driver
+      this.setState({
+        driverId: driver.id
+      })
+      fetch('/api/v1/orders', {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      // .then(response => console.log(response))
+      .then(this.handleOrders)
+      // .then(function(response) {
+      //     if(response.ok) {
+      //         console.log(response)
+      //     } else {
+      //         throw 'Network response was not ok.'
+      //     }
+      // })
+    }
+    handleOrders(response) {
+      console.log(response)
+      response.forEach((res) => {
+        if (res.driver_id == this.state.driverId) {
+          if (res.state_id == 1 || res.state_id == 3) {
+            console.log('active', res)
+            this.setState({
+              activeOrderSet: response
+            })
+          } else {
+            console.log('history', res)
+            this.setState({
+              historyOrderSet: response
+            })
+          }
+        } else if (res.state_id == 2) {
+          console.log('availalbe', res)
+          this.setState({
+            availableOrderSet: response
+          })
+        } else {
+          console.log('none')
+        }
+      })
     }
     updateLocation(e) {
       e.preventDefault()
@@ -80,23 +135,37 @@ class DriverOrders extends React.Component {
       })
     }
     render() {
-        return <div className="container-fluid">
-          <div className="row">
-            <div className="col-xs-6 col-sm-9">
-              <h1 id={this.state.anchor} className="anchor">{this.state.heading}</h1>
-            </div>
-            <div className={this.state.activeOrders?'col-xs-6 col-sm-3':'hidden'}>
-                <form className="navbar-form navbar-left" onSubmit={this.updateLocation}>
-                    <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Update Location" value={this.state.locationSearchTerm} onChange={this.updateLocationSearchTerm} />
-                    </div>
-                    <button type="button" className="btn btn-default search-button" onClick={this.updateLocation}>Update</button>
-                </form>
-            </div>
+        var activeOrders = this.state.activeOrderSet.map((active, i) => {
+          return <div>
+                  <div className="col-xs-12 order-heading">
+                    <h3 className="list-group-item-heading">Delivery To: Address</h3>
+                  </div>
+                  <div className="col-xs-12 col-sm-3">
+                    <h4 className="list-group-item-text">From 2:00 PM to 5:00 PM</h4>
+                  </div>
+                  <div className="col-xs-12 col-sm-3">
+                    <h4 className="list-group-item-text">Kroger</h4>
+                  </div>
+                </div>
+        })
+        return <div className="container">
+          <div id={this.state.anchor} className="row anchor">
+              <div className={this.state.activeOrders?'col-sm-4 col-sm-push-8 col-xs-12':'hidden'}>
+                  <form className="navbar-form navbar-left" onSubmit={this.updateLocation}>
+                      <div className="form-group">
+                          <input type="text" className="form-control" placeholder="Update Location" value={this.state.locationSearchTerm} onChange={this.updateLocationSearchTerm} />
+                      </div>
+                      <button type="button" className="btn btn-default search-button" onClick={this.updateLocation}>Update</button>
+                  </form>
+              </div>
+              <div className={this.state.activeOrders?'col-sm-8 col-sm-pull-4 col-xs-12':'col-sm-12'}>
+                <h1>{this.state.heading}</h1>
+              </div>
+
           </div>
             <div className="list-group container-fluid">
               <div className="list-group-item row">
-                <div className="col-xs-12 order-heading">
+                {/* <div className="col-xs-12 order-heading">
                   <h3 className="list-group-item-heading">Delivery To: Address</h3>
                 </div>
                 <div className="col-xs-12 col-sm-3">
@@ -104,7 +173,7 @@ class DriverOrders extends React.Component {
                 </div>
                 <div className="col-xs-12 col-sm-3">
                   <h4 className="list-group-item-text">Kroger</h4>
-                </div>
+                </div> */}
                 <div className={this.state.activeOrders?'col-xs-4 col-sm-2 list-group-button':'col-xs-6 col-sm-3 list-group-button'}>
                   <button type="button" className="btn btn-default btn-block" onClick={this.openModal}>Details</button>
                 </div>

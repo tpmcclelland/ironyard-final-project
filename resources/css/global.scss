@@ -103,6 +103,9 @@
     .navbar-form {
         margin-bottom: 8px;
     }
+    .sign-up {
+        height: 100vh;
+    }
 }
 // end left navbar
 
@@ -127,5 +130,12 @@
 }
 .navbar-form {
     margin-bottom: 0px;
+}
+.sign-up {
+    background-color: #f5f5f5;
+    padding: 30px 10px;
+    h2 {
+        margin-top: 0;
+    }
 }
 // end main content section

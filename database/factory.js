@@ -26,7 +26,10 @@ Factory.blueprint('App/Model/User', (fake) => {
   return {
     username: fake.username(),
     email: fake.email(),
-    password: fake.password()
+    password: fake.password(),
+    first_name: fake.first(),
+    last_name: fake.last(),
+    phone: fake.string({length: 10})
   }
 })
 
