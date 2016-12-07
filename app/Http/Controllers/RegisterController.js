@@ -57,7 +57,7 @@ class RegisterController {
 
     response.json({
       registerMessage : error? registerMessage.error: registerMessage.success,
-      user: user,
+      user: {user, cooker, driver},
       type: signupType
     })
   }
