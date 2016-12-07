@@ -35,6 +35,9 @@ class Schedule extends Component {
             shippingCity: cooker.home_city,
             shippingState: (cooker.home_state).toUpperCase(),
             shippingZipcode: cooker.home_zip,
+            shippingFirstName: user.first_name,
+            shippingLastName: user.last_name,
+            shippingTelephone: user.phone,
         })
     }
 
@@ -46,7 +49,7 @@ class Schedule extends Component {
         // this.collectShippingAddress()
     }
     submitOrder(e) {
-        e.preventDefault()
+        // e.preventDefault()
         this.createOrder()
     }
     createOrder() {
@@ -251,7 +254,7 @@ class Schedule extends Component {
                     </div>
                 </div>
                 {/* Button doesn't push content anywhere yet. */}
-                <button className="btn btn-default btn-block" onClick={this.submitOrder}>Submit Address</button>
+                <button className="btn btn-default btn-block" type="submit" onClick={this.submitOrder}>Submit Address</button>
             </div>
         </div>
     </form>

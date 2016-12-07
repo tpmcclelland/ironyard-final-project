@@ -197,7 +197,7 @@ class Recipes extends Component {
       })
         return <div id="recipes" className="container">
         <div id="recipe-anchor" className="row anchor">
-            <div className="col-sm-4 col-sm-push-8 col-xs-12 search-bar">
+            <div className="col-sm-4 col-sm-push-8 col-xs-12">
                 <form className="navbar-form navbar-left" onSubmit={this.search}>
                     <div className="form-group">
                         <input type="text" className="form-control" placeholder="Search" value={this.state.searchTerm} onChange={this.updateSearchTerm} />

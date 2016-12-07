@@ -9,7 +9,9 @@ const Database = use('Database')
 class OrderController {
 
   * index(request, response) {
-    //
+    const orders = yield Order.query().with('store', 'state', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'driver.ratings', 'review').fetch()
+
+    response.send(orders)
   }
 
   * create(request, response) {
