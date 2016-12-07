@@ -15,7 +15,7 @@ class Welcome extends React.Component {
           <div className="row full-screen">
             <div className="row welcome-padding red-background overflow-scroll push-down hidden-print">
               <div id="guest-recipes" className="col-sm-11 col-sm-offset-1">
-                <Recipes resultSize={4} />
+                <Recipes/>
               </div>
             </div>
             <div className="row welcome-padding welcome-centered green-background overflow-scroll push-down hidden-print">

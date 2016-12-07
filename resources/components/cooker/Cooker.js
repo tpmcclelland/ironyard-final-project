@@ -6,24 +6,57 @@ import Schedule from './Schedule'
 import Payment from './Payment'
 import CookerLayout from './CookerLayout'
 
+import { connect } from 'react-redux'
+import store from '../redux/_ReduxStore'
+import classAutoBind from 'react-helpers/dist/classAutoBind'
+
 class Cooker extends Component {
     constructor(props) {
         super(props)
+        classAutoBind(this)
 
     }
 
-    componentWillMount() {
+    componentWillUnMount() {
 
     }
+
     componentDidMount() {
+      this.getFavoriteCount()
+      store.dispatch({type:'RESULT_SIZE', resultSize: 20})
+    }
 
+
+    getFavoriteCount() {
+      fetch('api/v1/favorites', {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(function(response) {
+          if(response.ok) {
+            return response.json()
+          } else {
+            throw 'Network response was not ok.'
+          }
+        })
+        .then(response => {
+          store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: response.length})
+          store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: response})
+          console.log(response)
+        })
+        .catch(function(error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message)
+        })
     }
 
     render() {
         return <CookerLayout>
           <div className="row full-screen red-background overflow-scroll push-down hidden-print">
             <div className="col-sm-11 col-sm-offset-1">
-              <Recipes resultSize={20} />
+              <Recipes />
             </div>
           </div>
           <div className="row full-screen green-background overflow-scroll">
@@ -46,4 +79,10 @@ class Cooker extends Component {
     }
 }
 
-export default Cooker
+const mapStateToProps = function(store) {
+  return {
+    currentUser: store.sharedUser.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(Cooker)

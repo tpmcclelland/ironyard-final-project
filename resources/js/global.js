@@ -1,7 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
-import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
+
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import { syncHistoryWithStore } from 'react-router-redux'
+
+import store from '../components/redux/_ReduxStore'
 
 import App from '../components/app/App'
 import Welcome from '../components/welcome/Welcome'
@@ -12,14 +17,11 @@ import Login from '../components/session/Login'
 import DriverSignup from '../components/session/DriverSignup'
 import CookerSignup from '../components/session/CookerSignup'
 
-
-// sharedState({
-//
-// })
-
+const newBrowserHistory = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
-    <Router history={browserHistory}>
+  <Provider store={store}>
+    <Router history={newBrowserHistory}>
         <Route path='/' component={App} >
             <IndexRoute component={Welcome} />
             <Route path="login" component={Login} />
@@ -30,4 +32,5 @@ ReactDOM.render(
             <Route path="orders" component={Orders} />
         </Route>
     </Router>
+  </Provider>
     , document.getElementById('app'))

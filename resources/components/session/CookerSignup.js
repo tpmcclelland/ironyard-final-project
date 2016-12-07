@@ -2,6 +2,9 @@ import React from 'react'
 import { Link, browserHistory} from 'react-router'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
+import { connect } from 'react-redux'
+import store from '../redux/_ReduxStore'
+
 
 class CookerSignup extends React.Component {
     constructor(props) {
@@ -97,6 +100,8 @@ class CookerSignup extends React.Component {
 
         if(typeof response.user != 'undefined') {
             sessionStorage.setItem('user', JSON.stringify(response.user))
+          store.dispatch({type:'MESSAGE', message:'Welcome'})
+          store.dispatch({type:'CURRENT_USER', user: response.user})
 
           browserHistory.push('/cooker')
         // } else {
@@ -199,4 +204,12 @@ class CookerSignup extends React.Component {
     }
 }
 
-export default CookerSignup
+const mapStateToProps = function(store) {
+  return {
+    sharedMessage: store.sharedState.sharedMessage,
+    currentUser: store.sharedUser.currentUser
+    // currentUser: store.sharedUser.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(CookerSignup)

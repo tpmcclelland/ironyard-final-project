@@ -33,6 +33,8 @@ Route.group('v1', function () {
  Route.post('/login', 'AuthController.login')
   Route.get('/logout', 'AuthController.logout')
  Route.post('/register', 'RegisterController.register')
+  Route.post('/payment', 'api/PaymentController.charge')
+  Route.post('/payment/save', 'api/PaymentController.saveOrder')
 }).prefix('/api/v1')
 
 
