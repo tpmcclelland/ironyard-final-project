@@ -36,7 +36,6 @@ class RecipeController {
 
       // check to see if recipe has already been saved
       const recipeCheck = yield Recipe.query().where('api_id', request.input('api_id')).pluck('id')
-      console.log(Number(recipeCheck))
       if (Number(recipeCheck) === 0) {
         // create new Recipe
         const recipe = new Recipe()
@@ -63,7 +62,6 @@ class RecipeController {
       if (type === 'add') {
         // check if cooker has an active shopping list
         const shoppingListCheck = yield ShoppingList.query().where('cooker_id', cooker.id).where('order_id', null).pluck('id')
-        console.log(Number(shoppingListCheck))
         if (Number(shoppingListCheck) === 0) {
           // create new ShoppingList
           const shoppingList = new ShoppingList()
@@ -148,7 +146,6 @@ class RecipeController {
       } else if (type === 'favorite') {
         // check if favorite already exists
         const favoriteCheck = yield Favorite.query().where('cooker_id', cooker.id).where('recipe_id', recipeId).pluck('id')
-        console.log(Number(favoriteCheck))
         if (Number(favoriteCheck) === 0) {
           // create new favorite
           const favorite = new Favorite()
