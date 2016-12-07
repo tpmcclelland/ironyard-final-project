@@ -8,7 +8,14 @@ class Cooker extends Lucid {
   }
 
   favorites () {
-    return this.hasManyThrough('App/Model/Recipe', 'App/Model/Favorite')
+    return this.hasManyThrough(
+      'App/Model/Recipe',
+      'App/Model/Favorite',
+      'id',
+      'cooker_id',
+      'recipe_id',
+      'id'
+    )
   }
 
   shoppingLists () {

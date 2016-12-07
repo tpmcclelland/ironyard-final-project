@@ -9,7 +9,7 @@ class FavoriteController {
     const user = yield request.auth.getUser()
     const cooker = yield Cooker.findBy('user_id', user.id)
 
-    return response.json(cooker.favorites().fetch())
+    return response.json(yield cooker.favorites().fetch())
   }
 
   * create(request, response) {

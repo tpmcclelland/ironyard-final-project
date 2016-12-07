@@ -23,7 +23,9 @@ class Cooker extends Component {
 
     componentDidMount() {
       this.getFavoriteCount()
+      store.dispatch({type:'RESULT_SIZE', resultSize: 20})
     }
+
 
     getFavoriteCount() {
       fetch('api/v1/favorites', {
@@ -41,7 +43,9 @@ class Cooker extends Component {
           }
         })
         .then(response => {
-          console.log('favorites', response)
+          store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: response.length})
+          store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: response})
+          console.log(response)
         })
         .catch(function(error) {
           console.log('There has been a problem with your fetch operation: ' + error.message)
@@ -52,7 +56,7 @@ class Cooker extends Component {
         return <CookerLayout>
           <div className="row full-screen red-background overflow-scroll push-down hidden-print">
             <div className="col-sm-11 col-sm-offset-1">
-              <Recipes resultSize={this.props.currentUser? 20: 4} />
+              <Recipes />
             </div>
           </div>
           <div className="row full-screen green-background overflow-scroll">

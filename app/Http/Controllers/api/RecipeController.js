@@ -60,6 +60,8 @@ class RecipeController {
 
       // if statement for add or favorite
       var type = request.input('type')
+      var returnMessage
+
       if (type === 'add') {
         // check if cooker has an active shopping list
         const shoppingListCheck = yield ShoppingList.query().where('cooker_id', cooker.id).where('order_id', null).pluck('id')
@@ -144,6 +146,7 @@ class RecipeController {
           ingredientShoppingListArray.push(ingredientShoppingListArrayItem)
         }
         yield IngredientShoppingList.createMany(ingredientShoppingListArray)
+        returnMessage = 'saved'
 
       } else if (type === 'favorite') {
         // check if favorite already exists
@@ -155,12 +158,12 @@ class RecipeController {
           favorite.recipe_id = recipeId
           favorite.cooker().associate(cooker)
           yield favorite.save()
+
+          returnMessage = yield cooker.favorites().fetch()
         }
       }
 
-      response.json({
-        // recipe: recipe,
-      })
+      response.json({type, returnMessage})
   }
 
   * show(request, response) {

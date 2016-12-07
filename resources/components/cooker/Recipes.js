@@ -3,6 +3,9 @@ import classAutoBind from 'react-helpers/dist/classAutoBind'
 import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 import Modal from 'react-modal'
 
+import { connect } from 'react-redux'
+import store from '../redux/_ReduxStore'
+
 const customStyles = {
   overlay : {
     position          : 'fixed',
@@ -30,7 +33,6 @@ class Recipes extends Component {
         super(props)
         classAutoBind(this)
 
-        var resultSize = this.props.resultSize || 20
 
         this.state = {
           modalIsOpen: false,
@@ -54,16 +56,37 @@ class Recipes extends Component {
         }
     }
     componentDidMount() {
-        this.fetchRecipes(this.props.resultSize, true)
+        this.fetchRecipes(this.props.resultSize, this.props.displayFavorites, true)
     }
 
     componentWillReceiveProps(nextProps) {
-      this.fetchRecipes(nextProps.resultSize, true)
+      this.fetchRecipes(nextProps.resultSize, this.props.displayFavorites, true)
     }
 
-    fetchRecipes(resultSize, forceUpdate) {
-      console.log(resultSize, forceUpdate)
-        if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm || forceUpdate) {
+    componentWillUnmount() {
+      store.dispatch({type: 'DISPLAY_FAVORITES', displayFavorites: false})
+      store.dispatch({type: 'RESULT_SIZE', resultSize: 4})
+    }
+
+    fetchRecipes(resultSize, showFavorites, forceUpdate) {
+      console.log('favorite', showFavorites)
+
+        if (showFavorites) {
+          console.log('fetchRecipes', this.props.favoriteRecipes )
+
+          var matches = this.props.favoriteRecipes.map((recipe) => {
+            return recipe.api_data
+          })
+
+          console.log('matches', matches)
+
+          this.updateRecipeDisplay({
+            matches: matches
+          })
+          return
+        }
+
+          if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm || forceUpdate) {
             fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
                 .then(response => response.json())
                 .then(this.updateRecipeDisplay)
@@ -76,9 +99,12 @@ class Recipes extends Component {
     updateRecipeDisplay(response) {
         window.cachedRecipes = response.matches
         window.cachedSearchTerm = this.state.searchTerm
+
       this.setState({
         recipes: response.matches
       })
+
+      console.log('updateRecipeDisplay', this.state.recipes)
     }
     openModal(recipe) {
       this.setState({
@@ -106,14 +132,16 @@ class Recipes extends Component {
     }
     search(e) {
       e.preventDefault()
-      this.fetchRecipes()
+      this.fetchRecipes(this.props.resultSize, this.props.displayFavorites, true)
       this.setState({
           searchTerm: ''
       })
     }
     updateSearchTerm(e) {
+        var newTerm = e.target.value
+
         this.setState({
-          searchTerm: e.target.value
+          searchTerm: newTerm
         })
     }
     saveRecipe(type) {
@@ -139,14 +167,19 @@ class Recipes extends Component {
       })
       .then(function(response) {
         if(response.ok) {
-          console.log(response)
+            return response.json()
         } else {
           throw 'Network response was not ok.'
         }
       })
+        .then(this.handleSave)
+        .catch(function(error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message)
+        })
     }
     favorite() {
       this.saveRecipe('favorite')
+
       this.setState({
         displayAlertPanel: true,
         displayFavorited: true,
@@ -154,6 +187,17 @@ class Recipes extends Component {
       })
       this.hideAlertPanel()
     }
+
+    handleSave(response) {
+      if (response.type === 'favorite') {
+        store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: response.returnMessage.length})
+        store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: response.returnMessage})
+      } else {
+        console.log ('handleSave', response)
+      }
+
+    }
+
     addToList() {
       this.saveRecipe('add')
       this.setState({
@@ -190,6 +234,7 @@ class Recipes extends Component {
 
     render() {
       var recipes = this.state.recipes.map((recipe, i) => {
+        console.log('render', recipe)
         return <div className="col-xs-6 col-sm-3 bring-to-front" key={i}>
           <div className="recipe-panel" onClick={() => this.openModal(recipe.id)}>
               <h3 className="recipe-title lead">{recipe.recipeName}</h3>
@@ -284,4 +329,14 @@ class Recipes extends Component {
     }
 }
 
-export default Recipes
+const mapStateToProps = function(store) {
+  return {
+    favoriteCount: store.sharedUser.favoriteCount,
+    resultSize: store.sharedRecipe.resultSize,
+    favoriteRecipes: store.sharedRecipe.favoriteRecipes,
+    displayFavorites: store.sharedRecipe.displayFavorites
+
+  }
+}
+
+export default connect(mapStateToProps)(Recipes)
