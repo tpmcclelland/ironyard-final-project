@@ -1,5 +1,6 @@
 import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
+import {browserHistory} from 'react-router'
 import moment from 'moment'
 import AvailableOrderItem from './DriverAvailableOrderItem'
 
@@ -14,7 +15,7 @@ class DriverAvailableOrders extends React.Component {
           detailsShown: false,
           toggle: false,
           driverId: '',
-          triggerUpdate: props.triggerUpdate
+          triggerUpdate: props.update
         }
     }
     componentDidMount() {
