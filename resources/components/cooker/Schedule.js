@@ -78,7 +78,7 @@ class Schedule extends Component {
 
         return <form action="#payment" encType="multipart/form-data">
         <div className="anchor-top-margin">
-            <div className="form-group col-xs-6 col-xs-offset-3 well">
+            <div className="form-group col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 well">
                 <h2>Delivery Window</h2>
                 <div className="form-group well">
                     <div className="row">

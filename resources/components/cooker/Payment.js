@@ -140,7 +140,7 @@ class Payment extends Component {
         return <form action="/api/v1/payment" method="POST" id="payment-form">
         <span className="payment-errors"></span>
         <div className="anchor-top-margin">
-            <div className="form-group col-xs-6 col-xs-offset-3 well">
+            <div className="form-group col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 well">
                 <h2>Payment</h2>
                 <div className="form-group well">
                     <div className="row">

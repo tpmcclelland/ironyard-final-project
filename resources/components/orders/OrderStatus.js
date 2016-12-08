@@ -165,7 +165,8 @@ render() {
         </div>
       </div>
     })
-  return <div className="container-fluid">
+
+  return <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
     <h1>Order Status</h1>
     <div className="list-group container-fluid">
       {userOrders}

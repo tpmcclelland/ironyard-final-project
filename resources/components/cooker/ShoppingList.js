@@ -143,7 +143,7 @@ class ShoppingList extends Component {
                 </div>
         })
 
-        return <div className="anchor-top-margin well col-xs-6 col-xs-offset-3">
+        return <div className="anchor-top-margin well col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <h2>Ingredient List</h2>
             {displayList}
             <div className="row col-xs-offset-3">
