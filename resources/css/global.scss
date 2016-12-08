@@ -119,7 +119,8 @@
     }
 }
 .full-screen {
-    height: 100vh;
+    //height: 100vh;
+    min-height: 50vh;
 }
 .anchor:before {
   display: block;
