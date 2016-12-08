@@ -91,7 +91,7 @@ class DriverOrders extends React.Component {
               totalCostShown: false,
               pickedUp: pickedUp,
               delivered: false,
-              paymentAmount: amount
+              paymentAmount: amount.toFixed(2)
             })
             this.setState({
               activeOrderSet: updatedActiveOrderSet
