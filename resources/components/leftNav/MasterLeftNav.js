@@ -1,6 +1,6 @@
 import React from 'react'
 
-const masterLeftNav = (props) => <section className="col-xs-12 col-sm-2 left-side-navbar hidden-print">
+const MasterLeftNav = (props) => <section className="col-xs-12 col-sm-2 left-side-navbar hidden-print">
   <ul className="list-group side-nav">
     <a href="../#" className="list-group-item grey-background"><img src="../assets/login.png" alt="Home" /></a>
     <a href="../cooker#recipe-anchor" className="list-group-item grey-background"><img src="../assets/recipe.png" alt="recipe" /></a>
@@ -14,4 +14,4 @@ const masterLeftNav = (props) => <section className="col-xs-12 col-sm-2 left-sid
   </ul>
 </section>
 
-export default masterLeftNav
+export default MasterLeftNav

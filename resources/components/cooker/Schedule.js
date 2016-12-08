@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import moment from 'moment'
+import { connect } from 'react-redux'
+import store from '../redux/_ReduxStore'
 
 class Schedule extends Component {
     constructor(props) {
@@ -64,11 +66,19 @@ class Schedule extends Component {
         })
         .then(function(response) {
             if(response.ok) {
-                console.log(response)
+                return response.json()
             } else {
                 throw 'Network response was not ok.'
             }
         })
+        .then(this.orderHandler)
+          .catch(function(error) {
+            console.log('There has been a problem with your fetch operation: ' + error.message)
+          })
+    }
+
+    orderHandler(response) {
+     store.dispatch({type: 'AMOUNT', amount: response.amount})
     }
 
     render() {
@@ -246,11 +256,18 @@ class Schedule extends Component {
                     </div>
                 </div>
                 {/* Button doesn't push content anywhere yet. */}
-                <button className="btn btn-default btn-block" type="submit" onClick={this.submitOrder}>Submit Address</button>
+                <button className="btn btn-default btn-block" type="button" onClick={this.submitOrder}>Submit Address</button>
             </div>
         </div>
     </form>
 }
 }
 
-export default Schedule
+const mapStateToProps = function(store) {
+  return {
+    amount: store.sharedList.amount
+
+  }
+}
+
+export default connect(mapStateToProps)(Schedule)

@@ -51,9 +51,9 @@ class OrderController {
       .where('id', shoppingListUpdate)
       .update('order_id', order.id)
 
-    // yield this.updateEstimatedCost(order)
+    //yield this.updateEstimatedCost(order)
 
-    return response.json({orderSaved: true})
+    return response.json({orderSaved: true, amount: 100})
   }
 
   * show(request, response) {

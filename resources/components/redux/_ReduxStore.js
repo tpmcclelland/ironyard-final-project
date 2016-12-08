@@ -62,11 +62,27 @@ function recipeReducer (state = {
       return newState
 }
 
+function sharedListReducer (state = {
+  amount: 0
+}, action) {
+  var newState = Object.assign({}, state)
+
+  switch (action.type) {
+    case 'AMOUNT':
+      newState.amount = action.amount
+      break
+  }
+
+
+  return newState
+}
+
 const store = createStore(
   combineReducers({
     sharedState: sharedStateReducer,
     sharedUser: sharedUserReducer,
     sharedRecipe: recipeReducer,
+    sharedList: sharedListReducer,
     routing: routerReducer
   })
 )

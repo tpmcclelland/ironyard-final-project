@@ -2,7 +2,7 @@ import React from 'react'
 
 import Header from '../common/Header'
 import OrderLeftNav from './OrderLeftNav'
-import MasterLeftNav from '../leftNav/masterLeftNav'
+import MasterLeftNav from '../leftNav/MasterLeftNav'
 
 class OrderLayout extends React.Component {
     constructor(props) {

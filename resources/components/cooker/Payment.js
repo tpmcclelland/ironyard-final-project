@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
+import { connect } from 'react-redux'
+import store from '../redux/_ReduxStore'
 // const Env = use('Env')
 
 class Payment extends Component {
@@ -150,12 +152,19 @@ class Payment extends Component {
 
     render() {
         // Form Action set to route to /#.  Need to update this to push billing information appropriately.
-        return <form action="/api/v1/payment" method="POST" id="payment-form">
-        <span className="payment-errors"></span>
+        return <div>
+
+          <form action="/api/v1/payment" method="POST" id="payment-form">
         <div className="anchor-top-margin">
             <div className="form-group col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 well">
                 <h2>Payment</h2>
                 <div className="form-group well">
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <span className="payment-errors"></span>
+                      <h2>Your total payment: ${this.props.amount}</h2>
+                    </div>
+                  </div>
                     <div className="row">
                         <div className="col-sm-12">
                             <label htmlFor="paymentCardHolderName">Cardholder Name</label>
@@ -304,7 +313,15 @@ class Payment extends Component {
             </div>
         </div>
     </form>
+    </div>
 }
 }
 
-export default Payment
+const mapStateToProps = function(store) {
+  return {
+    amount: store.sharedList.amount
+
+  }
+}
+
+export default connect(mapStateToProps)(Payment)
