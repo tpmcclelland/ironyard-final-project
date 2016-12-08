@@ -259,7 +259,7 @@ class Recipes extends Component {
                 <h1>Recipes</h1>
             </div>
         </div>
-        <div className="row">
+        <div className="row col-sm-10 col-sm-off-1 col-md-12">
           {recipes}
         </div>
 
