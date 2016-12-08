@@ -78,47 +78,49 @@ class DriverOrders extends React.Component {
     handleOrders(response) {
       console.log(response)
       response.forEach((res) => {
-        if (res.driver_id == this.state.driverId) {
-          if (res.state.type == 'active' || res.state.type == 'picked_up') {
-            let updatedActiveOrderSet = this.state.activeOrderSet
-            if (res.state.type === 'picked_up') { var pickedUp = true }
-            else { var pickedUp = false }
-            if (res.total_cost !== null) { var amount = res.total_cost}
-            else { var amount = '' }
-            updatedActiveOrderSet.push({
+        if (res.state !== null) {
+          if (res.driver_id == this.state.driverId) {
+            if (res.state.type === 'active' || res.state.type === 'picked_up') {
+              let updatedActiveOrderSet = this.state.activeOrderSet
+              if (res.state.type === 'picked_up') { var pickedUp = true }
+              else { var pickedUp = false }
+              if (res.total_cost !== null) { var amount = res.total_cost}
+              else { var amount = '' }
+              updatedActiveOrderSet.push({
+                order: res,
+                detailsShown: false,
+                totalCostShown: false,
+                pickedUp: pickedUp,
+                delivered: false,
+                paymentAmount: amount.toFixed(2)
+              })
+              this.setState({
+                activeOrderSet: updatedActiveOrderSet
+              })
+            } else {
+              let updatedHistoryOrderSet = this.state.historyOrderSet
+              updatedHistoryOrderSet.push({
+                order: res,
+                detailsShown: false,
+                totalCostShown: false,
+              })
+              this.setState({
+                historyOrderSet: updatedHistoryOrderSet
+              })
+            }
+          } else if (res.state.type === 'available') {
+            let updatedAvailableOrderSet = this.state.availableOrderSet
+            updatedAvailableOrderSet.push({
               order: res,
               detailsShown: false,
               totalCostShown: false,
-              pickedUp: pickedUp,
-              delivered: false,
-              paymentAmount: amount.toFixed(2)
+              accepted: false
             })
             this.setState({
-              activeOrderSet: updatedActiveOrderSet
+              availableOrderSet: updatedAvailableOrderSet
             })
-          } else {
-            let updatedHistoryOrderSet = this.state.historyOrderSet
-            updatedHistoryOrderSet.push({
-              order: res,
-              detailsShown: false,
-              totalCostShown: false,
-            })
-            this.setState({
-              historyOrderSet: updatedHistoryOrderSet
-            })
+            console.log('state', this.state.availableOrderSet)
           }
-        } else if (res.state.type === 'available' || res.state_id == null) {
-          let updatedAvailableOrderSet = this.state.availableOrderSet
-          updatedAvailableOrderSet.push({
-            order: res,
-            detailsShown: false,
-            totalCostShown: false,
-            accepted: false
-          })
-          this.setState({
-            availableOrderSet: updatedAvailableOrderSet
-          })
-          console.log('state', this.state.availableOrderSet)
         } else {
           console.log('none')
         }
