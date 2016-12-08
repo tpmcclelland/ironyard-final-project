@@ -18,7 +18,18 @@ class OrderController {
     //
   }
 
+  * updateEstimatedCost(passedOrder) {
+    const wrappedOrder = yield Order.query().where('id', passedOrder.id).with('shoppingList.recipeIngredients.ingredient').fetch()
+    console.log('tom ****  ', wrappedOrder.value())
+    var order = wrappedOrder.value()
+
+    var recipeIngredients = order.shoppingList()
+    console.log(recipeIngredients)
+
+  }
+
   * store(request, response) {
+    console.log('hi')
     const user = yield request.auth.getUser()
     const cooker = yield Cooker.findBy('user_id', user.id)
 
@@ -38,6 +49,8 @@ class OrderController {
       .table('shopping_lists')
       .where('id', shoppingListUpdate)
       .update('order_id', order.id)
+
+    // yield this.updateEstimatedCost(order)
 
     return response.json({orderSaved: true})
   }

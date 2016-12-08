@@ -11,6 +11,11 @@ class Ingredient extends Lucid {
     // return this.hasManyThrough('App/Model/Recipe', 'App/Model/RecipeIngredient')
     // }
 
+  static boot () {
+    super.boot()
+    this.addHook('beforeCreate', 'Ingredient.fillUnitCost')
+  }
+
     recipes () {
     return this.belongsToMany('App/Model/Recipe')
     }
