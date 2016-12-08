@@ -4,6 +4,7 @@ const AvailableOrderItem = (props) => (
     <div className="list-group-item row">
     <div className="col-xs-12 order-heading">
     <h3 className="list-group-item-heading">Delivery To: {props.data.order.shoppingList.cooker.home_address + " " + props.data.order.shoppingList.cooker.home_city + ", " + props.data.order.shoppingList.cooker.home_state + " " + props.data.order.shoppingList.cooker.home_zip}</h3>
+    <h1>{props.message}</h1>
     </div>
     <div className="col-xs-12 col-sm-3">
     <h4 className="list-group-item-text">From {props.startTime} to {props.endTime}</h4>
