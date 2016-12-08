@@ -72,9 +72,30 @@ function sharedListReducer (state = {
       newState.amount = action.amount
       break
   }
-
-
   return newState
+}
+
+function sharedOrderReduer (state = { active: [], available: [], activeCount: '', availableCount: '', component: {}}, action) {
+    var newState = Object.assign({}, state)
+
+    switch (action.type) {
+      case 'ACTIVE':
+          newState.active = action.active
+          break
+      case 'AVAILABLE':
+          newState.available = action.available
+          break
+      case 'ACTIVE_COUNT':
+          newState.activeCount = action.activeCount
+          break
+      case 'AVAILABLE_COUNT':
+          newState.availableCount = action.availableCount
+          break
+      case 'COMPONENT':
+          newState.component = action.component
+          break
+    }
+    return newState
 }
 
 const store = createStore(
@@ -83,6 +104,7 @@ const store = createStore(
     sharedUser: sharedUserReducer,
     sharedRecipe: recipeReducer,
     sharedList: sharedListReducer,
+    sharedOrder: sharedOrderReduer,
     routing: routerReducer
   })
 )
