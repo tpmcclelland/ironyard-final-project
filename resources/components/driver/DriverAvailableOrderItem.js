@@ -9,7 +9,7 @@ const AvailableOrderItem = (props) => (
     <h4 className="list-group-item-text">From {props.startTime} to {props.endTime}</h4>
     </div>
     <div className="col-xs-12 col-sm-3">
-    <h4 className="list-group-item-text">{props.data.order.store.name}</h4>
+    {/* <h4 className="list-group-item-text">{props.data.order.store.name}</h4> */}
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-3 list-group-button'>
     <button type="button" className="btn btn-default btn-block" onClick={props.showDetails}>{props.data.detailsShown?'Hide Details':'Show Details'}</button>

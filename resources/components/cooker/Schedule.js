@@ -7,18 +7,16 @@ class Schedule extends Component {
         super(props)
         classAutoBind(this)
         this.state = {
-            startDeliveryWindow: "",
-            endDeliveryWindow: "",
+            startDeliveryWindow: "select",
+            endDeliveryWindow: "select",
             shippingFirstName: "",
             shippingLastName: "",
             email: "",
             shippingTelephone: "",
             shippingAddress: "",
-            shippingAddressAdditional: "",
             shippingCity: "",
             shippingState: "",
             shippingZipcode: "",
-            ship_to_address: "",
         }
     }
     componentWillMount() {
@@ -85,7 +83,7 @@ class Schedule extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="startDeliveryWindow">Start</label>
                             <select id="startDeliveryWindow" name="startDeliveryWindow" className="form-control" value={this.state.startDeliveryWindow} onChange={this.typing} required>
-                                <option defaultValue="">Anytime</option>
+                                <option disabled value="select">Select a time</option>
                                 <option value={today + ' 07:00:00'}>7:00 AM</option>
                                 <option value={today + ' 08:00:00'}>8:00 AM</option>
                                 <option value={today + ' 09:00:00'}>9:00 AM</option>
@@ -114,8 +112,8 @@ class Schedule extends Component {
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="endDeliveryWindow">End</label>
-                            <select id="endDeliveryWindow" name="endDeliveryWindow" className="form-control" value={this.state.endDeliveryWindow} onChange={this.typing}>
-                                <option defaultValue="">Anytime</option>
+                            <select id="endDeliveryWindow" name="endDeliveryWindow" className="form-control" value={this.state.endDeliveryWindow} onChange={this.typing} required>
+                                <option disabled value="select">Select a time</option>
                                 <option value={today + ' 07:00:00'}>7:00 AM</option>
                                 <option value={today + ' 08:00:00'}>8:00 AM</option>
                                 <option value={today + ' 09:00:00'}>9:00 AM</option>
@@ -172,12 +170,6 @@ class Schedule extends Component {
                         <div className="col-sm-12">
                             <label htmlFor="shippingAddress">Address</label>
                             <input className="form-control" type="text" name="shippingAddress" id="shippingAddress" value={this.state.shippingAddress} onChange={this.typing} placeholder="12 Upup Downdown PKWY" required/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <br />
-                        <div className="col-sm-12">
-                            <input className="form-control" type="text" name="shippingAddressAdditional" id="shippingAddressAdditional" value={this.state.shippingAddressAdditional} onChange={this.typing} placeholder="Unit Left Right Left Right" />
                         </div>
                     </div>
                     <div className="row">

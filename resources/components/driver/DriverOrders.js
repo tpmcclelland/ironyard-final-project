@@ -35,7 +35,6 @@ class DriverOrders extends React.Component {
         var heading = this.props.activeOrders?'Active Orders':'Available Orders'
         var anchor = this.props.activeOrders?'active-orders-anchor':'available-orders-anchor'
         this.state = {
-          modalIsOpen: false,
           totalCostShown: false,
           detailsShown: false,
           activeOrders: this.props.activeOrders,
@@ -47,7 +46,6 @@ class DriverOrders extends React.Component {
           historyOrderSet: [],
           ingredients: [],
           driverId: '',
-          update: false
         }
     }
     componentDidMount() {
@@ -77,26 +75,23 @@ class DriverOrders extends React.Component {
       //     }
       // })
     }
-    shouldComponentUpdate(nextProps, nextState) {
-      if (this.state.availableOrderSet !== nextState.availableOrderSet || this.state.activeOrderSet !== nextState.activeOrderSet) {
-        return true
-      }
-      return true
-    }
     handleOrders(response) {
       console.log(response)
       response.forEach((res) => {
         if (res.driver_id == this.state.driverId) {
-          if (res.state.type === 'available' || res.state.type === 'picked_up') {
+          if (res.state.type == 'active' || res.state.type == 'picked_up') {
             let updatedActiveOrderSet = this.state.activeOrderSet
             if (res.state.type === 'picked_up') { var pickedUp = true }
             else { var pickedUp = false }
+            if (res.total_cost !== null) { var amount = res.total_cost}
+            else { var amount = '' }
             updatedActiveOrderSet.push({
               order: res,
               detailsShown: false,
               totalCostShown: false,
               pickedUp: pickedUp,
               delivered: false,
+              paymentAmount: amount
             })
             this.setState({
               activeOrderSet: updatedActiveOrderSet
@@ -145,7 +140,7 @@ class DriverOrders extends React.Component {
       let updatedActiveOrderSet = this.state.activeOrderSet
       let item = updatedActiveOrderSet[currentIndex]
       if (item.delivered === false) {
-        this.updateOrderState(item.order.id, 4)
+        this.updateOrderState(item.order.id, "delivered")
       }
       item.delivered = true
       updatedActiveOrderSet.splice(currentIndex, 1)
@@ -157,7 +152,7 @@ class DriverOrders extends React.Component {
       let updatedAvailableOrderSet = this.state.availableOrderSet
       let item = updatedAvailableOrderSet[currentIndex]
       if (item.accepted === false) {
-        this.updateOrderState(item.order.id, 1)
+        this.updateOrderState(item.order.id, "active")
       }
       item.accepted = true
       updatedAvailableOrderSet.splice(currentIndex, 1)
@@ -179,7 +174,7 @@ class DriverOrders extends React.Component {
       let item = updatedActiveOrderSet[currentIndex]
       item.totalCostShown = !item.totalCostShown
       if (item.pickedUp === false) {
-        this.updateOrderState(item.order.id, 3)
+        this.updateOrderState(item.order.id, "picked_up")
       }
       item.pickedUp = true
       this.setState({
@@ -200,13 +195,15 @@ class DriverOrders extends React.Component {
         availableOrderSet: updatedAvailableOrderSet
       })
     }
-    updateOrderState(orderId, stateId) {
+    updateOrderState(orderId, state, type = 'state', cost = 0) {
       fetch('/api/v1/orders/' + orderId, {
         method: 'PATCH',
         credentials: 'same-origin',
         body: JSON.stringify({
-          state_id: stateId,
-          driver_id: this.state.driverId
+          state: state,
+          driver_id: this.state.driverId,
+          type: type,
+          total_cost: cost
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -214,6 +211,23 @@ class DriverOrders extends React.Component {
       })
       .then(response => response.json())
       .then(response => console.log(response))
+    }
+    updatePaymentAmountValue(e, currentIndex) {
+      let updatedActiveOrderSet = this.state.activeOrderSet
+      let item = updatedActiveOrderSet[currentIndex]
+      item.paymentAmount = e.target.value
+      this.setState({
+        activeOrderSet: updatedActiveOrderSet
+      })
+    }
+    submitTotalCost(currentIndex) {
+      let updatedActiveOrderSet = this.state.activeOrderSet
+      let item = updatedActiveOrderSet[currentIndex]
+      console.log(item.paymentAmount)
+      this.pickedUp(currentIndex)
+      if (item.paymentAmount !== '') {
+        this.updateOrderState(item.order.id, '', 'cost', item.paymentAmount)
+      }
     }
     render() {
       var activeOrders = this.state.activeOrderSet.map((item, i) => {
@@ -225,7 +239,7 @@ class DriverOrders extends React.Component {
               </ul>
           })
 
-        return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} />
+        return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} updatePaymentAmountValue={(e) => this.updatePaymentAmountValue(e, i)} submitTotalCost={() => this.submitTotalCost(i)}/>
         })
 
       var availableOrders = this.state.availableOrderSet.map((item, i) => {
