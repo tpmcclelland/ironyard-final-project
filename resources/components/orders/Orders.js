@@ -19,7 +19,7 @@ class Orders extends Component {
     render() {
         return <div>
             <OrderLayout>
-                <div className="row full-screen red-background overflow-scroll push-down hidden-print">
+                <div className="row full-screen lightBlue-background overflow-scroll push-down hidden-print">
                   <div id="active-orders" className="col-sm-11 col-sm-offset-1">
                     <OrderStatus />
                   </div>
@@ -29,11 +29,11 @@ class Orders extends Component {
                     {/* <AvailableOrders /> */}
                   </div>
                 </div>
-                <div className="row full-screen lightBlue-background overflow-scroll hidden-print">
-                  <div id="driver-metrics" className="col-sm-11 col-sm-offset-1">
-                    {/* <DriverMetrics /> */}
-                  </div>
-                </div>
+                {/*<div className="row full-screen lightBlue-background overflow-scroll hidden-print">*/}
+                  {/*<div id="driver-metrics" className="col-sm-11 col-sm-offset-1">*/}
+                    {/*/!* <DriverMetrics /> *!/*/}
+                  {/*</div>*/}
+                {/*</div>*/}
             </OrderLayout>
         </div>
     }
