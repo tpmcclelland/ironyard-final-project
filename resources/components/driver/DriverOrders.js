@@ -84,7 +84,7 @@ class DriverOrders extends React.Component {
               let updatedActiveOrderSet = this.state.activeOrderSet
               if (res.state.type === 'picked_up') { var pickedUp = true }
               else { var pickedUp = false }
-              if (res.total_cost !== null) { var amount = res.total_cost}
+              if (res.total_cost !== null) { var amount = res.total_cost.toFixed(2)}
               else { var amount = '' }
               updatedActiveOrderSet.push({
                 order: res,
@@ -92,7 +92,7 @@ class DriverOrders extends React.Component {
                 totalCostShown: false,
                 pickedUp: pickedUp,
                 delivered: false,
-                paymentAmount: amount.toFixed(2)
+                paymentAmount: amount
               })
               this.setState({
                 activeOrderSet: updatedActiveOrderSet
