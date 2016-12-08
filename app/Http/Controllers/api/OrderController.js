@@ -56,7 +56,7 @@ class OrderController {
       .update('order_id', order.id)
 
     const amount = yield this.updateEstimatedCost(order)
-    return response.json({orderSaved: true, amount: amount})
+    return response.json({orderSaved: true, amount: amount.toFixed(2)})
 
   }
 
