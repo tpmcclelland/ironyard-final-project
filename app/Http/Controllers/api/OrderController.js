@@ -9,7 +9,7 @@ const Database = use('Database')
 class OrderController {
 
   * index(request, response) {
-    const orders = yield Order.query().with('store', 'state', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'driver.ratings', 'review').fetch()
+    const orders = yield Order.query().with('store', 'state', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'shoppingList.recipeIngredients.recipe', 'driver.ratings', 'review').fetch()
 
     response.send(orders)
   }
@@ -22,7 +22,7 @@ class OrderController {
     const user = yield request.auth.getUser()
     const cooker = yield Cooker.findBy('user_id', user.id)
 
-    const shoppingList = yield cooker.shoppingLists().with('recipeIngredients.ingredient').active().fetch()
+    // const shoppingList = yield cooker.shoppingLists().with('recipeIngredients.ingredient').active().fetch()
 
     const order = new Order()
 

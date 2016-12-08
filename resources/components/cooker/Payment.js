@@ -18,6 +18,7 @@ class Payment extends Component {
             paymentCardHolderName: "",
             ship_to_address: "",
         }
+
       classAutoBind(this)
     }
 
@@ -27,7 +28,21 @@ class Payment extends Component {
 
     }
     componentDidMount() {
+      var storage = JSON.parse(sessionStorage.getItem('user'))
+      var user = storage.user
+      var cooker = storage.cooker
 
+      this.setState({
+        billingFirstName: user.first_name,
+        billingLastName: user.last_name,
+        billingTelephone: user.phone,
+        billingAddress: cooker.home_address,
+        billingAddressAdditional: "",
+        billingCity: cooker.home_city,
+        billingState: cooker.home_state,
+        billingZipcode: cooker.home_zip,
+        paymentCardHolderName: user.first_name + ' ' + user.last_name,
+      })
     }
 
 
@@ -183,7 +198,7 @@ class Payment extends Component {
                             <label htmlFor="paymentExpirationYear">Exp Year</label>
                             <select id="paymentExpirationYear" className="form-control" data-stripe="exp_year">
                                 <option value="2016">2016</option>
-                                <option value="2017">2017</option>
+                                <option value="2017" selected>2017</option>
                                 <option value="2018">2018</option>
                                 <option value="2019">2019</option>
                                 <option value="2020">2020</option>
@@ -214,7 +229,7 @@ class Payment extends Component {
                     <div className="row">
                         <br />
                         <div className="col-sm-12">
-                            <input className="form-control" type="text" name="billingAddressAdditional" id="billingAddressAdditional" value={this.state.billingAddressAdditional} onChange={this.typing} placeholder="Unit Left Right Left Right" />
+                            <input className="form-control" type="text" name="billingAddressAdditional" id="billingAddressAdditional" value={this.state.billingAddressAdditional} onChange={this.typing} placeholder="Apt Number..." />
                         </div>
                     </div>
                     <div className="row">

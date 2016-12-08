@@ -84,11 +84,12 @@ class DriverOrders extends React.Component {
       return true
     }
     handleOrders(response) {
+      console.log(response)
       response.forEach((res) => {
         if (res.driver_id == this.state.driverId) {
-          if (res.state_id == 1 || res.state_id == 3) {
+          if (res.state.type === 'available' || res.state.type === 'picked_up') {
             let updatedActiveOrderSet = this.state.activeOrderSet
-            if (res.state_id == 3) { var pickedUp = true }
+            if (res.state.type === 'picked_up') { var pickedUp = true }
             else { var pickedUp = false }
             updatedActiveOrderSet.push({
               order: res,
@@ -111,7 +112,7 @@ class DriverOrders extends React.Component {
               historyOrderSet: updatedHistoryOrderSet
             })
           }
-        } else if (res.state_id == 2 || res.state_id == null) {
+        } else if (res.state.type === 'available' || res.state_id == null) {
           let updatedAvailableOrderSet = this.state.availableOrderSet
           updatedAvailableOrderSet.push({
             order: res,
@@ -122,6 +123,7 @@ class DriverOrders extends React.Component {
           this.setState({
             availableOrderSet: updatedAvailableOrderSet
           })
+          console.log('state', this.state.availableOrderSet)
         } else {
           console.log('none')
         }
