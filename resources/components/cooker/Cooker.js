@@ -55,7 +55,7 @@ class Cooker extends Component {
     render() {
         return <CookerLayout>
           <div className="row full-screen red-background overflow-scroll push-down hidden-print">
-            <div className="col-sm-11 col-sm-offset-1">
+            <div id="recipes" className="col-sm-11 col-sm-offset-1">
               <Recipes />
             </div>
           </div>

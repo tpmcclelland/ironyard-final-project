@@ -110,8 +110,8 @@ handleOrders(response) {
 
 // Details Modal
   sendModalData(i) {
-console.log(i)
-    console.log(this.state.orders[i])
+// console.log(i)
+    console.log("sendModalData:", this.state.orders[i])
     this.setState({
       tempModalObject: this.state.orders[i]
     })
@@ -144,7 +144,7 @@ closeReviewModal() {
 
   cancel() {
     console.log("testing")
-    console.log(this.state.tempModalObject.id)
+    console.log("tempModalObject:", this.state.tempModalObject.id)
     fetch('/api/v1/orders/' + this.state.tempModalObject.id, {
       method: 'PATCH',
       credentials: 'same-origin',
@@ -157,8 +157,53 @@ closeReviewModal() {
       }
     })
   }
+  gatherPrice() {
+    if (this.state.tempModalObject.shoppingList !== null) {
+      if (this.state.tempModalObject.total_cost === null) {
+        return <div className="input-group">
+          <div className="input-group-addon">Estimated Price</div>
+          <input type="text" className="form-control" id="exampleInputAmount" placeholder="Amount" value={this.state.tempModalObject.shoppingList.estimated_price} readOnly/>
+        </div>
+      }
+      else {
+        return <div className="input-group">
+          <div className="input-group-addon">Final Price</div>
+          <input type="text" className="form-control" id="exampleInputAmount" placeholder="Amount" value={this.state.tempModalObject.total_cost} readOnly/>
+        </div>
+      }
+    }
+  }
+
+  gatherDriverPhone() {
+    if (this.state.tempModalObject.driver !== null){
+      if (this.state.tempModalObject.driver_id && this.state.tempModalObject.driver_id != 'undefined') {
+        return <p>Phone Number: {this.state.tempModalObject.driver.user.phone}</p>
+      }
+    }
+  }
+
+  gatherDriverName() {
+    if (this.state.tempModalObject.driver !== null){
+      if (this.state.tempModalObject.driver_id && this.state.tempModalObject.driver_id != 'undefined') {
+        return <p>Driver Name: {this.state.tempModalObject.driver.user.first_name + " " + this.state.tempModalObject.driver.user.last_name}</p>
+      }
+    }
+  }
+  showCancelButton() {
+    if (this.state.tempModalObject.state_id == "4") {
+      return <button type="button" onClick={this.cancel} className="btn btn-default btn-block">Cancel Order</button>
+    }
+  }
+
+  showReviewButton() {
+    if (this.state.tempModalObject.state_id == "2") {
+      return <button type="button" className="btn btn-default btn-block" onClick={this.openReviewModal}>Review Driver
+      </button>
+
+    }
+  }
 render() {
-    var userOrders = this.state.orders.map((order, i) => {
+    const userOrders = this.state.orders.map((order, i) => {
       if (order.state_id !== null) {
         return <div className="bg-danger">
           <div className="list-group-item row">
@@ -166,8 +211,7 @@ render() {
               <h3 className="list-group-item-heading">Order ID: {order.id}</h3>
             </div>
             <div className="col-xs-12 col-sm-6">
-              <h4 className="list-group-item-text">From {moment(order.delivery_start_time).format('h:mm:ss a')}
-                to {moment(order.delivery_end_time).format('h:mm:ss a')}</h4>
+              <h4 className="list-group-item-text">Delivery between {moment(order.delivery_start_time).format('h:mm:ss a')} and {moment(order.delivery_end_time).format('h:mm:ss a')}</h4>
             </div>
             <div className="col-xs-4 col-sm-4 form-group">
               <label forHTML="orderState">Status:</label>
@@ -179,10 +223,6 @@ render() {
                 this.sendModalData(i), this.openModal()
               }}
               >Details
-              </button>
-            </div>
-            <div className="col-xs-4 col-sm-2">
-              <button type="button" className="btn btn-default btn-block" onClick={this.openReviewModal}>Review Driver
               </button>
             </div>
           </div>
@@ -215,8 +255,8 @@ render() {
           <div className="row">
             <div className="col-xs-12">
               <p>From {moment(this.state.tempModalObject.delivery_start_time).format('h:mm:ss a')} to {moment(this.state.tempModalObject.delivery_end_time).format('h:mm:ss a')}</p>
-              <p>Driver Name: Sam</p>
-              <p>555-555-5555</p>
+              {this.gatherDriverName()}
+              {this.gatherDriverPhone()}
             </div>
           </div>
           <div className="row">
@@ -224,11 +264,7 @@ render() {
               <form className="form-inline">
                 <div className="form-group">
                   <label className="sr-only" forHTML="exampleInputAmount">Amount (in dollars)</label>
-                  <div className="input-group">
-                    <div className="input-group-addon">$</div>
-                    <input type="text" className="form-control" id="exampleInputAmount" placeholder="Amount" value={this.state.tempModalObject.total_cost} readOnly/>
-                    <div className="input-group-addon">.00</div>
-                  </div>
+                  {this.gatherPrice()}
                 </div>
               </form>
             </div>
@@ -237,7 +273,8 @@ render() {
           <div className="row">
             <br/>
             <div className="col-xs-6 col-xs-offset-6">
-              <button type="button" onClick={this.cancel} className="btn btn-default btn-block">Cancel Order</button>
+              {this.showCancelButton()}
+              {this.showReviewButton()}
             </div>
           </div>
         </Modal>
