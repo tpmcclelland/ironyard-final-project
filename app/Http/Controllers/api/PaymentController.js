@@ -11,39 +11,27 @@ const Database = use('Database')
 class PaymentController {
 
   * saveOrder(request, response) {
+
     const user = yield request.auth.getUser()
-    console.log('user', user)
     const cooker = yield user.cooker().fetch()
-    console.log('cooker', cooker)
+
 
     if (cooker.stripe_id === null) {
       cooker.stripe_id = request.input('stripe_customer')
       yield cooker.save()
     }
 
-    var order = yield cooker.orders().pending().pluck('id')
-    // var order = yield cooker.orders().fetch()
-    var order = yield Order.query().where(
-    console.log(order)
-
-    // order.payment_received = true
-
+    const orders = yield cooker.orders().pending().fetch()
+    //returns a lodash wrapper object so need to get its value
+    const pendingOrders = orders.value()
+    pendingOrders[0].payment_received = true
+    yield pendingOrders[0].save()
 
     var state = yield State.findBy('type', 'available')
-    // order.state_id = state.id
-    console.log(order)
-    console.log(state.id)
-
-    const affectedRows = yield Database
-      .table('orders')
-      .where('id', order)
-      .update({payment_received: true, state_id: state.id})
-
-    // yield order.save()
+    yield state.orders().save(pendingOrders[0])
 
 
-
-    return response.json({saved: true, affectedRows: affectedRows})
+    return response.json({saved: true})
 
   }
 
@@ -54,12 +42,16 @@ class PaymentController {
      // const cooker = yield Cooker.findBy('user_id', user.id)
 
     const cooker = yield user.cooker().fetch()
-    var amount = 1000
+    const orders = yield cooker.orders().pending().fetch()
+    const pendingOrders = orders.value()
+    var amount = pendingOrders[0].total_cost * 100 || 100
+    console.log('*******', amount)
+
 
     // Set your secret key: remember to change this to your live secret key in production
 // See your keys here: https://dashboard.stripe.com/account/apikeys
-//     var stripe = require("stripe")(Env.get('STRIPE_TEST_KEY'));
-    var stripe = require('stripe')('sk_test_LASvfiR41I34qZCseYxy0DVA')
+//     const key = Env.get('STRIPE_TEST_KEY')
+    var stripe = require("stripe")(Env.get('STRIPE_TEST_KEY'));
 
 // Get the credit card details submitted by the form
 //     var token = request.body.stripeToken; // Using Express
