@@ -9,7 +9,7 @@ const ActiveOrderItem = (props) => (
     <h4 className="list-group-item-text">From {props.startTime} to {props.endTime}</h4>
     </div>
     <div className="col-xs-12 col-sm-3">
-    <h4 className="list-group-item-text">{props.data.order.store.name}</h4>
+    {/* <h4 className="list-group-item-text">{props.data.order.store.name}</h4> */}
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-2 list-group-button'>
     <button type="button" className="btn btn-default btn-block" onClick={props.showDetails}>{props.data.detailsShown?'Hide Details':'Show Details'}</button>
@@ -26,9 +26,9 @@ const ActiveOrderItem = (props) => (
           <label htmlFor="total-amount">Total Amount:</label>
         <div className="input-group text-center">
           <div className="input-group-addon">$</div>
-          <input type="text" className="form-control" id="total-amount" />
+          <input type="text" className="form-control" id="total-amount" value={props.data.paymentAmount} onChange={props.updatePaymentAmountValue}/>
         </div>
-        <button type="button" className="btn btn-default hide-total-amount" onClick={props.pickedUp}>Close</button>
+        <button type="button" className="btn btn-default hide-total-amount" onClick={props.submitTotalCost}>Submit</button>
       </div>
     </form>
     </div>

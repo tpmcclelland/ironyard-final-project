@@ -11,7 +11,6 @@ class Payment extends Component {
             billingLastName: "",
             billingTelephone: "",
             billingAddress: "",
-            billingAddressAdditional: "",
             billingCity: "",
             billingState: "",
             billingZipcode: "",
@@ -37,7 +36,6 @@ class Payment extends Component {
         billingLastName: user.last_name,
         billingTelephone: user.phone,
         billingAddress: cooker.home_address,
-        billingAddressAdditional: "",
         billingCity: cooker.home_city,
         billingState: cooker.home_state,
         billingZipcode: cooker.home_zip,
@@ -196,9 +194,9 @@ class Payment extends Component {
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="paymentExpirationYear">Exp Year</label>
-                            <select id="paymentExpirationYear" className="form-control" data-stripe="exp_year">
+                            <select id="paymentExpirationYear" className="form-control" data-stripe="exp_year" defaultValue="2017">
                                 <option value="2016">2016</option>
-                                <option value="2017" selected>2017</option>
+                                <option value="2017">2017</option>
                                 <option value="2018">2018</option>
                                 <option value="2019">2019</option>
                                 <option value="2020">2020</option>
@@ -229,12 +227,6 @@ class Payment extends Component {
                     <div className="row">
                         <br />
                         <div className="col-sm-12">
-                            <input className="form-control" type="text" name="billingAddressAdditional" id="billingAddressAdditional" value={this.state.billingAddressAdditional} onChange={this.typing} placeholder="Apt Number..." />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <br />
-                        <div className="col-sm-12">
                             <label htmlFor="billingCity">City</label>
                             <input className="form-control" type="text" name="billingCity" id="billingCity" value={this.state.billingCity} onChange={this.typing} placeholder="Bee Ayystart" required/>
                         </div>
@@ -243,7 +235,7 @@ class Payment extends Component {
                         <br />
                         <div className="col-sm-6">
                             <label htmlFor="billingState">State</label>
-                            <select id="billingState" name="billingState" className="form-control" value={this.state.billingState} onChange={this.typing} >
+                            <select id="billingState" name="billingState" className="form-control" value={this.state.billingState} onChange={this.typing}>
                                 <option disabled value="default">-Select State-</option>
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
