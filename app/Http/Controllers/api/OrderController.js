@@ -21,16 +21,20 @@ class OrderController {
 
   * updateEstimatedCost(passedOrder) {
     const wrappedOrder = yield Order.query().where('id', passedOrder.id).with('shoppingList.recipeIngredients.ingredient').fetch()
-    console.log('tom ****  ', wrappedOrder.value())
-    var order = wrappedOrder.value()
-
-    var recipeIngredients = order.shoppingList()
-    console.log(recipeIngredients)
-
+    var order = wrappedOrder.toJSON()
+    //
+    var recipeIngredients = order[0].shoppingList.recipeIngredients
+    var ingredientsArray = []
+    var ingredients = recipeIngredients.forEach(function(ingredient) {
+      ingredientsArray.push(ingredient.ingredient)
+    })
+    var totalCost = ingredientsArray.reduce(function(a, b) {
+      return a + b.unit_cost;
+    }, 0);
+    return totalCost
   }
 
   * store(request, response) {
-    console.log('hi')
     const user = yield request.auth.getUser()
     const cooker = yield Cooker.findBy('user_id', user.id)
 
@@ -51,9 +55,8 @@ class OrderController {
       .where('id', shoppingListUpdate)
       .update('order_id', order.id)
 
-    // yield this.updateEstimatedCost(order)
-
-    return response.json({orderSaved: true})
+    const amount = yield this.updateEstimatedCost(order)
+    return response.json({orderSaved: true, amount: amount})
   }
 
   * show(request, response) {
