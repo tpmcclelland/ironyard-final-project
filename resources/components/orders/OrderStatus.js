@@ -89,14 +89,14 @@ componentDidMount() {
       .then(this.handleOrders)
 }
 handleOrders(response) {
-    console.log('handlingOrders:', response)
+    // console.log('handlingOrders:', response)
   var storage = JSON.parse(sessionStorage.getItem('user'))
-  console.log('storage', storage)
+  // console.log('storage', storage)
   var userId = storage.user.id
-  console.log('user.id', userId)
+  // console.log('user.id', userId)
   response.forEach((res) => {
-      console.log('preIF', res)
-      console.log('userID', userId)
+      // console.log('preIF', res)
+      // console.log('userID', userId)
     console.log('preCondition', res.shoppingList.cooker.user_id)
       if (res.shoppingList.cooker.user.id === userId) {
         console.log('userFound', res)
@@ -141,29 +141,53 @@ closeReviewModal() {
   tempFiller(item) {
 
   }
+
+  cancel() {
+    console.log("testing")
+    console.log(this.state.tempModalObject.id)
+    fetch('/api/v1/orders/' + this.state.tempModalObject.id, {
+      method: 'PATCH',
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        state: "cancelled",
+
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
 render() {
     var userOrders = this.state.orders.map((order, i) => {
-      return <div>
-        <div className="list-group-item row">
-          <div className="col-xs-12 order-heading">
-            <h3 className="list-group-item-heading">Order ID: {order.id}</h3>
-          </div>
-          <div className="col-xs-12 col-sm-4">
-            <h4 className="list-group-item-text">From {moment(order.delivery_start_time).format('h:mm:ss a')} to {moment(order.delivery_end_time).format('h:mm:ss a')}</h4>
-          </div>
-          <div className="col-xs-4 col-sm-2 col-sm-offset-2">
-            <label forHTML="orderState">Order State:</label>
-            <input type="text" className="form-control" id="orderState" name="orderState" value={order.state.type} readOnly />
-          </div>
-          <div className="col-xs-4 col-sm-2">
-            <button type="button" className="btn btn-default btn-block" onClick={() => {this.sendModalData(i), this.openModal()}}
-          >Details</button>
-          </div>
-          <div className="col-xs-4 col-sm-2">
-            <button type="button" className="btn btn-default btn-block" onClick={this.openReviewModal}>Review Driver</button>
+      if (order.state_id !== null) {
+        return <div className="bg-danger">
+          <div className="list-group-item row">
+            <div className="col-xs-12 order-heading">
+              <h3 className="list-group-item-heading">Order ID: {order.id}</h3>
+            </div>
+            <div className="col-xs-12 col-sm-6">
+              <h4 className="list-group-item-text">From {moment(order.delivery_start_time).format('h:mm:ss a')}
+                to {moment(order.delivery_end_time).format('h:mm:ss a')}</h4>
+            </div>
+            <div className="col-xs-4 col-sm-4 form-group">
+              <label forHTML="orderState">Status:</label>
+              <input type="text" className="form-control" id="orderState" name="orderState" value={order.state.type}
+                     readOnly/>
+            </div>
+            <div className="col-xs-4 col-sm-2">
+              <button type="button" className="btn btn-default btn-block" onClick={() => {
+                this.sendModalData(i), this.openModal()
+              }}
+              >Details
+              </button>
+            </div>
+            <div className="col-xs-4 col-sm-2">
+              <button type="button" className="btn btn-default btn-block" onClick={this.openReviewModal}>Review Driver
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      }
     })
 
   return <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
@@ -202,7 +226,7 @@ render() {
                   <label className="sr-only" forHTML="exampleInputAmount">Amount (in dollars)</label>
                   <div className="input-group">
                     <div className="input-group-addon">$</div>
-                    <input type="text" className="form-control" id="exampleInputAmount" placeholder="Amount" readOnly/>
+                    <input type="text" className="form-control" id="exampleInputAmount" placeholder="Amount" value={this.state.tempModalObject.total_cost} readOnly/>
                     <div className="input-group-addon">.00</div>
                   </div>
                 </div>
@@ -213,7 +237,7 @@ render() {
           <div className="row">
             <br/>
             <div className="col-xs-6 col-xs-offset-6">
-              <button type="button" className="btn btn-default btn-block">Cancel Order</button>
+              <button type="button" onClick={this.cancel} className="btn btn-default btn-block">Cancel Order</button>
             </div>
           </div>
         </Modal>
