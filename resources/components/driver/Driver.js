@@ -2,7 +2,6 @@ import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 
 import DriverLayout from './DriverLayout'
-import DriverOrders from './DriverOrders'
 import DriverMetrics from './DriverMetrics'
 import DriverActiveOrders from './DriverActiveOrders'
 import DriverAvailableOrders from './DriverAvailableOrders'
@@ -24,7 +23,7 @@ class Driver extends React.Component {
         var driver = storage.driver
         this.setState({
             driverId: driver.id,
-            updateOrders: Date.now()
+            updateOrders: Date.now
         })
         this.updateOrders()
     }
