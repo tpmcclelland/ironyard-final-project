@@ -50,9 +50,8 @@ class PaymentController {
 
     // Set your secret key: remember to change this to your live secret key in production
 // See your keys here: https://dashboard.stripe.com/account/apikeys
-    const key = Env.get('STRIPE_TEST_KEY')
-//     var stripe = require("stripe")(Env.get('STRIPE_TEST_KEY'));
-    var stripe = require('stripe')('sk_test_a87VgzGLJFJ3QScoBfnxSYFH')
+//     const key = Env.get('STRIPE_TEST_KEY')
+    var stripe = require("stripe")(Env.get('STRIPE_TEST_KEY'));
 
 // Get the credit card details submitted by the form
 //     var token = request.body.stripeToken; // Using Express
