@@ -50,12 +50,15 @@ class OrderController {
     yield order.save()
 
     const shoppingListUpdate = Number(yield ShoppingList.query().where('cooker_id', cooker.id).where('order_id', null).pluck('id'))
+
+    const amount = yield this.updateEstimatedCost(order)
+
     const update = yield Database
       .table('shopping_lists')
       .where('id', shoppingListUpdate)
-      .update('order_id', order.id)
+      .update({order_id: order.id, estimated_price: amount})
 
-    const amount = yield this.updateEstimatedCost(order)
+
     return response.json({orderSaved: true, amount: amount.toFixed(2)})
 
   }
