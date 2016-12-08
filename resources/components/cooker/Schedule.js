@@ -246,7 +246,7 @@ class Schedule extends Component {
                     </div>
                 </div>
                 {/* Button doesn't push content anywhere yet. */}
-                <button className="btn btn-default btn-block" type="submit" onClick={this.submitOrder}>Submit Address</button>
+                <button className="btn btn-default btn-block" type="button" onClick={this.submitOrder}>Submit Address</button>
             </div>
         </div>
     </form>
