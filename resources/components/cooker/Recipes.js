@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
-import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 import Modal from 'react-modal'
 
 import { connect } from 'react-redux'
@@ -69,7 +68,7 @@ class Recipes extends Component {
     }
 
     fetchRecipes(resultSize, showFavorites, forceUpdate) {
-      console.log('favorite', showFavorites)
+      // console.log('favorite', showFavorites)
 
         // if (showFavorites) {
         //   console.log('fetchRecipes', this.props.favoriteRecipes )
@@ -104,7 +103,7 @@ class Recipes extends Component {
         recipes: response.matches
       })
 
-      console.log('updateRecipeDisplay', this.state.recipes)
+      // console.log('updateRecipeDisplay', this.state.recipes)
     }
     openModal(recipe) {
       this.setState({
@@ -192,8 +191,9 @@ class Recipes extends Component {
       if (response.type === 'favorite') {
         store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: response.returnMessage.length})
         store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: response.returnMessage})
+        store.dispatch({type: 'LIST_REFRESH', refreshShoppingList: true})
       } else {
-        console.log ('handleSave', response)
+        // console.log ('handleSave', response)
       }
 
     }

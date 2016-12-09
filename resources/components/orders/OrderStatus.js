@@ -3,6 +3,8 @@ import classAutoBind from 'react-helpers/dist/classAutoBind'
 import Modal from 'react-modal'
 import update from 'react-addons-update'
 import moment from 'moment'
+import { connect } from 'react-redux'
+import store from '../redux/_ReduxStore'
 
 // Details Modal Style
 const customStyles = {
@@ -205,7 +207,7 @@ closeReviewModal() {
 render() {
     const userOrders = this.state.orders.map((order, i) => {
       if (order.state_id !== null) {
-        return <div className="bg-danger">
+        return <div key={i} className="bg-danger">
           <div className="list-group-item row">
             <div className="col-xs-12 order-heading">
               <h3 className="list-group-item-heading">Order ID: {order.id}</h3>
@@ -214,7 +216,7 @@ render() {
               <h4 className="list-group-item-text">Delivery between {moment(order.delivery_start_time).format('h:mm:ss a')} and {moment(order.delivery_end_time).format('h:mm:ss a')}</h4>
             </div>
             <div className="col-xs-4 col-sm-4 form-group">
-              <label forHTML="orderState">Status:</label>
+              <label htmlFor="orderState">Status:</label>
               <input type="text" className="form-control" id="orderState" name="orderState" value={order.state.type}
                      readOnly/>
             </div>
@@ -231,7 +233,9 @@ render() {
     })
 
   return <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+
     <h1>Order Status</h1>
+    {this.props.paymentSuccess? <div className="alert alert-success" role="alert">You've completed your order</div>: ''}
     <div className="list-group container-fluid">
       {userOrders}
     </div>
@@ -331,4 +335,11 @@ render() {
     }
   }
 
-  export default OrderStatus
+const mapStateToProps = function(store) {
+  return {
+    paymentSuccess: store.sharedList.paymentSuccess
+
+  }
+}
+
+export default connect(mapStateToProps)(OrderStatus)

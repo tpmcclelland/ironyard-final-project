@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import { connect } from 'react-redux'
+import {browserHistory} from 'react-router'
 import store from '../redux/_ReduxStore'
 // const Env = use('Env')
 
@@ -18,6 +19,7 @@ class Payment extends Component {
             billingZipcode: "",
             paymentCardHolderName: "",
             ship_to_address: "",
+            paymentSuccess: false
         }
 
       classAutoBind(this)
@@ -123,8 +125,11 @@ class Payment extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        $form.find('#submit-button').prop('disabled', false);
-        console.log('saved', response)
+        this.setState({
+          paymentSuccess: true
+        })
+        store.dispatch({type:'PAYMENT_SUCCESS', paymentSuccess: true})
+        browserHistory.push('/cooker/orders')
       })
 
   }
@@ -152,7 +157,7 @@ class Payment extends Component {
 
     render() {
         // Form Action set to route to /#.  Need to update this to push billing information appropriately.
-        return <div>
+        return <div id="#payment">
 
           <form action="/api/v1/payment" method="POST" id="payment-form">
         <div className="anchor-top-margin">
@@ -162,7 +167,7 @@ class Payment extends Component {
                   <div className="row">
                     <div className="col-sm-12">
                       <span className="payment-errors"></span>
-                      <h2>Your total payment: ${this.props.amount}</h2>
+                    <h2>Your total payment: ${this.props.amount}</h2>
                     </div>
                   </div>
                     <div className="row">

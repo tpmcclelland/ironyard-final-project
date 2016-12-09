@@ -23,35 +23,11 @@ class Cooker extends Component {
     }
 
     componentDidMount() {
-      this.getFavoriteCount()
       store.dispatch({type:'RESULT_SIZE', resultSize: 20})
     }
 
 
-    getFavoriteCount() {
-      fetch('api/v1/favorites', {
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(function(response) {
-          if(response.ok) {
-            return response.json()
-          } else {
-            throw 'Network response was not ok.'
-          }
-        })
-        .then(response => {
-          store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: response.length})
-          store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: response})
-          console.log(response)
-        })
-        .catch(function(error) {
-          console.log('There has been a problem with your fetch operation: ' + error.message)
-        })
-    }
+
 
     render() {
         return <CookerLayout>
@@ -78,6 +54,11 @@ class Cooker extends Component {
                   <Payment />
               </div>
           </div> */}
+          <div className="row full-screen red-background overflow-scroll push-down hidden-print">
+            <div className="col-sm-11 col-sm-offset-1">
+              {this.props.children}
+            </div>
+          </div>
         </CookerLayout>
 
     }

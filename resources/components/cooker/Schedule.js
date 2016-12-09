@@ -3,6 +3,7 @@ import classAutoBind from 'react-helpers/dist/classAutoBind'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
+import {browserHistory} from 'react-router'
 
 class Schedule extends Component {
     constructor(props) {
@@ -79,12 +80,14 @@ class Schedule extends Component {
 
     orderHandler(response) {
      store.dispatch({type: 'AMOUNT', amount: response.amount})
+      browserHistory.push('/cooker/payment')
     }
 
     render() {
         var today = moment().format('YYYY-MM-DD')
 
-        return <form action="#payment" encType="multipart/form-data">
+        return <div id="schedule">
+      <form action="#payment" encType="multipart/form-data">
         <div className="anchor-top-margin">
             <div className="form-group col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 well">
                 <h2>Delivery Window</h2>
@@ -260,6 +263,7 @@ class Schedule extends Component {
             </div>
         </div>
     </form>
+        </div>
 }
 }
 

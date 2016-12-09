@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
-import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 import update from 'react-addons-update';
+import ShoppingListItem from './ShoppingListItem'
+import { connect } from 'react-redux'
+import {browserHistory} from 'react-router'
+import store from '../redux/_ReduxStore'
 
 class ShoppingList extends Component {
     constructor(props) {
@@ -10,21 +13,27 @@ class ShoppingList extends Component {
             results: [],
             title: '',
             ingredients: [],
-            shoppingListId: ''
+            shoppingListId: '',
+            recipeIngredients: [],
+            quantity: 0
         }
-        // this.state = sharedState()
-        this.removeItem = this.removeItem.bind(this)
-        // this.updateShoppingList = this.updateShoppingList.bind(this)
-        this.setIngredientList = this.setIngredientList.bind(this)
-        this.handleInitialFetch = this.handleInitialFetch.bind(this)
+      classAutoBind(this)
     }
 
     componentWillMount() {
 
     }
-    componentDidMount() {
-        attachSharedState(this)
 
+    componentDidMount() {
+        this.fetchIngredients()
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+      this.fetchIngredients()
+    }
+
+    fetchIngredients() {
       var user = JSON.parse(sessionStorage.getItem('user'))
 
       fetch('/api/v1/shoppinglists?id=' + user.user.id, {
@@ -45,20 +54,19 @@ class ShoppingList extends Component {
         .catch(function(error) {
           console.log('There has been a problem with your fetch operation: ' + error.message)
         })
+
     }
 
     handleInitialFetch(response) {
-    //   console.log('fetch', response)
-    //   console.log('fetch', response[0].recipeIngredients)
+      // console.log('tom fetch', response)
       this.setState({
         shoppingListId: response[0].id,
-        results: response[0].recipeIngredients
+        recipeIngredients: response[0].recipeIngredients
       })
 
     }
 
     componentWillUnmount() {
-        detachSharedState(this)
 
     }
 
@@ -107,54 +115,39 @@ class ShoppingList extends Component {
 
     }
 
+
+    markRemoved(i) {
+      console.log('done', i)
+
+    }
+
+    schedule() {
+      browserHistory.push('/cooker/schedule')
+    }
+
     render() {
 
+      var ShoppingListItems = this.state.recipeIngredients.map((ingredient, i) =>{
+        return <ShoppingListItem item={ingredient} key={i} markRemoved={() => this.markRemoved(i)}/>
+      })
 
-    //   console.log('render', this.state.results)
-    //   console.log('render', this.state.shoppingListId)
-
-
-        var displayList = this.state.results.map((item, i) => {
-                return <div className="row" key={i} onClick={() => this.removeItem(item)}>
-                    <div className="col-xs-12 listItem" >
-                      <div className="row form-group">
-                        <h4 className="col-xs-1">qty:
-                          {
-                            (item.quantity !== null)
-                            ? item.quantity
-                            : "1"
-                          }
-                          </h4>
-                        {
-                          (item.unit !== null)
-                            ? <div>
-                                <h4 className="col-xs-2">{item.unit}</h4>
-                                <h4 className="col-xs-8">{item.ingredient.name}</h4>
-                                <h4 className="col-xs-1">{item.unit_cost}</h4>
-                              </div>
-                            :
-                            <div>
-                              <h4 className="col-xs-10">{item.ingredient.name}</h4>
-                              <h4 className="col-xs-1">{item.unit_cost}</h4>
-                            </div>
-                        }
-                      </div>
-                    </div>
-                </div>
-        })
-
-        return <div className="anchor-top-margin well col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-          <h2>Ingredient List</h2>
-            {displayList}
-            <div className="row col-xs-offset-3">
-            <button className="col-xs-4" onClick={() => window.print()}>Print List</button>
-            <form className="col-xs-4" action="#schedule">
-                <button className="col-xs-12"type="submit">Schedule Delivery</button>
-            </form>
-            {/* <button className="col-xs-4" href="#schedule">Schedule Delivery</button> */}
-            </div>
+        return <div id="shopping" className="anchor-top-margin well col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+          <h2>2. View your Shopping List</h2>
+          <p>Make any changes necessary to the quantities or remove items before completing your order.</p>
+            <ul className="list-group">
+              {ShoppingListItems}
+            </ul>
+            <button type="button" className="btn btn-block btn-default" onClick={() => window.print()}>Print List</button>
+            <button type="button" className="btn btn-block btn-default" onClick={this.schedule}>Schedule</button>
         </div>
     }
 }
 
-export default ShoppingList
+const mapStateToProps = function(store) {
+  return {
+    refreshShoppingList: store.sharedRecipe.refreshShoppingList
+
+  }
+}
+
+export default connect(mapStateToProps)(ShoppingList)
