@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import { connect } from 'react-redux'
+import {browserHistory} from 'react-router'
 import store from '../redux/_ReduxStore'
-// const Env = use('Env')
 
 class Payment extends Component {
     constructor(props) {
@@ -127,8 +127,8 @@ class Payment extends Component {
         this.setState({
           paymentSuccess: true
         })
-        // $form.find('#submit-button').prop('disabled', false);
-        // console.log('saved', response)
+        store.dispatch({type:'PAYMENT_SUCCESS', paymentSuccess: true})
+        browserHistory.push('/cooker/orders')
       })
 
   }
@@ -156,18 +156,20 @@ class Payment extends Component {
 
     render() {
         // Form Action set to route to /#.  Need to update this to push billing information appropriately.
-        return <div>
-
+        return <div className="payment col-xs-12">
           <form action="/api/v1/payment" method="POST" id="payment-form">
-        <div className="anchor-top-margin">
-            <div className="form-group col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 well">
-                <h2>Payment</h2>
+            <div className="form-group">
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h2 className="heading">Payment</h2>
+                  </div>
+                  <div className="col-sm-6 text-right">
+                    <h3 className="total-payment lead">Your total payment: ${this.props.amount}</h3>                  </div>
+                </div>
                 <div className="form-group well">
                   <div className="row">
                     <div className="col-sm-12">
                       <span className="payment-errors"></span>
-                      {this.state.paymentSuccess? <div className="alert alert-success" role="alert">You've completed your order</div>: ''}
-                      <h2>Your total payment: ${this.props.amount}</h2>
                     </div>
                   </div>
                     <div className="row">
@@ -177,18 +179,18 @@ class Payment extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-sm-12">
-                            <label htmlFor="paymentCardNumber">Card #</label>
+                      <br />
+                        <div className="col-sm-8">
+                            <label htmlFor="paymentCardNumber">Card Number</label>
                             <input className="form-control" type="text" id="paymentCardNumber" data-stripe="number" required/>
                         </div>
+                        <div className="col-sm-4">
+                          <label htmlFor="paymentCvc">CVC</label>
+                          <input className="form-control" type="text"  data-stripe="cvc" required/>
+                        </div>
                     </div>
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <label htmlFor="paymentCvc">CVC</label>
-                      <input className="form-control" type="text"  data-stripe="cvc" required/>
-                    </div>
-                  </div>
                     <div className="row">
+                    <br />
                         <div className="col-sm-6">
                             <label htmlFor="paymentExpirationMonth">Exp Month</label>
                             <select id="paymentExpirationMonth" className="form-control" data-stripe="exp_month" required>
@@ -219,7 +221,7 @@ class Payment extends Component {
                         </div>
                     </div>
                 </div>
-                <h2>Billing Address</h2>
+                <h2 className="heading">Billing Address</h2>
                 <div className="form-group well">
                     <div className="row">
                         <div className="col-sm-6">
@@ -233,14 +235,11 @@ class Payment extends Component {
                     </div>
                     <div className="row">
                         <br />
-                        <div className="col-sm-12">
+                        <div className="col-sm-6">
                             <label htmlFor="billingAddress">Address</label>
                             <input className="form-control" type="text" name="billingAddress" id="billingAddress" value={this.state.billingAddress} onChange={this.typing} placeholder="12 Upup Downdown PKWY" required/>
                         </div>
-                    </div>
-                    <div className="row">
-                        <br />
-                        <div className="col-sm-12">
+                        <div className="col-sm-6">
                             <label htmlFor="billingCity">City</label>
                             <input className="form-control" type="text" name="billingCity" id="billingCity" value={this.state.billingCity} onChange={this.typing} placeholder="Bee Ayystart" required/>
                         </div>
@@ -311,13 +310,16 @@ class Payment extends Component {
                         </div>
                     </div>
                 </div>
+                <div className="form-group">
+                <div className="row">
+                  <div className="col-xs-6 col-xs-offset-3">
+                    <button id="submit-button" className="btn btn-default btn-block" onClick={this.submitPayment}>Submit Payment</button>
+                  </div>
+                </div>
 
-                {/* Button doesn't go anywhere but /# for now.  Need to push the field state content to backend still. */}
-                {/* <button className="col-xs-12" type="submit" onClick={() => this.displayState()}>Submit Address</button> */}
-                <button id="submit-button" className="btn btn-default btn-block" onClick={this.submitPayment}>Submit Payment</button>
+                </div>
             </div>
-        </div>
-    </form>
+          </form>
     </div>
 }
 }

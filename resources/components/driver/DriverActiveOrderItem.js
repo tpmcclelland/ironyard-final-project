@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import ActiveOrderItemMap from './DriverActiveOrderItemMap'
+
 const ActiveOrderItem = (props) => (
     <div className="list-group-item row">
     <div className="col-xs-12 order-heading">
@@ -42,7 +44,8 @@ const ActiveOrderItem = (props) => (
           </div>
           <div className="col-sm-6">
             <p className="lead">Map</p>
-            <div className="map"></div>
+            <div className="map"><ActiveOrderItemMap /></div>
+
           </div>
         </div>
     </div>

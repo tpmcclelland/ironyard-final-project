@@ -11,7 +11,7 @@ class ShoppingListController {
     const userId = request.input('id')
     let cooker = yield Cooker.findBy('user_id', userId)
 
-    const shoppingList = yield cooker.shoppingLists().with('recipeIngredients.ingredient').active().fetch()
+    const shoppingList = yield cooker.shoppingLists().with('shoppingListIngredients.recipeIngredient.ingredient').active().fetch()
 
     return response.json(shoppingList)
 

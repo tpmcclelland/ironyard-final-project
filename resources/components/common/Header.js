@@ -9,10 +9,27 @@ class Header extends React.Component {
   constructor(props) {
     super(props)
     classAutoBind(this)
+
+    this.state = {
+      driver: false
+    }
   }
 
-  logout() {
-    fetch('api/v1/logout', {
+  componentDidMount() {
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    const driver = user.driver
+    if (driver) {
+      this.setState({driver: true})
+    } else {
+      this.getFavoriteCount()
+    }
+
+
+  }
+
+  logout(e) {
+    // e.preventDefault()
+    fetch('/api/v1/logout', {
       method: 'GET',
     })
       .then(response => response.json())
@@ -23,6 +40,8 @@ class Header extends React.Component {
           store.dispatch({type: 'CURRENT_USER', user: null})
           store.dispatch({type:'RESULT_SIZE', resultSize: 4})
           store.dispatch({type:'DISPLAY_FAVORITES', displayFavorites: false})
+          store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: 0})
+          store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: null})
         },0)
 
         browserHistory.push('/')
@@ -30,14 +49,40 @@ class Header extends React.Component {
       })
   }
 
+  getFavoriteCount() {
+    fetch('/api/v1/favorites', {
+      method: 'GET',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(function(response) {
+        if(response.ok) {
+          return response.json()
+        } else {
+          throw 'Network response was not ok.'
+        }
+      })
+      .then(response => {
+        store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: response.length})
+        store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: response})
+        // console.log(response)
+      })
+      .catch(function(error) {
+        console.log('getFavoriteCount(): fetch operation: ' + error.message)
+      })
+  }
+
   filterFavorites(e) {
-    e.preventDefault
+    // e.preventDefault()
     store.dispatch({type:'DISPLAY_FAVORITES', displayFavorites: true})
   }
 
   render() {
 
     const user = JSON.parse(sessionStorage.getItem('user'))
+    const cooker = user.cooker
 
     return <nav className="navbar navbar-default header fixed hidden-print">
       <div className="container-fluid">
@@ -52,18 +97,18 @@ class Header extends React.Component {
         </div>
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-nav navbar-right">
-            <li className="hidden-sm hidden-md hidden-lg text-right"><a href="#">My Favorites</a></li>
-            <li className="hidden-sm hidden-md hidden-lg text-right"><a href="#">My Orders</a></li>
-            <li className="hidden-sm hidden-md hidden-lg text-right"><a href="#">My Profile</a></li>
-            <li className="hidden-sm hidden-md hidden-lg text-right"><a href="#">Log Out</a></li>
+            {!this.state.driver? <li className="hidden-sm hidden-md hidden-lg text-right"><a href="#" onClick={this.filterFavorites}>My Favorites <span className="badge">{this.props.favoriteCount}</span></a></li>: '' }
+            {!this.state.driver? <li className="hidden-sm hidden-md hidden-lg text-right"><Link to="/cooker/orders">My Orders</Link></li>: ''}
+            {/*<li className="hidden-sm hidden-md hidden-lg text-right"><a href="#">My Profile</a></li>*/}
+            <li className="hidden-sm hidden-md hidden-lg text-right"><a href="#" onClick={this.logout}>Log Out</a></li>
             <li className="dropdown hidden-xs">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.props.sharedMessage + ' ' +  this.props.currentUser.user.username} <img src="../assets/user-icon.svg" alt="user icon" className="user-icon" /><span className="caret"></span></a>
               <ul className="dropdown-menu">
-                <li><a href="#" onClick={this.filterFavorites}>My Favorites <span className="badge">{this.props.favoriteCount}</span></a></li>
-                <li><a href="#">My Orders</a></li>
+                {!this.state.driver? <li><a href="#" onClick={this.filterFavorites}>My Favorites <span className="badge">{this.props.favoriteCount}</span></a></li>: '' }
+                {!this.state.driver? <li><Link to="/cooker/orders">My Orders</Link></li> : ''}
                 {/*<li><a href="#">My Profile</a></li>*/}
                 <li role="separator" className="divider"></li>
-                <li><a href="#" onClick={this.logout}>Log Out</a></li>
+                <li><Link to="/" onClick={this.logout}>Log Out</Link></li>
               </ul>
             </li>
           </ul>
