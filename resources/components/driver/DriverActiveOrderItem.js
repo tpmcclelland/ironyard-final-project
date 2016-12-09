@@ -26,7 +26,7 @@ const ActiveOrderItem = (props) => (
           <label htmlFor="total-amount">Total Amount:</label>
         <div className="input-group text-center">
           <div className="input-group-addon">$</div>
-          <input type="text" className="form-control" id="total-amount" value={props.data.paymentAmount} onChange={props.updatePaymentAmountValue}/>
+          <input type="text" className="form-control" id="total-amount" defaultValue={props.data.paymentAmount} onChange={props.updatePaymentAmountValue}/>
         </div>
         <button type="button" className="btn btn-default hide-total-amount" onClick={props.submitTotalCost}>Submit</button>
       </div>
