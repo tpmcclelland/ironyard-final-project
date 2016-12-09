@@ -1,6 +1,6 @@
 import React from 'react'
 import WelcomeLeftNav from './WelcomeLeftNav'
-import MasterLeftNav from '../leftNav/MasterLeftNav'
+// import MasterLeftNav from '../leftNav/MasterLeftNav'
 
 // const WelcomeLayout = (props) => <div>
 //     {props.children}
@@ -13,7 +13,7 @@ class WelcomeLayout extends React.Component {
   render() {
     return <div id="welcome">
       <main className="row">
-        <MasterLeftNav />
+        {/*<WelcomeLeftNav />*/}
         <div id="order" className="col-xs-12">
           <section className="col-xs-12 main-section landing-page">
             {this.props.children}
