@@ -101,23 +101,33 @@ class ShoppingList extends Component {
             throw 'Network response was not ok.'
           }
         })
-        .then(response => this.handleRemoveItem(item))
         .catch(function(error) {
           console.log('There has been a problem with your fetch operation: ' + error.message)
         })
     }
 
-    handleRemoveItem(item) {
+
+    markRemoved(i) {
+      var items = this.state.recipeIngredients
+
+      this.removeItem(items[i])
+
+      items.splice(i, 1)
 
       this.setState({
-        results: update(this.state.results, {$splice: [[item, 1]]})
+        recipeIngredients: items
       })
 
     }
 
+    changeQuantity(i, quantity) {
+      var items = this.state.recipeIngredients
 
-    markRemoved(i) {
-      console.log('done', i)
+      items[i].quantity = quantity
+
+      this.setState({
+        recipeIngredients: items
+      })
 
     }
 
@@ -126,9 +136,10 @@ class ShoppingList extends Component {
     }
 
     render() {
+      console.log(this.state.recipeIngredients)
 
       var ShoppingListItems = this.state.recipeIngredients.map((ingredient, i) =>{
-        return <ShoppingListItem item={ingredient} key={i} markRemoved={() => this.markRemoved(i)}/>
+        return <ShoppingListItem item={ingredient} changeQuantity={(quantity) => this.changeQuantity(i, quantity)} key={i} markRemoved={() => this.markRemoved(i)}/>
       })
 
         return <div id="shopping" className="anchor-top-margin well col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
