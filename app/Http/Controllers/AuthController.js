@@ -46,8 +46,7 @@ class AuthController {
 
   * logout(request, response) {
     yield request.auth.logout()
-
-    return response.json(true)
+    return response.json({success: true})
   }
 }
 

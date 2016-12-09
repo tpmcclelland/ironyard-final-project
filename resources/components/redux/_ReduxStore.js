@@ -68,13 +68,17 @@ function recipeReducer (state = {
 }
 
 function sharedListReducer (state = {
-  amount: 0
+  amount: 0,
+  payment: false
 }, action) {
   var newState = Object.assign({}, state)
 
   switch (action.type) {
     case 'AMOUNT':
       newState.amount = action.amount
+      break
+    case 'PAYMENT_SUCCESS':
+      newState.paymentSuccess = action.paymentSuccess
       break
   }
   return newState

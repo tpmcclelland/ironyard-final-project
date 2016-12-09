@@ -1,11 +1,10 @@
 import React from 'react'
+import {Link} from 'react-router'
 
 const DriverLeftNav = (props) => <section className="col-xs-12 col-sm-2 left-side-navbar hidden-print">
   <ul className="list-group side-nav">
-    <a href="#active-orders-anchor" className="list-group-item red-background"><img src="../assets/list.png" alt="active orders" /></a>
-    <a href="#available-orders-anchor" className="list-group-item green-background"><img src="../assets/add-to-shopping-cart.png" alt="available orders" /></a>
-    <a href="#metrics-anchor" className="list-group-item lightBlue-background"><img src="../assets/speedometer.png" alt="metrics" /></a>
-  </ul>
+    <Link to="/driver" className="list-group-item grey-background"><img src="../assets/list.png" alt="active orders" /></Link>
+</ul>
 </section>
 
 export default DriverLeftNav
