@@ -8,15 +8,37 @@
     align-items: center;
     justify-content: center;
 }
-.navigation {
-    padding-top: 25px;
-    height: 100vh;
+.driver-navigation {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: inline-block;
     position: fixed;
+    bottom: 0;
+    background-color: white;
+    .btn:focus,.btn:active:focus,.btn.active:focus,
+    .btn.focus,.btn:active.focus,.btn.active.focus {
+        outline: none;
+    }
+    .navigation-item {
+        display: inline-block;
+        margin: 0 30px;
+        h3 {
+            margin: 0;
+        }
+    }
     .navigation-step {
+        display: inline-block;
         height: 40px;
         width: 40px;
         border-radius: 50%;
         margin: 10px 0;
+    }
+    .inactive {
+        color: gray;
+        background-color: transparent;
+        &.btn {
+            border: 2px solid gray;
+        }
     }
     .red-background {
         border: 2px solid $red;
@@ -27,6 +49,7 @@
     }
     .red-clicked {
         background-color: $red;
+        border: none;
         &:hover {
             background-color: $red;
         }
@@ -68,6 +91,19 @@
         background-color: $lightBlue;
         &:hover {
             background-color: $lightBlue;
+        }
+    }
+    .darkBlue-background {
+        border: 2px solid $darkBlue;
+        background-color: transparent;
+        &:hover {
+            background-color: $darkBlue;
+        }
+    }
+    .darkBlue-clicked {
+        background-color: $darkBlue;
+        &:hover {
+            background-color: $darkBlue;
         }
     }
 }

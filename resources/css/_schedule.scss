@@ -1,13 +1,11 @@
-#schedule {
+.schedule {
+    box-shadow: -12px 0px 0px 0px $lightBlue;
+    padding: 80px 50px 0 50px;
+    min-height: 100vh;
     .well {
-            border: 1px solid black;
-            background-color: rgba(0,0,0,0.25);
-            border-radius: 5px;
+            border: 2px solid $lightBlue;
+            background-color: whitesmoke;
             margin-top: 2px;
             margin-bottom: 30px;
-    }
-    .anchor-top-margin {
-        margin-top: 50px;
-        margin-bottom: 50px;
     }
 }

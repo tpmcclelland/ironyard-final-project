@@ -5,8 +5,9 @@
 @import "payment";
 @import "driver";
 @import "welcome";
-@import "newCooker";
-@import "recipesNew";
+@import "cooker";
+@import "orderStatus";
+@import "driverNav";
 
 * { box-sizing: border-box; }
 .lightBlue-background { background-color: $lightBlue; }
@@ -149,8 +150,11 @@
 .loading {
     height: 100vh;
 }
-.gray-background {
+.heading {
+    font-weight: 400;
+    font-size: 34px;
+}
+.section-background {
     background-color: whitesmoke;
-    padding: 0;
 }
 // end main content section

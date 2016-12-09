@@ -86,11 +86,10 @@ class Schedule extends Component {
     render() {
         var today = moment().format('YYYY-MM-DD')
 
-        return <div id="schedule">
-      <form action="#payment" encType="multipart/form-data">
-        <div className="anchor-top-margin">
-            <div className="form-group col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 well">
-                <h2>Delivery Window</h2>
+        return <div className="schedule col-xs-12">
+      <form encType="multipart/form-data">
+            <div className="form-group">
+                <h2 className="heading">Delivery Window</h2>
                 <div className="form-group well">
                     <div className="row">
                         <div className="col-sm-6">
@@ -155,7 +154,7 @@ class Schedule extends Component {
                         </div>
                     </div>
                 </div>
-                <h2>Delivery Address</h2>
+                <h2 className="heading">Delivery Address</h2>
                 <div className="form-group well">
                     <div className="row">
                         <div className="col-sm-6">
@@ -180,14 +179,11 @@ class Schedule extends Component {
                     </div>
                     <div className="row">
                         <br />
-                        <div className="col-sm-12">
+                        <div className="col-sm-6">
                             <label htmlFor="shippingAddress">Address</label>
                             <input className="form-control" type="text" name="shippingAddress" id="shippingAddress" value={this.state.shippingAddress} onChange={this.typing} placeholder="12 Upup Downdown PKWY" required/>
                         </div>
-                    </div>
-                    <div className="row">
-                        <br />
-                        <div className="col-sm-12">
+                        <div className="col-sm-6">
                             <label htmlFor="shippingCity">City</label>
                             <input className="form-control" type="text" name="shippingCity" id="shippingCity" value={this.state.shippingCity} onChange={this.typing} placeholder="Bee Ayystart" required/>
                         </div>
@@ -254,16 +250,19 @@ class Schedule extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="shippingZipcode">Zipcode</label>
                             <input className="form-control" type="text" name="shippingZipcode" id="shippingZipcode" value={this.state.shippingZipcode} onChange={this.typing} placeholder="46202" required/>
-                            {/* <input className="form-control" type="text" name="shippingZipcode" id="shippingZipcode" value={this.state.shippingZipcode} onChange={this.typing} placeholder="46202" required/> */}
                         </div>
                     </div>
                 </div>
-                {/* Button doesn't push content anywhere yet. */}
-                <button className="btn btn-default btn-block" type="button" onClick={this.submitOrder}>Submit Address</button>
+                <div className="form-group">
+                <div className="row">
+                    <div className="col-xs-6 col-xs-offset-3">
+                        <button className="btn btn-default btn-block" type="button" onClick={this.submitOrder}>Submit Address</button>
+                    </div>
+                </div>
+                </div>
             </div>
-        </div>
-    </form>
-        </div>
+        </form>
+    </div>
 }
 }
 

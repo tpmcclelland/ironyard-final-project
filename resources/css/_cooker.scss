@@ -1,0 +1,98 @@
+@import "variables";
+// border-right: 2px solid $red;
+// border-top: 2px solid $red;
+// transform: rotate(45deg);
+.flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.navigation {
+    padding-top: 55px;
+    height: 100vh;
+    position: fixed;
+    .btn:focus,.btn:active:focus,.btn.active:focus,
+    .btn.focus,.btn:active.focus,.btn.active.focus {
+        outline: none;
+    }
+    .navigation-step {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        margin: 10px 0;
+    }
+    .inactive {
+        color: gray;
+        background-color: transparent;
+        &.btn {
+            border: 2px solid gray;
+        }
+    }
+    .red-background {
+        border: 2px solid $red;
+        background-color: transparent;
+        &:hover {
+            background-color: $red;
+        }
+    }
+    .red-clicked {
+        background-color: $red;
+        border: none;
+        &:hover {
+            background-color: $red;
+        }
+    }
+    .green-background {
+        border: 2px solid $green;
+        background-color: transparent;
+        &:hover {
+            background-color: $green;
+        }
+    }
+    .green-clicked {
+        background-color: $green;
+        &:hover {
+            background-color: $green;
+        }
+    }
+    .yellow-background {
+        border: 2px solid $yellow;
+        background-color: transparent;
+        &:hover {
+            background-color: $yellow;
+        }
+    }
+    .yellow-clicked {
+        background-color: $yellow;
+        &:hover {
+            background-color: $yellow;
+        }
+    }
+    .lightBlue-background {
+        border: 2px solid $lightBlue;
+        background-color: transparent;
+        &:hover {
+            background-color: $lightBlue;
+        }
+    }
+    .lightBlue-clicked {
+        background-color: $lightBlue;
+        &:hover {
+            background-color: $lightBlue;
+        }
+    }
+    .darkBlue-background {
+        border: 2px solid $darkBlue;
+        background-color: transparent;
+        &:hover {
+            background-color: $darkBlue;
+        }
+    }
+    .darkBlue-clicked {
+        background-color: $darkBlue;
+        &:hover {
+            background-color: $darkBlue;
+        }
+    }
+}
