@@ -14,9 +14,12 @@ class CookerLeftNav extends React.Component {
             viewOrdersClicked: false,
         }
     }
+    componentDidMount() {
+        this.click(this.props.route)
+    }
     click (button) {
         switch (button) {
-            case 'recipes':
+            case undefined:
                 this.setState({
                     recipesClicked: true,
                     listClicked: false,
@@ -25,7 +28,7 @@ class CookerLeftNav extends React.Component {
                     viewOrdersClicked: false,
                 })
                 break;
-            case 'list':
+            case 'shoppinglist':
                 this.setState({
                     recipesClicked: false,
                     listClicked: true,
@@ -52,7 +55,7 @@ class CookerLeftNav extends React.Component {
                     viewOrdersClicked: false,
                 })
                 break;
-            case 'view':
+            case 'orders':
                 this.setState({
                     recipesClicked: false,
                     listClicked: false,
@@ -65,11 +68,11 @@ class CookerLeftNav extends React.Component {
     }
     render() {
         return <div className="navigation flex">
-            <Link to='/cooker' onClick={() => this.click('recipes')}>
+            <Link to='/cooker' onClick={() => this.click(undefined)}>
                 <button className={this.state.recipesClicked?'navigation-step red-clicked btn':'navigation-step red-background btn'} type="button" ></button>
             </Link>
             <h3 className={"lead"}>pick your recipes</h3>
-            <Link to='/cooker/shoppinglist' onClick={() => this.click('list')}>
+            <Link to='/cooker/shoppinglist' onClick={() => this.click('shoppinglist')}>
                 <button className={this.state.listClicked?'navigation-step green-clicked btn':'navigation-step green-background btn'} type="button" ></button>
             </Link>
             <h3 className="lead">edit your shopping list</h3>
@@ -81,7 +84,7 @@ class CookerLeftNav extends React.Component {
                 <button className={this.state.paymentClicked?'navigation-step yellow-clicked btn':'navigation-step yellow-background btn'} type="button"></button>
             </Link>
             <h3 className="lead">pay for your order</h3>
-            <Link to='/cooker/orders' onClick={() => this.click('view')}>
+            <Link to='/cooker/orders' onClick={() => this.click('orders')}>
                 <button className={this.state.viewOrdersClicked?'navigation-step darkBlue-clicked btn':'navigation-step darkBlue-background btn'} type="button"></button>
             </Link>
             <h3 className="lead">view your orders</h3>
