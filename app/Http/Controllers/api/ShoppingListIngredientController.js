@@ -38,7 +38,9 @@ class ShoppingListIngredientController {
 
   * destroy(request, response) {
     const record_id = request.param('id')
+    console.log(record_id)
     const findItemForRemovalFromList = yield IngredientShoppingList.findBy('id', record_id)
+    console.log(findItemForRemovalFromList)
     yield findItemForRemovalFromList.delete()
 
     return response.send(true)

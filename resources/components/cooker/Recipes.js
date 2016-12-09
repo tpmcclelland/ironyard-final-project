@@ -64,7 +64,6 @@ class Recipes extends Component {
 
     componentWillUnmount() {
       store.dispatch({type: 'DISPLAY_FAVORITES', displayFavorites: false})
-      store.dispatch({type: 'RESULT_SIZE', resultSize: 4})
     }
 
     fetchRecipes(resultSize, showFavorites, forceUpdate) {

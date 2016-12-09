@@ -75,25 +75,18 @@ class ShoppingList extends Component {
             ingredients: update(this.state.ingredients, {$push: [[ingredient]]})
         })
     }
-    removeItem(item) {
 
-      fetch('/api/v1/shoppinglistIngredient?shopping_list_id=' + item.shopping_list_id + '&ingredient_recipe_id=' + item.id, {
-        method: 'GET',
+
+    markRemoved(i) {
+      var items = this.state.recipeIngredients
+
+      fetch('/api/v1/shoppinglistIngredient/' + items[i].id, {
+        method: 'DELETE',
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
       })
-        .then(response => response.json())
-        .then(response => fetch('/api/v1/shoppinglistIngredient/' + response[0].id, {
-          method: 'DELETE',
-          credentials: 'same-origin',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-        })
-        )
-
         .then(function(response) {
           if(response.ok) {
             return response.json()
@@ -101,22 +94,16 @@ class ShoppingList extends Component {
             throw 'Network response was not ok.'
           }
         })
+        .then(response => {
+          items.splice(i, 1)
+
+          this.setState({
+            recipeIngredients: items
+          })
+        })
         .catch(function(error) {
           console.log('There has been a problem with your fetch operation: ' + error.message)
         })
-    }
-
-
-    markRemoved(i) {
-      var items = this.state.recipeIngredients
-
-      this.removeItem(items[i])
-
-      items.splice(i, 1)
-
-      this.setState({
-        recipeIngredients: items
-      })
 
     }
 
