@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import Recipes from './Recipes'
+import RecipesNew from './RecipesNew'
 import ShoppingList from './ShoppingList'
 import Schedule from './Schedule'
 import Payment from './Payment'
@@ -54,7 +55,10 @@ class Cooker extends Component {
 
     render() {
         return <CookerLayout>
-          <div className="row full-screen red-background overflow-scroll push-down hidden-print">
+          {/* <div className="gray-background col-xs-12"> */}
+          <RecipesNew />
+          {/* </div> */}
+          {/* <div className="row full-screen red-background overflow-scroll push-down hidden-print">
             <div id="recipes" className="col-sm-11 col-sm-offset-1">
               <Recipes />
             </div>
@@ -73,7 +77,7 @@ class Cooker extends Component {
               <div id="payment" className="col-sm-11 col-sm-offset-1">
                   <Payment />
               </div>
-          </div>
+          </div> */}
         </CookerLayout>
 
     }
