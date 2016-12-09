@@ -1,13 +1,37 @@
 import React from 'react'
+import classAutoBind from 'react-helpers/dist/classAutoBind'
 
-const ShoppingListItem = (props) => <div className="list-group-item">
-  <h3>{props.item.ingredient.name}</h3>
-  <p>Price: ${props.item.unit_cost}</p>
-  <div className="form-group">
-    <label htmlFor="quantity"/>
-    <input name={'quantity_' + props.key} type="text" onChange={props.inputChange} value={props.item.quantity} /> {props.item.unit}
-  </div>
-    <button type="button" className="btn btn-danger" onClick={props.markRemoved}>Remove</button>
-</div>
+class ShoppingListItem extends React.Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      quantity: props.item.quantity,
+      name: props.item.ingredient.name,
+      unit: props.item.unit,
+      markRemoved: props.markRemoved
+    }
+
+    classAutoBind(this)
+  }
+
+  handleTyping(e) {
+      let updatedState = {}
+      updatedState[e.target.name] = e.target.value
+      this.setState(updatedState)
+  }
+
+  render() {
+    return <div className="list-group-item">
+      <h3>{this.state.name}</h3>
+      <div className="form-group">
+        <label htmlFor="quantity"/>
+        <input name="quantity" type="text" onChange={this.handleTyping} value={this.state.quantity} /> {this.state.unit}
+      </div>
+      <button type="button" className="btn btn-danger" onClick={this.state.markRemoved}>Remove</button>
+    </div>
+
+  }
+}
 export default ShoppingListItem

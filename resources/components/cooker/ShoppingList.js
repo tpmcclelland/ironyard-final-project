@@ -115,15 +115,6 @@ class ShoppingList extends Component {
     }
 
 
-  typing(e) {
-      console.log(e.target.value)
-    var updatedState = {}
-    updatedState[e.target.name] = e.target.value
-    this.setState(updatedState)
-
-
-  }
-
     markRemoved(i) {
       console.log('done', i)
 
@@ -134,7 +125,7 @@ class ShoppingList extends Component {
       // console.log('tom', this.state.recipeIngredients)
 
       var ShoppingListItems = this.state.recipeIngredients.map((ingredient, i) =>{
-        return <ShoppingListItem item={ingredient} key={i} inputChange={(e) => this.typing(e)} markRemoved={() => this.markRemoved(i)}/>
+        return <ShoppingListItem item={ingredient} key={i} markRemoved={() => this.markRemoved(i)}/>
       })
 
       console.log('tom -hi', ShoppingListItems)
