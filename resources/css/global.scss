@@ -5,6 +5,9 @@
 @import "payment";
 @import "driver";
 @import "welcome";
+@import "cooker";
+@import "orderStatus";
+@import "driverNav";
 
 * { box-sizing: border-box; }
 .lightBlue-background { background-color: $lightBlue; }
@@ -151,5 +154,12 @@
 }
 .loading {
     height: 100vh;
+}
+.heading {
+    font-weight: 400;
+    font-size: 34px;
+}
+.section-background {
+    background-color: whitesmoke;
 }
 // end main content section

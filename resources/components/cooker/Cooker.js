@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 
-import Recipes from './Recipes'
-import ShoppingList from './ShoppingList'
-import Schedule from './Schedule'
-import Payment from './Payment'
 import CookerLayout from './CookerLayout'
 
 import { connect } from 'react-redux'
@@ -25,18 +21,10 @@ class Cooker extends Component {
       store.dispatch({type:'RESULT_SIZE', resultSize: 20})
     }
 
-
-
-
     render() {
         return <CookerLayout>
-          <div className="row full-screen red-background overflow-scroll push-down hidden-print">
-            <div className="col-sm-11 col-sm-offset-1">
-              {this.props.children}
-            </div>
-          </div>
+          {this.props.children}
         </CookerLayout>
-
     }
 }
 

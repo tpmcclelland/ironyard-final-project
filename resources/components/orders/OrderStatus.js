@@ -99,9 +99,9 @@ handleOrders(response) {
   response.forEach((res) => {
       // console.log('preIF', res)
       // console.log('userID', userId)
-    console.log('preCondition', res.shoppingList.cooker.user_id)
+    // console.log('preCondition', res.shoppingList.cooker.user_id)
       if (res.shoppingList.cooker.user.id === userId) {
-        console.log('userFound', res)
+        // console.log('userFound', res)
         this.setState({
           orders: update(this.state.orders, {$push: [res]})
         })
@@ -207,7 +207,7 @@ closeReviewModal() {
 render() {
     const userOrders = this.state.orders.map((order, i) => {
       if (order.state_id !== null) {
-        return <div key={i} className="bg-danger">
+        return <div key={i} className="cookerOrders bg-danger">
           <div className="list-group-item row">
             <div className="col-xs-12 order-heading">
               <h3 className="list-group-item-heading">Order ID: {order.id}</h3>
@@ -232,9 +232,8 @@ render() {
       }
     })
 
-  return <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-
-    <h1>Order Status</h1>
+  return <div className="orderStatus col-xs-12">
+    <h1 className="heading">Order Status</h1>
     {this.props.paymentSuccess? <div className="alert alert-success" role="alert">You've completed your order</div>: ''}
     <div className="list-group container-fluid">
       {userOrders}
@@ -267,7 +266,7 @@ render() {
             <div className="col-xs-12">
               <form className="form-inline">
                 <div className="form-group">
-                  <label className="sr-only" forHTML="exampleInputAmount">Amount (in dollars)</label>
+                  <label className="sr-only" htmlFor="exampleInputAmount">Amount (in dollars)</label>
                   {this.gatherPrice()}
                 </div>
               </form>
@@ -309,7 +308,7 @@ render() {
               <div className="col-xs-12">
                 <form className="form-inline">
                   <div className="form-group">
-                    <label forHTML="rateDriver">Rate your driver</label>
+                    <label htmlFor="rateDriver">Rate your driver</label>
                     <select name="rateDriver" id="rateDriver">
                       <option>1</option>
                       <option>2</option>
@@ -324,7 +323,7 @@ render() {
             <div className="row">
               <br/>
               <div className="col-xs-12">
-                <label forHTML="driverReviewComment">Say something:</label>
+                <label htmlFor="driverReviewComment">Say something:</label>
                 <input type="text" className="form-control input-lg" name="driverReviewComment" id="driverReviewComment" />
               </div>
             </div>
