@@ -108,7 +108,7 @@ class Header extends React.Component {
                 {!this.state.driver? <li><Link to="/cooker/orders">My Orders</Link></li> : ''}
                 {/*<li><a href="#">My Profile</a></li>*/}
                 <li role="separator" className="divider"></li>
-                <li><a href="#" onClick={this.logout}>Log Out</a></li>
+                <li><Link to="/" onClick={this.logout}>Log Out</Link></li>
               </ul>
             </li>
           </ul>
