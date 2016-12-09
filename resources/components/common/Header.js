@@ -29,7 +29,7 @@ class Header extends React.Component {
 
   logout(e) {
     // e.preventDefault()
-    fetch('api/v1/logout', {
+    fetch('/api/v1/logout', {
       method: 'GET',
     })
       .then(response => response.json())
@@ -50,7 +50,7 @@ class Header extends React.Component {
   }
 
   getFavoriteCount() {
-    fetch('api/v1/favorites', {
+    fetch('/api/v1/favorites', {
       method: 'GET',
       credentials: 'same-origin',
       headers: {

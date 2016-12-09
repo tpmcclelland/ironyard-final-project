@@ -234,7 +234,6 @@ class Recipes extends Component {
 
     render() {
       var recipes = this.state.recipes.map((recipe, i) => {
-        console.log('render', recipe)
         return <div className="col-xs-6 col-sm-3 bring-to-front" key={i}>
           <div className="recipe-panel" onClick={() => this.openModal(recipe.id)}>
               <h3 className="recipe-title lead">{recipe.recipeName}</h3>
