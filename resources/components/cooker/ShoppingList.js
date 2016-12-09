@@ -129,12 +129,14 @@ class ShoppingList extends Component {
         return <ShoppingListItem item={ingredient} changeQuantity={(quantity) => this.changeQuantity(i, quantity)} key={i} markRemoved={() => this.markRemoved(i)}/>
       })
 
-        return <div id="shopping" className="anchor-top-margin well col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-          <h2>2. View your Shopping List</h2>
+        return <div className="shopping col-xs-12">
+          <h1 className="heading">2. View your Shopping List</h1>
           <p>Make any changes necessary to the quantities or remove items before completing your order.</p>
-            <ul className="list-group">
-              {ShoppingListItems}
-            </ul>
+
+          <ul className="list-group">
+            {ShoppingListItems}
+          </ul>
+
             <button type="button" className="btn btn-block btn-default" onClick={() => window.print()}>Print List</button>
             <button type="button" className="btn btn-block btn-default" onClick={this.schedule}>Schedule</button>
         </div>

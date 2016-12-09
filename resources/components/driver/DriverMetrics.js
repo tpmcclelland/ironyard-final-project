@@ -33,8 +33,8 @@ class DriverMetrics extends React.Component {
                     }],
         }
 
-            return <div className="container-fluid">
-                <h1 id="metrics-anchor" className="anchor">Metrics</h1>
+            return <div className="driver col-xs-12 metrics">
+                <h1 className="heading">Metrics</h1>
                 <div className="row">
                     <div className="col-sm-6 col-xs-12 text-center">
                         <div className="metrics">

@@ -92,10 +92,10 @@ class DriverAvailableOrders extends React.Component {
 
           return <AvailableOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} showDetails={() => this.showAvailableDetails(i)} accepted={() => this.accepted(i)} />
           })
-      return <div className="container">
-        <div id="active-orders-anchor" className="row anchor">
+      return <div className="driver col-xs-12 available">
+        <div className="row">
             <div className='col-xs-12'>
-              <h1>Active Orders</h1>
+              <h1 className="heading">Available Orders</h1>
             </div>
         </div>
           <div className="list-group container-fluid">

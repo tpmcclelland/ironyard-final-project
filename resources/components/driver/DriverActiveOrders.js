@@ -26,6 +26,7 @@ class DriverActiveOrder extends React.Component {
         this.setState({
             driverId: driver.id
         })
+        // this.initMap()
     }
     updateLocation(e) {
       e.preventDefault()
@@ -106,6 +107,17 @@ class DriverActiveOrder extends React.Component {
       }
     }
 
+  // initMap() {
+  //   var uluru = {lat: -25.363, lng: 131.044};
+  //   var map = new google.maps.Map(document.getElementById('map'), {
+  //     zoom: 4,
+  //     center: uluru
+  //   });
+  //   var marker = new google.maps.Marker({
+  //     position: uluru,
+  //     map: map
+  //   });
+// }
     render() {
       var orders = this.props.active.map((item, i) => {
         let startTime = moment(item.order.delivery_start_time).format('LT')
@@ -118,8 +130,8 @@ class DriverActiveOrder extends React.Component {
 
         return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} updatePaymentAmountValue={(e) => this.updatePaymentAmountValue(e, i)} submitTotalCost={() => this.submitTotalCost(i)}/>
       })
-      return <div className="container">
-        <div id="active-orders-anchor" className="row anchor">
+      return <div className="driver col-xs-12 active">
+        <div className="row">
             <div className='col-sm-4 col-sm-push-8 col-xs-12'>
                 <form className="navbar-form navbar-left" onSubmit={this.updateLocation}>
                     <div className="form-group">
@@ -129,12 +141,11 @@ class DriverActiveOrder extends React.Component {
                 </form>
             </div>
             <div className='col-sm-8 col-sm-pull-4 col-xs-12'>
-              <h1>Active Orders</h1>
+              <h1 className="heading">Active Orders</h1>
             </div>
-
         </div>
-          <div className="list-group container-fluid">
-          {orders}
+          <div className="list-group">
+            {orders}
           </div>
       </div>
     }

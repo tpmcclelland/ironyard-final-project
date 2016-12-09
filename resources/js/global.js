@@ -18,6 +18,9 @@ import Driver from '../components/driver/Driver'
 import Login from '../components/session/Login'
 import DriverSignup from '../components/session/DriverSignup'
 import CookerSignup from '../components/session/CookerSignup'
+import DriverActiveOrders from '../components/driver/DriverActiveOrders'
+import DriverAvailableOrders from '../components/driver/DriverAvailableOrders'
+import DriverMetrics from '../components/driver/DriverMetrics'
 
 const newBrowserHistory = syncHistoryWithStore(browserHistory, store)
 
@@ -36,8 +39,11 @@ ReactDOM.render(
               <Route path="payment" component={Payment} />
               <Route path="orders" component={OrderStatus} />
             </Route>
-            <Route path="driver" component ={Driver} />
-
+            <Route path="driver" component={Driver}>
+                <IndexRoute component={DriverActiveOrders} />
+                <Route path="available" component={DriverAvailableOrders} />
+                <Route path="metrics" component={DriverMetrics} />
+            </Route>
         </Route>
     </Router>
   </Provider>
