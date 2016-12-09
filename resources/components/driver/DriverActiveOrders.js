@@ -26,6 +26,7 @@ class DriverActiveOrder extends React.Component {
         this.setState({
             driverId: driver.id
         })
+        // this.initMap()
     }
     updateLocation(e) {
       e.preventDefault()
@@ -106,6 +107,17 @@ class DriverActiveOrder extends React.Component {
       }
     }
 
+  // initMap() {
+  //   var uluru = {lat: -25.363, lng: 131.044};
+  //   var map = new google.maps.Map(document.getElementById('map'), {
+  //     zoom: 4,
+  //     center: uluru
+  //   });
+  //   var marker = new google.maps.Marker({
+  //     position: uluru,
+  //     map: map
+  //   });
+// }
     render() {
       var orders = this.props.active.map((item, i) => {
         let startTime = moment(item.order.delivery_start_time).format('LT')
