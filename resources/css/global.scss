@@ -21,6 +21,11 @@
 .bring-to-front { z-index: 0; }
 // end global
 
+#map {
+  height: 400px;
+  width: 100%;
+}
+
 
 // start top navbar
 .header {
