@@ -34,11 +34,23 @@ class ShoppingListIngredientController {
 
   * update(request, response) {
     //
+    const id = request.param('id')
+    const quantity = request.input('quantity')
+    const ingredient = yield IngredientShoppingList.findBy('id', id)
+
+    if(quantity !== '') {
+      ingredient.quantity = quantity
+      yield ingredient.save()
+    }
+
+    return response.send(true)
   }
 
   * destroy(request, response) {
     const record_id = request.param('id')
+    console.log(record_id)
     const findItemForRemovalFromList = yield IngredientShoppingList.findBy('id', record_id)
+    console.log(findItemForRemovalFromList)
     yield findItemForRemovalFromList.delete()
 
     return response.send(true)
