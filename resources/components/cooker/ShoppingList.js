@@ -10,12 +10,7 @@ class ShoppingList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            results: [],
-            title: '',
-            ingredients: [],
-            shoppingListId: '',
-            recipeIngredients: [],
-            quantity: 0
+            recipeIngredients: []
         }
       classAutoBind(this)
     }
@@ -29,9 +24,9 @@ class ShoppingList extends Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
-      this.fetchIngredients()
-    }
+    // componentWillReceiveProps(nextProps) {
+    //   this.fetchIngredients()
+    // }
 
     fetchIngredients() {
       var user = JSON.parse(sessionStorage.getItem('user'))
@@ -58,10 +53,9 @@ class ShoppingList extends Component {
     }
 
     handleInitialFetch(response) {
-      // console.log('tom fetch', response)
+      console.log('tom fetch', response)
       this.setState({
-        shoppingListId: response[0].id,
-        recipeIngredients: response[0].recipeIngredients
+        recipeIngredients: response[0].shoppingListIngredients
       })
 
     }
@@ -70,30 +64,17 @@ class ShoppingList extends Component {
 
     }
 
-    setIngredientList(ingredient) {
-        this.setState({
-            ingredients: update(this.state.ingredients, {$push: [[ingredient]]})
-        })
-    }
-    removeItem(item) {
 
-      fetch('/api/v1/shoppinglistIngredient?shopping_list_id=' + item.shopping_list_id + '&ingredient_recipe_id=' + item.id, {
-        method: 'GET',
+    markRemoved(i) {
+      var items = this.state.recipeIngredients
+
+      fetch('/api/v1/shoppinglistIngredient/' + items[i].id, {
+        method: 'DELETE',
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
       })
-        .then(response => response.json())
-        .then(response => fetch('/api/v1/shoppinglistIngredient/' + response[0].id, {
-          method: 'DELETE',
-          credentials: 'same-origin',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-        })
-        )
-
         .then(function(response) {
           if(response.ok) {
             return response.json()
@@ -101,32 +82,56 @@ class ShoppingList extends Component {
             throw 'Network response was not ok.'
           }
         })
+        .then(response => {
+          items.splice(i, 1)
+
+          this.setState({
+            recipeIngredients: items
+          })
+        })
         .catch(function(error) {
           console.log('There has been a problem with your fetch operation: ' + error.message)
         })
-    }
-
-
-    markRemoved(i) {
-      var items = this.state.recipeIngredients
-
-      this.removeItem(items[i])
-
-      items.splice(i, 1)
-
-      this.setState({
-        recipeIngredients: items
-      })
 
     }
 
     changeQuantity(i, quantity) {
       var items = this.state.recipeIngredients
 
-      items[i].quantity = quantity
+
+      fetch('/api/v1/shoppinglistIngredient/' + items[0].id, {
+          method: 'PATCH',
+          credentials: 'same-origin',
+          body: JSON.stringify({
+            quantity: quantity
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+          .then(function(response) {
+            if(response.ok) {
+              return response.json()
+            } else {
+              throw 'Network response was not ok.'
+            }
+          })
+          .then(response => {
+            items[i].quantity = quantity
+
+            this.setState({
+              recipeIngredients: items
+            })
+          })
+          .catch(function(error) {
+            console.log('There has been a problem with your fetch operation: ' + error.message)
+          })
+    }
+
+    clearList() {
 
       this.setState({
-        recipeIngredients: items
+        recipeIngredients: []
       })
 
     }
@@ -136,7 +141,7 @@ class ShoppingList extends Component {
     }
 
     render() {
-      console.log(this.state.recipeIngredients)
+
 
       var ShoppingListItems = this.state.recipeIngredients.map((ingredient, i) =>{
         return <ShoppingListItem item={ingredient} changeQuantity={(quantity) => this.changeQuantity(i, quantity)} key={i} markRemoved={() => this.markRemoved(i)}/>
@@ -145,7 +150,7 @@ class ShoppingList extends Component {
         return <div className="shopping col-xs-12">
           <h1 className="heading">2. View your Shopping List</h1>
           <p>Make any changes necessary to the quantities or remove items before completing your order.</p>
-
+          {/*<button type="button" className="btn btn-default btn-danger" onClick={this.clearList}>Remove All</button>*/}
           <ul className="list-group">
             {ShoppingListItems}
           </ul>
