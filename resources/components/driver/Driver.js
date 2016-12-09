@@ -86,15 +86,10 @@ class Driver extends React.Component {
             ordersReady: true
         })
     }
-    triggerUpdate() {
-        this.setState({
-            updateOrders: Date.now()
-        })
-    }
     render() {
         if (!this.state.ordersReady) {
             return <DriverLayout>
-            <div className="driver active col-xs-12">
+            <div className="driver loading col-xs-12">
                 <h1 className="heading">Preparing your orders</h1>
             </div>
 
