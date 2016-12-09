@@ -12,13 +12,8 @@ class ShoppingListController {
     let cooker = yield Cooker.findBy('user_id', userId)
 
     const shoppingList = yield cooker.shoppingLists().with('recipeIngredients.ingredient').active().fetch()
-    console.log(shoppingList)
-    // response.json(yield request.auth.getUser())
-    // console.log(shoppingList)
 
-    // const shoppingList = yield ShoppingList.findBy('cooker_id', cooker.id)
-    // console.log(shoppingList.recipeIngredients())
-     return response.send(shoppingList)
+    return response.json(shoppingList)
 
   }
 

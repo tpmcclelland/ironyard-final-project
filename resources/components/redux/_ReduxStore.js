@@ -37,7 +37,8 @@ function recipeReducer (state = {
   resultSize: 4,
   favoriteCount: 0,
   favoriteRecipes: [],
-  displayFavorites: false
+  displayFavorites: false,
+  refreshShoppingList: false
 }, action) {
   var newState = Object.assign({}, state)
 
@@ -56,6 +57,10 @@ function recipeReducer (state = {
 
     case 'DISPLAY_FAVORITES':
       newState.displayFavorites = action.displayFavorites
+      break
+
+    case 'LIST_REFRESH':
+      newState.refreshShoppingList = action.refreshShoppingList
       break
   }
 

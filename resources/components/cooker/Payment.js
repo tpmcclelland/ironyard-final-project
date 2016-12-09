@@ -18,6 +18,7 @@ class Payment extends Component {
             billingZipcode: "",
             paymentCardHolderName: "",
             ship_to_address: "",
+            paymentSuccess: false
         }
 
       classAutoBind(this)
@@ -123,8 +124,11 @@ class Payment extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        $form.find('#submit-button').prop('disabled', false);
-        console.log('saved', response)
+        this.setState({
+          paymentSuccess: true
+        })
+        // $form.find('#submit-button').prop('disabled', false);
+        // console.log('saved', response)
       })
 
   }
@@ -162,6 +166,7 @@ class Payment extends Component {
                   <div className="row">
                     <div className="col-sm-12">
                       <span className="payment-errors"></span>
+                      {this.state.paymentSuccess? <div className="alert alert-success" role="alert">You've completed your order</div>: ''}
                       <h2>Your total payment: ${this.props.amount}</h2>
                     </div>
                   </div>
