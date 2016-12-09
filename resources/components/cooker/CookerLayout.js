@@ -7,10 +7,10 @@ const CookerLayout = (props) => <div>
     <Header />
     <main className="container">
         <div className="row">
-            <div className="col-sm-3">
-                <CookerLeftNav />
+            <div className="col-sm-2 col-md-3">
+                <CookerLeftNav route={props.children.props.route.path}/>
             </div>
-            <div className="col-sm-9 section-background">
+            <div className="col-sm-8 col-sm-offset-2 col-md-9 col-md-offset-3 section-background">
                 <div className="row">
                 {props.children}
                 </div>

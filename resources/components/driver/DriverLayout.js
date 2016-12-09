@@ -15,7 +15,7 @@ const DriverLayout = (props) => <div>
         </div>
     </main>
     <div className="row">
-        <DriverNav/>
+        <DriverNav route={props.children.props.location} />
     </div>
 
     </div>
