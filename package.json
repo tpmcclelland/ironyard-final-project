@@ -6,6 +6,7 @@
     "dev": "nodemon --watch app --watch bootstrap --watch config --watch .env -x node server.js",
     "start": "node server.js",
     "lint": "standard",
+    "test": "mocha tests/.setup.js tests/**/*.tests.js",
     "webpack": "webpack-dev-server",
     "build": "webpack",
     "postinstall": "gulp production-build"
@@ -31,6 +32,7 @@
     "moment": "^2.17.1",
     "pg": "^6.1.0",
     "react-addons-update": "^15.4.1",
+    "react-addons-test-utils": "^15.3.2",
     "react-chartjs": "^0.8.0",
     "react-google-maps": "beta",
     "react-modal": "^1.5.2",
@@ -49,6 +51,7 @@
     "babel-loader": "^6.2.5",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.11.1",
+    "babel-register": "^6.18.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-helpers": "https://github.com/tiyindyfee/react-helpers.git",
