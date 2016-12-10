@@ -14,7 +14,6 @@ class ShoppingListIngredientController {
       .fetch()
     return response.send(shoppingList)
 
-
   }
 
   * create(request, response) {
