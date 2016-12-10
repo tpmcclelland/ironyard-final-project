@@ -13,8 +13,7 @@ class ShoppingList extends Lucid {
 
     shoppingListIngredients () {
       return this.hasMany(
-        'App/Model/IngredientShoppingList',
-        'ingredient_shopping_lists'
+        'App/Model/IngredientShoppingList'
       )
     }
 

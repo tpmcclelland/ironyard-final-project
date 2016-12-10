@@ -86,45 +86,18 @@ class Driver extends React.Component {
             ordersReady: true
         })
     }
-    triggerUpdate() {
-        this.setState({
-            updateOrders: Date.now()
-        })
-    }
     render() {
         if (!this.state.ordersReady) {
             return <DriverLayout>
-            <div className="row full-screen red-background overflow-scroll push-down hidden-print loading">
-            <div id="active-orders" className="col-sm-11 col-sm-offset-1">
-            <div className="container">
-                <div className="row">
-                    <div className="col-xs-12">
-                    <h1>Loading Orders</h1>
-                    </div>
-                </div>
+            <div className="driver loading col-xs-12">
+                <h1 className="heading">Preparing your orders</h1>
             </div>
-            {/* <DriverActiveOrders data={this.props.active}/> */}
-            </div>
-            </div>
+
             </DriverLayout>
         } else {
             return <div>
             <DriverLayout>
-            <div className="row full-screen red-background overflow-scroll push-down hidden-print">
-            <div id="active-orders" className="col-sm-11 col-sm-offset-1">
-            <DriverActiveOrders data={this.props.active}/>
-            </div>
-            </div>
-            <div className="row full-screen green-background overflow-scroll">
-            <div id="available-orders" className="col-sm-11 col-sm-offset-1">
-            <DriverAvailableOrders data={this.props.available} update={this.triggerUpdate}/>
-            </div>
-            </div>
-            <div className="row full-screen lightBlue-background overflow-scroll hidden-print">
-            <div id="driver-metrics" className="col-sm-11 col-sm-offset-1">
-            <DriverMetrics />
-            </div>
-            </div>
+                {this.props.children}
             </DriverLayout>
             </div>
         }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
+import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 import Modal from 'react-modal'
 
 import { connect } from 'react-redux'
@@ -64,11 +65,9 @@ class Recipes extends Component {
 
     componentWillUnmount() {
       store.dispatch({type: 'DISPLAY_FAVORITES', displayFavorites: false})
-      store.dispatch({type: 'RESULT_SIZE', resultSize: 4})
     }
 
     fetchRecipes(resultSize, showFavorites, forceUpdate) {
-      // console.log('favorite', showFavorites)
 
         // if (showFavorites) {
         //   console.log('fetchRecipes', this.props.favoriteRecipes )
@@ -86,7 +85,7 @@ class Recipes extends Component {
         // }
 
           if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm || forceUpdate) {
-            fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
+            fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
                 .then(response => response.json())
                 .then(this.updateRecipeDisplay)
         } else {
@@ -102,14 +101,12 @@ class Recipes extends Component {
       this.setState({
         recipes: response.matches
       })
-
-      // console.log('updateRecipeDisplay', this.state.recipes)
     }
     openModal(recipe) {
       this.setState({
         modalIsOpen: true,
       })
-      fetch("http://api.yummly.com/v1/api/recipe/" + recipe + "?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6")
+      fetch("https://api.yummly.com/v1/api/recipe/" + recipe + "?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6")
           .then(response => response.json())
           .then(this.updateRecipeDetails)
     }
@@ -191,9 +188,8 @@ class Recipes extends Component {
       if (response.type === 'favorite') {
         store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: response.returnMessage.length})
         store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: response.returnMessage})
-        store.dispatch({type: 'LIST_REFRESH', refreshShoppingList: true})
       } else {
-        // console.log ('handleSave', response)
+        console.log ('handleSave', response)
       }
 
     }
@@ -234,7 +230,7 @@ class Recipes extends Component {
 
     render() {
       var recipes = this.state.recipes.map((recipe, i) => {
-        return <div className="col-xs-6 col-sm-3 bring-to-front" key={i}>
+        return <div className="col-xs-6 col-md-4 col-lg-3 bring-to-front" key={i}>
           <div className="recipe-panel" onClick={() => this.openModal(recipe.id)}>
               <h3 className="recipe-title lead">{recipe.recipeName}</h3>
               <img src={recipe.imageUrlsBySize["90"]}/>
@@ -244,9 +240,8 @@ class Recipes extends Component {
       var ingredients = this.state.ingredients.map((ingredient, i) => {
         return <li key={i}>{ingredient}</li>
       })
-        return <div id="recipes" className="container">
-        <div id="recipe-anchor" className="row anchor">
-            <div className="col-sm-4 col-sm-push-8 col-xs-12">
+        return <div className="recipes col-xs-12">
+            <div className="col-sm-5 col-sm-push-7 col-xs-12">
                 <form className="navbar-form navbar-left" onSubmit={this.search}>
                     <div className="form-group">
                         <input type="text" className="form-control" placeholder="Search" value={this.state.searchTerm} onChange={this.updateSearchTerm} />
@@ -254,12 +249,13 @@ class Recipes extends Component {
                     <button type="button" className="btn btn-default search-button" onClick={this.search} onFocus={() => this.changeFocus('search')} ref='search'>Search</button>
                 </form>
             </div>
-            <div className="col-sm-8 col-sm-pull-4 col-xs-12">
-                <h1>Recipes</h1>
+            <div className="col-sm-7 col-sm-pull-5 col-xs-12">
+                <h1 className="heading">Recipes</h1>
             </div>
-        </div>
-        <div className="row col-sm-10 col-sm-off-1 col-md-12">
+        <div className="row">
+          <div className="col-xs-11">
           {recipes}
+          </div>
         </div>
 
         {/* Being Modal */}

@@ -1,0 +1,55 @@
+.orderStatus {
+    padding: 80px 50px 0 50px;
+    box-shadow: -12px 0px 0px 0px $darkBlue;
+    min-height: 100vh;
+    .cookerOrders {
+        margin-bottom: 5px;
+        .list-group-item {
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .order-heading {
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+            .list-group-item-heading {
+                font-weight: 400;
+                &.order {
+                    font-style: italic;
+                    font-size: 14px;
+                    margin-top: 10px;
+                    font-weight: 300;
+                }
+            }
+        }
+        .list-group-item-text {
+            font-size: 14px;
+        }
+        span {
+            display: block;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .status {
+            text-transform: capitalize;
+            font-size: 18px;
+            font-weight: 400;
+            &.placed {
+                border-bottom: 5px solid $lightBlue;
+            }
+            &.in-progress {
+                border-bottom: 5px solid $green;
+            }
+            &.picked_up {
+                border-bottom: 5px solid $yellow;
+            }
+            &.delivered {
+                border-bottom: 5px solid $darkBlue;
+            }
+            &.cancelled {
+                border-bottom: 5px solid gray;
+            }
+        }
+    }
+}
