@@ -85,7 +85,7 @@ class Recipes extends Component {
         // }
 
           if (!window.cachedRecipes || this.state.searchTerm !== window.cachedSearchTerm || forceUpdate) {
-            fetch("http://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
+            fetch("https://api.yummly.com/v1/api/recipes?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6&maxResult=" + resultSize + "&q=" + encodeURIComponent(this.state.searchTerm))
                 .then(response => response.json())
                 .then(this.updateRecipeDisplay)
         } else {
@@ -106,7 +106,7 @@ class Recipes extends Component {
       this.setState({
         modalIsOpen: true,
       })
-      fetch("http://api.yummly.com/v1/api/recipe/" + recipe + "?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6")
+      fetch("https://api.yummly.com/v1/api/recipe/" + recipe + "?_app_id=26b04d4b&_app_key=66ccdcd976be7cf99c9555fafc92d7f6")
           .then(response => response.json())
           .then(this.updateRecipeDetails)
     }

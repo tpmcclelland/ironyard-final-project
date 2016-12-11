@@ -48,6 +48,12 @@ gulp.task('sass', function() {
         .pipe(browserSync.stream());
 });
 
+gulp.task('sass-build', function() {
+  return gulp.src("./resources/css/**/*.scss")
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest("./public/css"))
+});
+
 gulp.task('sass:watch', function () {
   gulp.watch('./resources/css/**/*.scss', ['sass']);
 });
@@ -89,3 +95,4 @@ gulp.task("webpack", function(callback) {
 
 // gulp.task('default', ['sass:watch']);
 gulp.task('default', ['sass','webpack','serve']);
+gulp.task('production-build', ['sass-build', 'webpack']);
