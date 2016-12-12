@@ -9,19 +9,14 @@ class OrderItemMap extends Component {
   }
 
   componentDidMount() {
-    // if (this.props.shownFlag == true) {
       this.initMap()
-    // }
   }
 
   componentWillUnmount() {
   }
 
-  // google.maps.event.trigger(map, 'resize');
-
   initMap() {
     var latLong = {lat: Number(this.props.latitude), lng: Number(this.props.longitude)};
-    console.log(this.props.shownFlag)
       var map = new google.maps.Map(document.getElementById('map-' + this.props.orderID), {
         zoom: 12,
         center: latLong,
@@ -35,7 +30,6 @@ class OrderItemMap extends Component {
 
   render() {
     return <div></div>
-    // <div><h1>Help</h1></div>
 
   }
 }
