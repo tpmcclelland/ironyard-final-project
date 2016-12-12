@@ -34,7 +34,7 @@ class OrderController {
     var totalCost = ingredientsArray.reduce(function(a, b) {
       return a + b.unit_cost;
     }, 0);
-    return totalCost
+    return totalCost + 5
   }
 
   * store(request, response) {

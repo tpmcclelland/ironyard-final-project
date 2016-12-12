@@ -212,8 +212,10 @@ class OrderStatus extends React.Component {
 render() {
     const userOrders = this.state.orders.map((item, i) => {
         var orderDate = moment(item.order.updated_at).format('dddd, MMMM Do - h:mm A')
-        var cost = item.order.shoppingList.estimated_price
-        var totalCost = cost + 5
+        var cost = item.order.shoppingList.estimated_price - 5
+        var totalCost = cost + 5.00
+        cost = Number(cost).toFixed(2)
+        totalCost = Number(totalCost).toFixed(2)
         if (item.order.driver !== null) {
           var driver = item.order.driver.user.first_name + " " +  item.order.driver.user.last_name
           var phone = item.order.driver.user.phone
@@ -303,13 +305,13 @@ render() {
                           </div>
                         </div>
                       </div>
+                      <div className={item.state == 'available'?'col-xs-12 text-center cancel-button':'hidden'}>
+                        <button type="button" className="btn btn-danger" onClick={() => this.cancel(i)}>Cancel Order</button>
+                      </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
                       <p className="lead">Ingredients</p>
                       {ingredients}
-                    </div>
-                    <div className={item.state == 'available'?'col-xs-12 text-right':'hidden'}>
-                      <button type="button" className="btn btn-danger" onClick={() => this.cancel(i)}>Cancel Order</button>
                     </div>
                   </div>
                 </div>

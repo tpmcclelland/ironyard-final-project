@@ -26,6 +26,8 @@ class RegisterController {
     user.first_name = request.input('first_name')
     user.last_name = request.input('last_name')
     user.phone = request.input('phone')
+    // user.home_lat = request.input('home_lat')
+    // user.home_long = request.input('home_long')
 
     yield user.save()
 
@@ -35,6 +37,8 @@ class RegisterController {
         cooker.home_city = request.input('city');
         cooker.home_state = request.input('state');
         cooker.home_zip = request.input('zip');
+        cooker.home_lat = request.input('home_lat');
+        cooker.home_long = request.input('home_long');
 
         yield user.cooker().save(cooker);
         break;
@@ -42,6 +46,8 @@ class RegisterController {
         driver.license = request.input('license');
         driver.license_expiration = request.input('license_expiration');
         driver.driving_location = request.input('driving_location');
+        driver.home_lat = request.input('home_lat');
+        driver.home_lng = request.input('home_long');
 
         yield user.driver().save(driver);
         break;

@@ -44,7 +44,7 @@ const ActiveOrderItem = (props) => (
           </div>
           <div className="col-sm-6">
             <p className="lead">Map</p>
-            <div className="map"><ActiveOrderItemMap /></div>
+            <div id={'map-'+props.orderID} className="map"><ActiveOrderItemMap latitude={props.latitude} longitude={props.longitude} orderID={props.orderID}/></div>
 
           </div>
         </div>
