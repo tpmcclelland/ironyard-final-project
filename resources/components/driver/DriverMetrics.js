@@ -1,61 +1,92 @@
 import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
-var LineChart = require("react-chartjs").Line;
-var BarChart = require("react-chartjs").Bar;
-var DoughnutChart = require("react-chartjs").Doughnut;
+import moment from 'moment'
 
 class DriverMetrics extends React.Component {
     constructor(props) {
         super(props)
         classAutoBind(this)
-
+        this.state = {
+            averageRating: '',
+            reviews: [],
+            monthlyOrders: '',
+            month: ''
+        }
+    }
+    componentDidMount() {
+        var storage = JSON.parse(sessionStorage.getItem('user'))
+        var user = storage.user
+        var driver = storage.driver
+        fetch('/api/v1/drivers/' + driver.id, {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+              'content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(this.handleMetrics)
+    }
+    handleMetrics(response) {
+        var month = moment().format('MMMM')
+        console.log(response)
+        var ordersThisMonth = []
+        response.delivered_orders.forEach((order) => {
+            if (moment(order.delivery_end_time).format('MMMM') === month) {
+                ordersThisMonth.push(order)
+            }
+        })
+        this.setState({
+            averageRating: response.average_rating,
+            reviews: response.reviews,
+            monthlyOrders: ordersThisMonth.length,
+            month: month
+        })
     }
     render() {
-        var barChartData = {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August"],
-            datasets: [{
-                        label: "Total Orders by Month",
-                        fillColor: [
-                            "rgba(240, 200, 8, 1)",
-                            "rgba(142, 166, 4, 1)",
-                            "rgba(240, 200, 8,1)",
-                            "rgba(142, 166, 4, 1)",
-                            "rgba(240, 200, 8, 1)",
-                            "rgba(142, 166, 4, 1)",
-                            "rgba(240, 200, 8, 1)",
-                            "rgba(142, 166, 4, 1)"
-                        ],
-                        strokeColor: "rgba(8, 103, 136, 1)",
-                        pointColor: "rgba(8, 103, 136, 1)",
-                        pointHighlightFill: "rgba(142, 166, 4, 1)",
-                        pointHighlightStroke: "rgba(142, 166, 4, 1)",
-                        data: [20, 34, 50, 80, 72, 90, 110, 150],
-                    }],
-        }
-
+        var reviews = this.state.reviews.map((item, i) => {
+            return <blockquote key={i} className={i%2 == 0?'text-left blockquote':'blockquote-reverse'}>
+                <p>{item}</p>
+            </blockquote>
+        })
+        var width = (this.state.averageRating / 5) * 100 + '%'
             return <div className="driver col-xs-12 metrics">
                 <h1 className="heading">Metrics</h1>
                 <div className="row">
-                    <div className="col-sm-6 col-xs-12 text-center">
+                    <div className="col-xs-12 col-md-6 col-lg-6 text-center">
                         <div className="metrics">
-                            <h2>Total Orders By Month</h2>
-                            <div className="metrics-data">
-                            <BarChart data={barChartData} height="300" width="300"/>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 col-xs-12 text-center">
-                        <div className="metrics">
-                        <h2>Total Orders this Month</h2>
                         <div className="monthly-orders panel panel-default metrics-data date">
                             <div className="month">
-                                <h3>December</h3>
+                                <h3>{this.state.month}</h3>
                             </div>
-                            <h1 className="month-number">15</h1>
+                            <h1 className="month-number">{this.state.monthlyOrders}
+                            <p className="lead">orders delivered <br/> this month</p>
+                            </h1>
                         </div>
                         </div>
-
+                    </div>
+                    <div className="col-xs-12 col-md-6 col-lg-6 text-center">
+                        <div className="metrics">
+                        <div className="row stars">
+                        <div className="star-ratings-css">
+                        <div className="star-ratings-css-top" style={{"width" : width}}><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                        <div className="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                        <div className="ratings text-center">
+                            <div className="col-xs-7">
+                            <p className="lead text-left rating">average rating</p>
+                            </div>
+                            <div className="col-xs-5">
+                            <p className="text-right lead">{this.state.averageRating} out of 5</p>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div className="row">
+                            <div className="metrics-data">
+                                {reviews}
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
