@@ -30,8 +30,6 @@ class OrderItemMap extends Component {
         position: latLong,
         map: map
       })
-      var resize = new google.maps.event.trigger(map, 'resize')
-      console.log(resize)
   }
 
 
