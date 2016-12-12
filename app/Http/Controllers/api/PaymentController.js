@@ -6,11 +6,14 @@ const Order = use('App/Model/Order')
 const State = use('App/Model/State')
 const Database = use('Database')
 
+// import Pusher from 'pusher'
+const Pusher = require('pusher')
 
 
 class PaymentController {
 
   * saveOrder(request, response) {
+    console.log('saving order')
 
     const user = yield request.auth.getUser()
     const cooker = yield user.cooker().fetch()
@@ -30,10 +33,38 @@ class PaymentController {
     var state = yield State.findBy('type', 'available')
     yield state.orders().save(pendingOrders[0])
 
+    var pusher = new Pusher({
+      appId: Env.get('PUSHER_APP_ID'),
+      key: Env.get('PUSHER_KEY'),
+      secret: Env.get('PUSHER_SECRET'),
+      encrypted: true
+    })
+
+    //need to change this to use the cooker channel
+    pusher.trigger('order', 'new_order', {
+      message: pendingOrders[0].id
+    })
+
+    console.log('pushed new order to pusher')
 
     return response.json({saved: true})
 
   }
+
+  // * pushOrder(cookerId, orderId) {
+  //   var pusher = new Pusher({
+  //     appId: Env.get('PUSHER_APP_ID'),
+  //     key: Env.get('PUSHER_KEY'),
+  //     secret: Env.get('PUSHER_SECRET'),
+  //     encrypted: true
+  //   })
+  //
+  //   //need to change this to use the cooker channel
+  //   pusher.trigger('order', 'new_order', {
+  //     message: orderId
+  //   })
+  //   console.log('pushed new order to pusher')
+  // }
 
   * charge(request, response) {
     const user = yield request.auth.getUser()
@@ -45,7 +76,7 @@ class PaymentController {
     const orders = yield cooker.orders().pending().fetch()
     const pendingOrders = orders.value()
     var amount = pendingOrders[0].total_cost * 100 || 100
-    console.log('*******', amount)
+    // console.log('*******', amount)
 
 
     // Set your secret key: remember to change this to your live secret key in production
@@ -89,7 +120,7 @@ class PaymentController {
               cooker.stripe_id = charge.customer
               cooker.update('stripe_id', charge.customer)
               yield cooker.save()
-            console.log(cooker)
+            // console.log(cooker)
               yield Database.close()
           }
 
@@ -97,6 +128,7 @@ class PaymentController {
           test.next()
           test.next()
           test.next()
+
           response.json({payment_success: true, stripe_customer: charge.customer})
           return
 

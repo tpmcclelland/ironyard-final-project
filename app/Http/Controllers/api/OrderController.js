@@ -5,6 +5,8 @@ const Cooker = use('App/Model/Cooker')
 const ShoppingList = use('App/Model/ShoppingList')
 const State = use('App/Model/State')
 const Database = use('Database')
+const Pusher = require('pusher')
+const Env = use('Env')
 
 
 class OrderController {
@@ -98,6 +100,8 @@ class OrderController {
         .where('id', request.param('id'))
          .update({ state_id: stateValue[0].id, driver_id: request.input('driver_id')})
 
+      this.pushStateUpdate(request.param('id'), stateValue[0])
+
       return response.json({message: 'Updated state and driver'})
 
     } else if (request.input('type') == 'cost') {
@@ -111,6 +115,23 @@ class OrderController {
     }
 
     // return response.json(stateValue[0].id)
+  }
+
+  pushStateUpdate(orderId, state) {
+    var pusher = new Pusher({
+      appId: Env.get('PUSHER_APP_ID'),
+      key: Env.get('PUSHER_KEY'),
+      secret: Env.get('PUSHER_SECRET'),
+      encrypted: true
+    })
+
+    //need to change this to use the cooker channel
+    pusher.trigger('order_' + orderId, 'state-change', {
+      orderId: orderId,
+      stateId: state.id
+    })
+
+    console.log('pushed new order state to pusher')
   }
 
   * destroy(request, response) {
