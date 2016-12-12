@@ -132,15 +132,15 @@ class DriverActiveOrder extends React.Component {
       })
       return <div className="driver col-xs-12 active">
         <div className="row">
-            <div className='col-sm-4 col-sm-push-8 col-xs-12'>
+            {/* <div className='col-sm-4 col-sm-push-8 col-xs-12'>
                 <form className="navbar-form navbar-left" onSubmit={this.updateLocation}>
                     <div className="form-group">
                         <input type="text" className="form-control" placeholder="Update Location" value={this.state.locationSearchTerm} onChange={this.updateLocationSearchTerm} />
                     </div>
                     <button type="button" className="btn btn-default search-button" onClick={this.updateLocation}>Update</button>
                 </form>
-            </div>
-            <div className='col-sm-8 col-sm-pull-4 col-xs-12'>
+            </div> */}
+            <div className='col-xs-12'>
               <h1 className="heading">Active Orders</h1>
             </div>
         </div>
