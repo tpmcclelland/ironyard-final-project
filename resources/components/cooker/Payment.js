@@ -156,6 +156,12 @@ class Payment extends Component {
 
     render() {
         // Form Action set to route to /#.  Need to update this to push billing information appropriately.
+        var amount = Number(this.props.amount).toFixed(2)
+        if (amount == 0) {
+          var payment = 0.00.toFixed(2)
+        } else {
+          var payment = (amount - 5).toFixed(2)
+        }
         return <div className="payment col-xs-12">
           <form action="/api/v1/payment" method="POST" id="payment-form">
             <div className="form-group">
@@ -164,7 +170,10 @@ class Payment extends Component {
                     <h2 className="heading">Payment</h2>
                   </div>
                   <div className="col-sm-6 text-right">
-                    <h3 className="total-payment lead">Your total payment: ${this.props.amount}</h3>                  </div>
+                    <h3 className="total-payment lead">Your total payment: ${amount}</h3>
+                    <p>Ingredient Cost: ${payment}</p>
+                    <p>Delivery Fee: $5.00</p>
+                    </div>
                 </div>
                 <div className="form-group well">
                   <div className="row">
@@ -306,7 +315,6 @@ class Payment extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="billingZipcode">Zipcode</label>
                             <input className="form-control" type="text" name="billingZipcode" id="billingZipcode" value={this.state.billingZipcode} onChange={this.typing} placeholder="46202" required/>
-                            {/* <input className="form-control" type="text" name="billingZipcode" id="billingZipcode" value={this.state.shippingZipcode} onChange={this.typing} placeholder="46202" required/> */}
                         </div>
                     </div>
                 </div>
