@@ -45,7 +45,7 @@ class Driver extends React.Component {
     // })
 
     // I couldn't call my addChatMessage from here so I made it an arrow function instead.  Not sure this is right...
-    pusherChannel.bind('new_order', (data) => {
+    pusherChannel.bind('available_orders', (data) => {
       console.log('pusher', data.message)
       this.setState({
         ordersReady: false

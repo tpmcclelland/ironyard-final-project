@@ -41,7 +41,7 @@ class PaymentController {
     })
 
     //need to change this to use the cooker channel
-    pusher.trigger('order', 'new_order', {
+    pusher.trigger('order', 'available_orders', {
       message: pendingOrders[0].id
     })
 

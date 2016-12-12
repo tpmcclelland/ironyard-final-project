@@ -84,12 +84,17 @@ class OrderController {
     const state = yield State.query().where('type', request.input('state')).fetch()
     const stateValue = state.value()
 
+    const user = yield request.auth.getUser()
+    const cooker = yield Cooker.findBy('user_id', user.id)
+
     if (request.input('driver_id') == undefined) {
       console.log('updating state, no driver')
       const update = yield Database
         .table('orders')
         .where('id', request.param('id'))
         .update('state_id', stateValue[0].id)
+
+      this.pushUnavailableUpdate(request.param('id'), stateValue[0])
 
       return response.json({message: 'Updated state'})
 
@@ -100,7 +105,7 @@ class OrderController {
         .where('id', request.param('id'))
          .update({ state_id: stateValue[0].id, driver_id: request.input('driver_id')})
 
-      this.pushStateUpdate(request.param('id'), stateValue[0])
+      this.pushStateUpdate(cooker, request.param('id'), stateValue[0])
 
       return response.json({message: 'Updated state and driver'})
 
@@ -116,7 +121,25 @@ class OrderController {
 
   }
 
-  pushStateUpdate(orderId, state) {
+  pushUnavailableUpdate(orderId, state) {
+
+    var pusher = new Pusher({
+      appId: Env.get('PUSHER_APP_ID'),
+      key: Env.get('PUSHER_KEY'),
+      secret: Env.get('PUSHER_SECRET'),
+      encrypted: true
+    })
+
+    pusher.trigger('order', 'available_orders', {
+      orderId: orderId,
+      state: state.id
+    })
+
+    console.log('pushed order unavailable')
+  }
+
+  pushStateUpdate(cooker, orderId, state) {
+
     var pusher = new Pusher({
       appId: Env.get('PUSHER_APP_ID'),
       key: Env.get('PUSHER_KEY'),
@@ -125,8 +148,9 @@ class OrderController {
     })
 
     //need to change this to use the cooker channel
-    pusher.trigger('order_' + orderId, 'state-change', {
+    pusher.trigger('cooker_' + cooker.id, 'state_change', {
       orderId: orderId,
+      cookerId: cooker.id,
       stateId: state.id
     })
 
