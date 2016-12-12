@@ -1,6 +1,5 @@
 import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
-import Modal from 'react-modal'
 import update from 'react-addons-update'
 import moment from 'moment'
 import { connect } from 'react-redux'
@@ -8,230 +7,176 @@ import store from '../redux/_ReduxStore'
 
 import OrderStatusDetail from './OrderStatusDetail'
 
-// Details Modal Style
-const customStyles = {
-  overlay : {
-    position          : 'fixed',
-    top               : 0,
-    left              : 0,
-    right             : 0,
-    bottom            : 0,
-    backgroundColor   : 'rgba(255, 255, 255, 0.75)',
-    zIndex            : '2',
-  },
-  content : {
-    top                   : '50%',
-    left                  : '48%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)',
-    maxHeight             : '500px',
-    maxWidth              : '95%'
-  }
-};
-
-// Review Modal Style
-const reviewStyles = {
-  overlay : {
-    position          : 'fixed',
-    top               : 0,
-    left              : 0,
-    right             : 0,
-    bottom            : 0,
-    backgroundColor   : 'rgba(255, 255, 255, 0.75)',
-    zIndex            : '2',
-  },
-  content : {
-    top                   : '50%',
-    left                  : '48%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)',
-    maxHeight             : '800px',
-    maxWidth              : '95%'
-  }
-};
-
 class OrderStatus extends React.Component {
   constructor(props) {
     super(props)
     classAutoBind(this)
     this.state = {
       orders: [],
-      tempModalObject: [],
-    //   orders: [{
-    //     orderID: 1000,
-    //     scheduleStart: "12:00pm",
-    //     scheduleEnd: "5:00pm",
-    //     orderState: "Available",
-    //   },
-    //   {
-    //     orderID: 611,
-    //     scheduleStart: "11:00am",
-    //     scheduleEnd: "2:00pm",
-    //     orderState: "Delivered",
-    //   }
-    // ],
-    modalIsOpen: false,
-    reviewModalIsOpen: false,
-    orderState: "Active",
-    toggle: false
+      toggle: false,
+      ordersReady: false
   }
 }
 
-componentDidMount() {
-    fetch('/api/v1/orders', {
-      method: 'GET',
-      credentials: 'same-origin',
-      headers: {
-        'content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(this.handleOrders)
-}
-handleOrders(response) {
-  var storage = JSON.parse(sessionStorage.getItem('user'))
-  var userId = storage.user.id
-  response.forEach((res) => {
-      if (res.shoppingList.cooker.user.id === userId) {
-        let updatedOrders = this.state.orders
-        updatedOrders.push({
-          order: res,
-          state: res.state.type,
-          detailsShown: false,
-          reviewShown: false
-        })
-        this.setState({
-          orders: updatedOrders
-        })
-      }
-  })
-}
-showDetails(currentIndex) {
-  let updatedOrders = this.state.orders
-  updatedOrders[currentIndex].detailsShown = !updatedOrders[currentIndex].detailsShown
-  this.setState({
-    orders: updatedOrders
-  })
-  this.setState({
-    toggle: !this.state.toggle
-  })
-}
-showReview(currentIndex) {
-  let updatedOrders = this.state.orders
-  updatedOrders[currentIndex].reviewShown = !updatedOrders[currentIndex].reviewShown
-  this.setState({
-    orders: updatedOrders
-  })
-  this.setState({
-    toggle: !this.state.toggle
-  })
-}
+  componentDidMount() {
+      fetch('/api/v1/orders', {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(this.handleOrders)
+  }
 
-// Details Modal
-  sendModalData(i) {
-// console.log(i)
-    console.log("sendModalData:", this.state.orders[i])
+  handleOrders(response) {
+    var storage = JSON.parse(sessionStorage.getItem('user'))
+    var userId = storage.user.id
+    if (response.state_id !== null) {
+      let updatedOrders = this.state.orders
+      response.forEach((res) => {
+          if (res.shoppingList.cooker.user.id === userId) {
+            if (res.review !== null) {
+              var review = res.review.review
+              var reviewTime = res.review.created_at
+            } else {
+              var review = ''
+            }
+            if (res.driver !== null && res.driver.ratings !== null) {
+              var ratings = res.driver.ratings
+            } else {
+              var ratings = undefined
+            }
+            if (ratings !== undefined) {
+              var ratingArray = []
+              ratings.forEach((rating, i) => {
+                if (rating.created_at === reviewTime) {
+                  ratingArray.push(rating.rating)
+                }
+              })
+            }
+          }
+          if (ratingArray !== undefined && ratingArray.length !== 0) {
+            var orderRating = ratingArray[0]
+            var reviewShown = true
+            var disable = true
+          } else {
+            var orderRating = 'default'
+            var reviewShown = false
+            var disable = false
+          }
+            updatedOrders.push({
+              order: res,
+              state: res.state.type,
+              detailsShown: false,
+              reviewShown: reviewShown,
+              rating: orderRating,
+              review: review,
+              disable: disable
+            })
+            this.setState({
+              orders: updatedOrders,
+              ordersReady: true,
+            })
+          })
+      }
+  }
+  showDetails(currentIndex) {
+    let updatedOrders = this.state.orders
+    updatedOrders[currentIndex].detailsShown = !updatedOrders[currentIndex].detailsShown
     this.setState({
-      tempModalObject: this.state.orders[i]
+      orders: updatedOrders
+    })
+    this.setState({
+      toggle: !this.state.toggle
     })
   }
-openModal() {
-  this.setState({
-    modalIsOpen: true
-  })
-}
-closeModal() {
-  this.setState({
-    modalIsOpen: false
-  })
-}
-
-// Review Modal
-openReviewModal() {
-  this.setState({
-    reviewModalIsOpen: true
-  })
-}
-closeReviewModal() {
-  this.setState({
-    reviewModalIsOpen: false
-  })
-}
-  tempFiller(item) {
-
+  showReview(currentIndex) {
+    let updatedOrders = this.state.orders
+    updatedOrders[currentIndex].reviewShown = !updatedOrders[currentIndex].reviewShown
+    this.setState({
+      orders: updatedOrders
+    })
+    this.setState({
+      toggle: !this.state.toggle
+    })
   }
 
-  cancel() {
-    console.log("testing")
-    console.log("tempModalObject:", this.state.tempModalObject.id)
-    fetch('/api/v1/orders/' + this.state.tempModalObject.id, {
+  cancel(currentIndex) {
+    let updatedOrders = this.state.orders
+    let order_id = updatedOrders[currentIndex].order.id
+    updatedOrders[currentIndex].detailsShown = !updatedOrders[currentIndex].detailsShown
+    updatedOrders[currentIndex].state = 'cancelled'
+    fetch('/api/v1/orders/' + order_id, {
       method: 'PATCH',
       credentials: 'same-origin',
       body: JSON.stringify({
         state: "cancelled",
-
       }),
       headers: {
         'Content-Type': 'application/json'
       }
     })
+    .then(response => response.json())
+    .then(response => (
+      this.setState({
+        orders: updatedOrders
+      })
+    ))
   }
-  gatherPrice() {
-    if (this.state.tempModalObject.shoppingList !== null) {
-      if (this.state.tempModalObject.total_cost === null) {
-        return <div className="input-group">
-          <div className="input-group-addon">Estimated Price</div>
-          <input type="text" className="form-control" id="exampleInputAmount" placeholder="Amount" value={this.state.tempModalObject.shoppingList.estimated_price} readOnly/>
-        </div>
-      }
-      else {
-        return <div className="input-group">
-          <div className="input-group-addon">Final Price</div>
-          <input type="text" className="form-control" id="exampleInputAmount" placeholder="Amount" value={this.state.tempModalObject.total_cost} readOnly/>
-        </div>
-      }
-    }
+  updateRating(e, currentIndex) {
+    let updatedOrders = this.state.orders
+    updatedOrders[currentIndex].rating = e.target.value
+    this.setState({
+      orders: updatedOrders
+    })
   }
-
-  gatherDriverPhone() {
-    if (this.state.tempModalObject.driver !== null){
-      if (this.state.tempModalObject.driver_id && this.state.tempModalObject.driver_id != 'undefined') {
-        return <p>Phone Number: {this.state.tempModalObject.driver.user.phone}</p>
-      }
-    }
+  updateReview(e, currentIndex) {
+    let updatedOrders = this.state.orders
+    updatedOrders[currentIndex].review = e.target.value
+    this.setState({
+      orders: updatedOrders
+    })
   }
 
-  gatherDriverName() {
-    if (this.state.tempModalObject.driver !== null){
-      if (this.state.tempModalObject.driver_id && this.state.tempModalObject.driver_id != 'undefined') {
-        return <p>Driver Name: {this.state.tempModalObject.driver.user.first_name + " " + this.state.tempModalObject.driver.user.last_name}</p>
+  submitReview(currentIndex) {
+    let updatedOrders = this.state.orders
+    let orderId = updatedOrders[currentIndex].order.id
+    let driverId = updatedOrders[currentIndex].order.driver_id
+    let rating = updatedOrders[currentIndex].rating
+    let review = updatedOrders[currentIndex].review
+    fetch('/api/v1/reviews', {
+      method: 'POST',
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        order_id: orderId,
+        rating: rating,
+        review: review,
+        driver_id: driverId
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       }
-    }
-  }
-  showCancelButton() {
-    if (this.state.tempModalObject.state_id == "4") {
-      return <button type="button" onClick={this.cancel} className="btn btn-default btn-block">Cancel Order</button>
-    }
+    })
+    .then(response => response.json())
+    .then(response => (
+      updatedOrders[currentIndex].rating = response.rating,
+      updatedOrders[currentIndex].review = response.review,
+      updatedOrders[currentIndex].disable = true,
+      this.setState({
+        orders: updatedOrders
+      })
+    ))
   }
 
-  showReviewButton() {
-    if (this.state.tempModalObject.state_id == "2") {
-      return <button type="button" className="btn btn-default btn-block" onClick={this.openReviewModal}>Review Driver
-      </button>
-
-    }
-  }
 render() {
     const userOrders = this.state.orders.map((item, i) => {
-      console.log(item.state)
-      if (item.order.state_id !== null) {
         var orderDate = moment(item.order.updated_at).format('dddd, MMMM Do - h:mm A')
-        var cost = item.order.shoppingList.estimated_price
-        var totalCost = cost + 5
+        var cost = item.order.shoppingList.estimated_price - 5
+        var totalCost = cost + 5.00
+        cost = Number(cost).toFixed(2)
+        totalCost = Number(totalCost).toFixed(2)
         if (item.order.driver !== null) {
           var driver = item.order.driver.user.first_name + " " +  item.order.driver.user.last_name
           var phone = item.order.driver.user.phone
@@ -241,14 +186,14 @@ render() {
             <li>{item.ingredient.name}</li>
           </ul>
         })
-        if (item.order.state.type == 'available') {
+        if (item.state == 'available') {
           var status = 'placed'
-        } else if (item.order.state.type == 'active') {
+        } else if (item.state == 'active') {
           var status = 'in progress'
-        } else if (item.order.state.type == 'picked_up') {
+        } else if (item.state == 'picked_up') {
           var status = 'out for delivery'
         } else {
-          var status = item.order.state.type
+          var status = item.state
         }
         var classes = 'col-xs-12 order-heading status '
         switch (status) {
@@ -298,139 +243,53 @@ render() {
                         <p className="lead">Driver</p>
                         <p className="capitalize">{driver} - {phone}</p>
                         <div className="text-center">
-                          <button type="button" className={item.state == 'delivered'?'btn btn-default':'hidden'} onClick={() => this.showReview(i)}>Review Driver</button>
+                          <button type="button" className={item.disable?'btn review-complete':item.state == 'delivered'?'btn btn-default review-button':'hidden'} onClick={() => this.showReview(i)} disabled={item.disable?true:false}>{item.disable?'Review Complete':'Review Driver'}</button>
                         </div>
                         <div className={item.reviewShown?'':'hidden'}>
                           <div className="form-group">
-                              <label htmlFor="rateDriver">Rate your driver</label>
-                              <select name="rateDriver" id="rateDriver" className="form-control">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                              <label htmlFor="rateDriver">Rate your driver:</label>
+                              <select name="rateDriver" id="rateDriver" className="form-control" defaultValue={item.rating} onChange={(e) => this.updateRating(e, i)} disabled={item.disable?true:false}>
+                                <option value="default">Select a rating</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
                               </select>
                           </div>
                           <div className="form-group">
                             <label htmlFor="driverReviewComment">Say something:</label>
-                            <textarea className="form-control" name="driverReviewComment" id="driverReviewComment"></textarea>
+                            <textarea className="form-control" name="driverReviewComment" id="driverReviewComment" onChange={(e) => this.updateReview(e, i)} value={item.review} disabled={item.disable?true:false}></textarea>
+                          </div>
+                          <div className="form-group">
+                            <button type="button" className={item.disable?'hidden':'btn btn-default btn-block'} onClick={() => this.submitReview(i)}>Submit</button>
                           </div>
                         </div>
+                      </div>
+                      <div className={item.state == 'available'?'col-xs-12 text-center cancel-button':'hidden'}>
+                        <button type="button" className="btn btn-danger" onClick={() => this.cancel(i)}>Cancel Order</button>
                       </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
                       <p className="lead">Ingredients</p>
                       {ingredients}
                     </div>
-                    <div className={item.state == 'available'?'col-xs-12 text-right':'hidden'}>
-                      <button type="button" className="btn btn-danger">Cancel Order</button>
-                    </div>
                   </div>
                 </div>
           </div>
         </div>
-      }
     })
 
   return <div className="orderStatus col-xs-12">
     <h1 className="heading">Order Status</h1>
     {this.props.paymentSuccess? <div className="alert alert-success" role="alert">You've completed your order</div>: ''}
-    <div className="list-group container-fluid">
+    <div className={this.state.ordersReady?'hidden':'container-fluid'}>
+      <h3>Preparing your orders...</h3>
+    </div>
+    <div className={this.state.ordersReady?'list-group container-fluid':'hidden'}>
       {userOrders}
     </div>
-
-    {/* Being Modal */}
-    <div className="container">
-      <Modal
-        isOpen={this.state.modalIsOpen}
-        onRequestClose={this.closeModal}
-        style={customStyles}
-        contentLabel="Active Order Modal"
-        >
-          <div className="row">
-            <div className="col-xs-10">
-              <h2>Order ID: {this.state.tempModalObject.id}</h2>
-            </div>
-            <div className="col-xs-2 text-right">
-              <button className="btn btn-default" onClick={this.closeModal}>X</button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-12">
-              <p>From {moment(this.state.tempModalObject.delivery_start_time).format('h:mm:ss a')} to {moment(this.state.tempModalObject.delivery_end_time).format('h:mm:ss a')}</p>
-              {this.gatherDriverName()}
-              {this.gatherDriverPhone()}
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-12">
-              <form className="form-inline">
-                <div className="form-group">
-                  <label className="sr-only" htmlFor="exampleInputAmount">Amount (in dollars)</label>
-                  {this.gatherPrice()}
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <div className="row">
-            <br/>
-            <div className="col-xs-6 col-xs-offset-6">
-              {this.showCancelButton()}
-              {this.showReviewButton()}
-            </div>
-          </div>
-        </Modal>
-      </div>
-
-      {/* Driver Review Modal */}
-      <div className="container">
-        <Modal
-          isOpen={this.state.reviewModalIsOpen}
-          onRequestClose={this.closeReviewModal}
-          style={reviewStyles}
-          contentLabel="Active Order Modal"
-          >
-            <div className="row">
-              <div className="col-xs-10">
-                <h2>Order ID: 1233</h2>
-              </div>
-              <div className="col-xs-2 text-right">
-                <button className="btn btn-default" onClick={this.closeReviewModal}>X</button>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-12">
-                <p>Driver Name</p>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-12">
-                <form className="form-inline">
-                  <div className="form-group">
-                    <label htmlFor="rateDriver">Rate your driver</label>
-                    <select name="rateDriver" id="rateDriver">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                    </select>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div className="row">
-              <br/>
-              <div className="col-xs-12">
-                <label htmlFor="driverReviewComment">Say something:</label>
-                <input type="text" className="form-control input-lg" name="driverReviewComment" id="driverReviewComment" />
-              </div>
-            </div>
-          </Modal>
-        </div>
-        {/* End Modal */}
-      </div>
+  </div>
     }
   }
 
