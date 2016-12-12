@@ -84,13 +84,16 @@ class DriverAvailableOrders extends React.Component {
         var orders = this.props.available.map((item, i) => {
           let startTime = moment(item.order.delivery_start_time).format('LT')
           let endTime = moment(item.order.delivery_end_time).format('LT')
+          let latitude = item.order.shoppingList.cooker.home_lat
+          let longitude = item.order.shoppingList.cooker.home_long
+          let orderID = item.order.id
           var ingredients = item.order.shoppingList.recipeIngredients.map((item, i) => {
                 return <ul key={i}>
                   <li>{item.ingredient.name}</li>
                 </ul>
             })
 
-          return <AvailableOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} showDetails={() => this.showAvailableDetails(i)} accepted={() => this.accepted(i)} />
+          return <AvailableOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} latitude={latitude} longitude={longitude} orderID={orderID} showDetails={() => this.showAvailableDetails(i)} accepted={() => this.accepted(i)} />
           })
       return <div className="driver col-xs-12 available">
         <div className="row">

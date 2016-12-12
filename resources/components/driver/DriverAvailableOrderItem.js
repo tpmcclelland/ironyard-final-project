@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ActiveOrderItemMap from './DriverActiveOrderItemMap'
 
 const AvailableOrderItem = (props) => (
     <div className="list-group-item row">
@@ -39,7 +40,7 @@ const AvailableOrderItem = (props) => (
           </div>
           <div className="col-sm-6">
             <p className="lead">Map</p>
-            <div className="map"></div>
+            <div id={'map-'+props.orderID} className="map"><ActiveOrderItemMap latitude={props.latitude} longitude={props.longitude} orderID={props.orderID} /></div>
           </div>
         </div>
     </div>
