@@ -23,6 +23,8 @@ class CookerSignup extends React.Component {
             first_name: '',
             last_name: '',
             phone: '',
+            home_lat: '',
+            home_long: '',
             mock: false
         }
     }
@@ -46,7 +48,9 @@ class CookerSignup extends React.Component {
                 api_token: 'xxxxxxxxxxxxx',
                 first_name: 'Whitney',
                 last_name: 'Weir',
-                phone: '555-555-5555'
+                phone: '555-555-5555',
+                home_lat: '39.76440729999999',
+                home_long: '-86.14734140000002',
             }
         }
 
@@ -56,7 +60,11 @@ class CookerSignup extends React.Component {
 
   signup() {
         if(!this.state.mock) {
-            fetch('/api/v1/register', {
+          fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.address + ',' + this.state.city + ',' + this.state.state)
+            .then(response => response.json())
+            .then(response => this.setGeolocation(response.results[0]))
+          // .then(response => console.log(response))
+            .then(response => fetch('/api/v1/register', {
               method: 'POST',
               credentials: 'same-origin',
               body: JSON.stringify({
@@ -70,28 +78,39 @@ class CookerSignup extends React.Component {
                 zip: this.state.zip,
                 first_name: this.state.first_name,
                 last_name: this.state.last_name,
-                phone: this.state.phone
+                phone: this.state.phone,
+                home_lat: this.state.home_lat,
+                home_long: this.state.home_long
               }),
               headers: {
                 'Content-Type': 'application/json'
               }
             })
-            .then(function(response) {
-              if(response.ok) {
-                return response.json()
-              } else {
-                throw 'Network response was not ok.'
-              }
-            })
-            .then(this.signedUpHandler)
-            .catch(function(error) {
-              console.log('There has been a problem with your fetch operation: ' + error.message)
-            })
-        } else {
+              .then(function(response) {
+                if(response.ok) {
+                  return response.json()
+                } else {
+                  throw 'Network response was not ok.'
+                }
+              })
+              .then(this.signedUpHandler)
+              .catch(function(error) {
+                console.log('There has been a problem with your fetch operation: ' + error.message)
+              }))
+           }
+        else {
             this.mockResponse()
         }
-    }
+        }
 
+    setGeolocation(address) {
+      console.log(address)
+      this.setState({
+        home_lat: address.geometry.location.lat,
+        home_long: address.geometry.location.lng,
+      })
+
+    }
     signedUpHandler(response){
         // response = ['error 1', 'error 2']
         // response.user = undefined

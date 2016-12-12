@@ -51,6 +51,7 @@ class Driver extends React.Component {
         // })
     }
     handleOrders(response) {
+      console.log(response)
         response.forEach((res) => {
             if (res.state !== null) {
                 if (res.driver_id == this.state.driverId) {
