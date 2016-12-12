@@ -108,7 +108,7 @@ class Payment extends Component {
   }
 
   handleStripResponse(response) {
-    console.log('handleStripResponse', response)
+    // console.log('handleStripResponse', response)
 
     fetch('/api/v1/payment/save', {
       method: 'POST',

@@ -15,11 +15,15 @@ class CookerLeftNav extends React.Component {
         }
     }
     componentDidMount() {
-        this.click(this.props.route)
+        this.click(this.props.children.props.location.pathname)
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps.children.props.location.pathname)
+        this.click(nextProps.children.props.location.pathname)
     }
     click (button) {
         switch (button) {
-            case undefined:
+            case '/cooker':
                 this.setState({
                     recipesClicked: true,
                     listClicked: false,
@@ -28,7 +32,7 @@ class CookerLeftNav extends React.Component {
                     viewOrdersClicked: false,
                 })
                 break;
-            case 'shoppinglist':
+            case '/cooker/shoppinglist':
                 this.setState({
                     recipesClicked: false,
                     listClicked: true,
@@ -37,7 +41,7 @@ class CookerLeftNav extends React.Component {
                     viewOrdersClicked: false,
                 })
                 break;
-            case 'schedule':
+            case '/cooker/schedule':
                 this.setState({
                     recipesClicked: false,
                     listClicked: false,
@@ -46,7 +50,7 @@ class CookerLeftNav extends React.Component {
                     viewOrdersClicked: false,
                 })
                 break;
-            case 'payment':
+            case '/cooker/payment':
                 this.setState({
                     recipesClicked: false,
                     listClicked: false,
@@ -55,7 +59,7 @@ class CookerLeftNav extends React.Component {
                     viewOrdersClicked: false,
                 })
                 break;
-            case 'orders':
+            case '/cooker/orders':
                 this.setState({
                     recipesClicked: false,
                     listClicked: false,
@@ -68,23 +72,23 @@ class CookerLeftNav extends React.Component {
     }
     render() {
         return <div className="navigation flex">
-            <Link to='/cooker' onClick={() => this.click(undefined)}>
+            <Link to='/cooker' onClick={() => this.click('/cooker')}>
                 <button className={this.state.recipesClicked?'navigation-step red-clicked btn':'navigation-step red-background btn'} type="button" ></button>
             </Link>
             <h3 className={"lead"}>pick your recipes</h3>
-            <Link to='/cooker/shoppinglist' onClick={() => this.click('shoppinglist')}>
+            <Link to='/cooker/shoppinglist' onClick={() => this.click('/cooker/shoppinglist')}>
                 <button className={this.state.listClicked?'navigation-step green-clicked btn':'navigation-step green-background btn'} type="button" ></button>
             </Link>
             <h3 className="lead">edit your shopping list</h3>
-            <Link to='/cooker/schedule' onClick={() => this.click('schedule')}>
+            <Link to='/cooker/schedule' onClick={() => this.click('/cooker/schedule')}>
                 <button className={this.state.scheduleClicked?'navigation-step lightBlue-clicked btn':'navigation-step lightBlue-background btn'} type="button"></button>
             </Link>
             <h3 className="lead">schedule your delivery</h3>
-            <Link to='/cooker/payment' onClick={() => this.click('payment')}>
+            <Link to='/cooker/payment' onClick={() => this.click('/cooker/payment')}>
                 <button className={this.state.paymentClicked?'navigation-step yellow-clicked btn':'navigation-step yellow-background btn'} type="button"></button>
             </Link>
             <h3 className="lead">pay for your order</h3>
-            <Link to='/cooker/orders' onClick={() => this.click('orders')}>
+            <Link to='/cooker/orders' onClick={() => this.click('/cooker/orders')}>
                 <button className={this.state.viewOrdersClicked?'navigation-step darkBlue-clicked btn':'navigation-step darkBlue-background btn'} type="button"></button>
             </Link>
             <h3 className="lead">view your orders</h3>

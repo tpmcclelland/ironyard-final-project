@@ -9,6 +9,10 @@
     }
     &.metrics {
         box-shadow: 0px 0px 0px 18px $lightBlue;
+        padding: 80px 10px 0 10px;
+        > h1 {
+            padding-left: 40px;
+        }
     }
     &.loading {
         box-shadow: 0px 0px 0px 18px gray;
@@ -20,12 +24,16 @@
         border-radius: 4px;
     }
     .list-group-button {
-        padding-top: 5px;
+        padding-top: 10px;
     }
     .order-heading {
         border-bottom: 2px solid gray;
         padding-bottom: 5px;
         margin-bottom: 5px;
+    }
+    .btn-picked-up {
+        background-color: $lightBlue;
+        color: white;
     }
     .total-amount {
         padding-top: 15px;
@@ -34,11 +42,18 @@
         }
     }
     .metrics {
-        min-height: 400px;
-        border-radius: 10px;
-        background-color: whitesmoke;
-        border: 2px solid $lightBlue;
         padding: 8px 0;
+        .metrics-heading {
+            // padding: 15px;
+            padding-bottom: 10px;
+            width: 60%;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            border-bottom: 3px solid $darkBlue;
+            border-radius: 0;
+            background-color: transparent;
+            box-shadow: 1px 1px 1px 1px $darkBlue;
+        }
         .metrics-data {
             min-height: 180px;
             &.date {
@@ -53,16 +68,70 @@
             .month-number {
                 padding: 10px;
                 font-size: 50px;
+                p {
+                    padding-top: 10px;
+                }
             }
         }
     }
     .monthly-orders {
-        height: 100px;
-        margin: 10% 20%;
         border: 2px solid $red;
     }
     .details {
         margin-top: 10px;
+    }
+    .blockquote {
+        margin-left: 20px;
+        border-left: 5px solid $green;
+    }
+    .blockquote-reverse {
+        margin-right: 20px;
+        border-right: 5px solid $green;
+    }
+    .stars {
+        min-height: 120px;
+        margin-bottom: 20px;
+    }
+    .ratings {
+        width: 125%;
+        margin-left: -25px;
+    }
+    .star-ratings-css {
+      unicode-bidi: bidi-override;
+      color: #c5c5c5;
+      font-size: 40px;
+      height: 40px;
+      width: 200px;
+      margin: 0 auto;
+      position: relative;
+      padding: 0;
+      text-shadow: 0px 1px 0 #a2a2a2;
+
+      &-top {
+        color: $yellow;
+        padding: 0;
+        position: absolute;
+        z-index: 1;
+        display: block;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+      }
+      &-bottom {
+        padding: 0;
+        display: block;
+        z-index: 0;
+      }
+      p {
+          color: gray;
+          font-size: 14px;
+          text-shadow: none;
+          margin-top: 10px;
+          &.rating {
+              font-size: 18px;
+              margin-top: 8px;
+          }
+      }
     }
 }
 .order-status-button {
@@ -83,6 +152,9 @@
     margin-top: 0px;
 }
 @media (min-width: 768px) {
+    .metrics {
+        padding: 80px 50px 0 50px;
+    }
     .total-amount {
         label {
         margin-right: 10px;
@@ -97,5 +169,19 @@
     }
     .hide-total-amount {
         margin-left: 10px;
+    }
+    .monthly-orders {
+        margin: 10% 20%;
+    }
+    .star-ratings-css {
+      unicode-bidi: bidi-override;
+      color: #c5c5c5;
+      font-size: 60px;
+      height: 60px;
+      width: 300px;
+      margin: 0 auto;
+      position: relative;
+      padding: 0;
+      text-shadow: 0px 1px 0 #a2a2a2;
     }
 }

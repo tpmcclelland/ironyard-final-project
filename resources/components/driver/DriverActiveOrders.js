@@ -122,9 +122,6 @@ class DriverActiveOrder extends React.Component {
       var orders = this.props.active.map((item, i) => {
         let startTime = moment(item.order.delivery_start_time).format('LT')
         let endTime = moment(item.order.delivery_end_time).format('LT')
-        console.log(item.order.id)
-        console.log(item.order.shoppingList.cooker.home_lat)
-        console.log(item.order.shoppingList.cooker.home_long)
         let latitude = item.order.shoppingList.cooker.home_lat
         let longitude = item.order.shoppingList.cooker.home_long
         let orderID = item.order.id
@@ -138,15 +135,15 @@ class DriverActiveOrder extends React.Component {
       })
       return <div className="driver col-xs-12 active">
         <div className="row">
-            <div className='col-sm-4 col-sm-push-8 col-xs-12'>
+            {/* <div className='col-sm-4 col-sm-push-8 col-xs-12'>
                 <form className="navbar-form navbar-left" onSubmit={this.updateLocation}>
                     <div className="form-group">
                         <input type="text" className="form-control" placeholder="Update Location" value={this.state.locationSearchTerm} onChange={this.updateLocationSearchTerm} />
                     </div>
                     <button type="button" className="btn btn-default search-button" onClick={this.updateLocation}>Update</button>
                 </form>
-            </div>
-            <div className='col-sm-8 col-sm-pull-4 col-xs-12'>
+            </div> */}
+            <div className='col-xs-12'>
               <h1 className="heading">Active Orders</h1>
             </div>
         </div>

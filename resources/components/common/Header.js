@@ -38,7 +38,7 @@ class Header extends React.Component {
 
         setTimeout(function() {
           store.dispatch({type: 'CURRENT_USER', user: null})
-          store.dispatch({type:'RESULT_SIZE', resultSize: 4})
+          store.dispatch({type:'RESULT_SIZE', resultSize: 20})
           store.dispatch({type:'DISPLAY_FAVORITES', displayFavorites: false})
           store.dispatch({type: 'FAVORITE_COUNT', favoriteCount: 0})
           store.dispatch({type: 'FAVORITE_RECIPES', favoriteRecipes: null})
