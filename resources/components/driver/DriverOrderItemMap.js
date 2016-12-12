@@ -27,7 +27,6 @@ class OrderItemMap extends Component {
       })
   }
 
-
   render() {
     return <div></div>
 
