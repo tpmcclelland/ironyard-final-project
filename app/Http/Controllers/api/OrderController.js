@@ -12,7 +12,7 @@ const Env = use('Env')
 class OrderController {
 
   * index(request, response) {
-    const orders = yield Order.query().with('store', 'state', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'shoppingList.recipeIngredients.recipe', 'driver.ratings', 'review').fetch()
+    const orders = yield Order.query().with('store', 'state', 'review', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'shoppingList.recipeIngredients.recipe', 'driver.ratings').orderBy('updated_at', 'desc').orderBy('delivery_end_time', 'asc').fetch()
 
     response.send(orders)
   }
@@ -114,7 +114,6 @@ class OrderController {
       return response.json({message: 'Updated total cost'})
     }
 
-    // return response.json(stateValue[0].id)
   }
 
   pushStateUpdate(orderId, state) {
