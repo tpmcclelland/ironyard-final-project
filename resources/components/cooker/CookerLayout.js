@@ -8,7 +8,7 @@ const CookerLayout = (props) => <div>
     <main className="container">
         <div className="row">
             <div className="col-sm-2 col-md-3">
-                <CookerLeftNav route={props.children.props.route.path}/>
+                <CookerLeftNav {...props}/>
             </div>
             <div className="col-sm-8 col-sm-offset-2 col-md-9 col-md-offset-3 section-background">
                 <div className="row">
