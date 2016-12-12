@@ -10,7 +10,7 @@ const Database = use('Database')
 class OrderController {
 
   * index(request, response) {
-    const orders = yield Order.query().with('store', 'state', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'shoppingList.recipeIngredients.recipe', 'driver.ratings', 'review').fetch()
+    const orders = yield Order.query().with('store', 'state', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'shoppingList.recipeIngredients.recipe', 'driver.ratings', 'review').orderBy('updated_at', 'desc').orderBy('delivery_end_time', 'asc').fetch()
 
     response.send(orders)
   }

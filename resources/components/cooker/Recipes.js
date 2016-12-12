@@ -33,7 +33,6 @@ class Recipes extends Component {
         super(props)
         classAutoBind(this)
 
-
         this.state = {
           modalIsOpen: false,
           recipes: [],
