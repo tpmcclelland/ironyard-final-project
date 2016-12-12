@@ -34,7 +34,7 @@ function sharedUserReducer (state = {
 }
 
 function recipeReducer (state = {
-  resultSize: 4,
+  resultSize: 20,
   favoriteCount: 0,
   favoriteRecipes: [],
   displayFavorites: false,

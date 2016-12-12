@@ -74,7 +74,7 @@ class Login extends React.Component {
     loggedInHandler(response) {
         // response = ['error 1', 'error 2']
         // response.user = undefined
-        console.log(response.user)
+        // console.log(response.user)
 
         if(typeof response.user != 'undefined') {
           sessionStorage.setItem('user', JSON.stringify(response.user))
