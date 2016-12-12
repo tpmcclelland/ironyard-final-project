@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ActiveOrderItemMap from './DriverActiveOrderItemMap'
+import OrderItemMap from './DriverOrderItemMap'
 
 const AvailableOrderItem = (props) => (
     <div className="list-group-item row">
@@ -30,7 +30,7 @@ const AvailableOrderItem = (props) => (
       </div>
     </form>
     </div>
-    <div className={props.data.detailsShown?'container-fluid':'hidden'}>
+    <div className={props.data.detailsShown?'hidden':'container-fluid'}>
     <div className="row">
         <div className="col-xs-12 well details">
           <div className="col-sm-6">
@@ -40,7 +40,7 @@ const AvailableOrderItem = (props) => (
           </div>
           <div className="col-sm-6">
             <p className="lead">Map</p>
-            <div id={'map-'+props.orderID} className="map"><ActiveOrderItemMap latitude={props.latitude} longitude={props.longitude} orderID={props.orderID} /></div>
+            <div id={'map-'+props.orderID} className="map"><OrderItemMap latitude={props.latitude} longitude={props.longitude} orderID={props.orderID} /></div>
           </div>
         </div>
     </div>
