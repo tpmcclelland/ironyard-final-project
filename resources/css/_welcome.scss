@@ -1,29 +1,132 @@
-#welcome {
-  .welcome-padding {
-    // height: 60vh;
-    padding-bottom: 30px;
-    padding-right: 50px;
+.welcome {
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
-  .well {
-    //background: rgba(0,0,0,0);
-    //background: $yellow;
-    //border: 5px solid $yellow;
-    //border-radius: 25px;
+  .welcome-header {
+    position: fixed;
+    z-index: 1;
+    background-color: white;
+    width: 100%;
+    height: 70px;
+    padding: 0 30px;
+    .log-in {
+      color: black;
+      h3 {
+        display: inline-block;
+        font-size: 16px;
+      }
+      img {
+        height: 25px;
+        margin-left: 5px;
+      }
+    }
   }
-  .welcome-centered {
-    // padding-top: 125px;
-  }
-  a, .recipe-panel {
-    //border-radius: 10px;
-    //border: 5px solid $yellow;
-  }
-  img {
-    //border-radius: 25px;
-  }
-  .reviews {
-    .well {
-      margin: 10px;
-      box-shadow: 3px 3px 2px black;
+  .get-started {
+    .cookers {
+      height: 91vh;
+      background-image: url('../assets/ingredients.jpg');
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+      background-repeat: space;
+      justify-content: flex-start;
+    }
+    .cooker {
+      height: 91vh;
+      background-color: rgba(101, 101, 101, 0.5);
+      box-shadow: 20px -10px 40px 15px rgba(101, 101, 101, 0.5);
+      padding: 0 40px;
+      h1 {
+        color: white;
+        font-weight: 300;
+        &:first-child {
+          align-self: flex-start;
+        }
+        &:nth-child(3) {
+          align-self: flex-end;
+        }
+      }
+      h3 {
+        font-weight: 400;
+        margin: 10px;
+      }
+      button {
+        margin-top: 70px;
+        background-color: rgba(240, 200, 8, 0.6);
+        border: 2px solid $yellow;
+      }
+    }
+    .reviews {
+      min-height: 63vh;
+      background-color: black;
+      padding: 20px 0;
+      h1 {
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 15px;
+        margin-bottom: 30px;
+      }
+      blockquote {
+        p {
+          color: whitesmoke;
+          font-weight: 300;
+        }
+      }
+      .driver-signup {
+        background-color: $lightBlue;
+        height: 300px;
+        border-radius: 50%;
+        width: 300px;
+        padding: 0 30px;
+        h4 {
+          color: white;
+          font-weight: 300;
+          line-height: 1.5em;
+        }
+        button {
+          margin-top: 10px;
+          border: 2px solid $darkBlue;
+          background-color: rgba(237, 237, 237, 0.5);
+          h4 {
+            color: $darkBlue;
+          }
+        }
+      }
+    }
+    #driver {
+      height: 85vh;
+      background-image: url('../assets/shopping-carts.jpg');
+      background-position: bottom;
+      background-attachment: fixed;
+      background-size: cover;
+      .driver-section {
+        height: 85vh;
+        background-color: rgba(101, 101, 101, 0.5);
+        box-shadow: -20px 10px 40px 15px rgba(101, 101, 101, 0.5);
+        padding: 0 40px 0 20px;
+        h1 {
+          color: white;
+          font-weight: 300;
+          &:first-child {
+            align-self: flex-start;
+          }
+          &:nth-child(3) {
+            align-self: flex-end;
+          }
+        }
+        h3 {
+          font-weight: 400;
+          margin: 10px;
+        }
+        button {
+          margin-top: 70px;
+          background-color: rgba(240, 200, 8, 0.6);
+          border: 2px solid $yellow;
+        }
+      }
     }
   }
 }
