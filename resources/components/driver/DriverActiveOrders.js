@@ -122,13 +122,19 @@ class DriverActiveOrder extends React.Component {
       var orders = this.props.active.map((item, i) => {
         let startTime = moment(item.order.delivery_start_time).format('LT')
         let endTime = moment(item.order.delivery_end_time).format('LT')
+        console.log(item.order.id)
+        console.log(item.order.shoppingList.cooker.home_lat)
+        console.log(item.order.shoppingList.cooker.home_long)
+        let latitude = item.order.shoppingList.cooker.home_lat
+        let longitude = item.order.shoppingList.cooker.home_long
+        let orderID = item.order.id
         var ingredients = item.order.shoppingList.recipeIngredients.map((item, i) => {
           return <ul key={i}>
           <li>{item.ingredient.name}</li>
           </ul>
         })
 
-        return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} updatePaymentAmountValue={(e) => this.updatePaymentAmountValue(e, i)} submitTotalCost={() => this.submitTotalCost(i)}/>
+        return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} latitude={latitude} longitude={longitude} orderID={orderID} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} updatePaymentAmountValue={(e) => this.updatePaymentAmountValue(e, i)} submitTotalCost={() => this.submitTotalCost(i)}/>
       })
       return <div className="driver col-xs-12 active">
         <div className="row">
