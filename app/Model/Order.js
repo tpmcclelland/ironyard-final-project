@@ -14,15 +14,16 @@ class Order extends Lucid {
     store () {
         return this.belongsTo('App/Model/Store')
     }
+    
+    review () {
+      return this.hasOne('App/Model/Review')
+    }
 
     shoppingList () {
       return this.hasOne('App/Model/ShoppingList')
     }
 
-    review() {
-      return this.hasOne('App/Model/Review')
 
-    }
 
   static scopePending (builder) {
     builder.where('state_id', null)

@@ -30,6 +30,7 @@ Route.group('v1', function () {
  Route.resource('/statuses', 'api/StatusController')
  Route.resource('/stores', 'api/StoreController')
  Route.resource('/users', 'api/UserController')
+ Route.resource('/reviews', 'api/ReviewController')
  Route.post('/login', 'AuthController.login')
   Route.get('/logout', 'AuthController.logout')
  Route.post('/register', 'RegisterController.register')
