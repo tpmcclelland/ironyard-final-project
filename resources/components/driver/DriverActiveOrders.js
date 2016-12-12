@@ -122,9 +122,6 @@ class DriverActiveOrder extends React.Component {
       var orders = this.props.active.map((item, i) => {
         let startTime = moment(item.order.delivery_start_time).format('LT')
         let endTime = moment(item.order.delivery_end_time).format('LT')
-        console.log(item.order.id)
-        console.log(item.order.shoppingList.cooker.home_lat)
-        console.log(item.order.shoppingList.cooker.home_long)
         let latitude = item.order.shoppingList.cooker.home_lat
         let longitude = item.order.shoppingList.cooker.home_long
         let orderID = item.order.id
