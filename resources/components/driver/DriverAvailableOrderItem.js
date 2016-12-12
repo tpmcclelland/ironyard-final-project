@@ -10,7 +10,7 @@ const AvailableOrderItem = (props) => (
     <h5 className="list-group-item-text">From {props.startTime} to {props.endTime}</h5>
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-4 list-group-button'>
-    <button type="button" className="btn btn-default btn-block" onClick={props.showDetails}>{props.data.detailsShown?'Hide Details':'Show Details'}</button>
+    <button type="button" className="btn btn-default btn-block" onClick={props.showDetails}>{props.data.detailsShown?'Show Details':'Hide Details'}</button>
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-4 list-group-button'>
     <button type="button" className={props.data.accepted?'btn btn-block btn-primary':'btn btn-default btn-block'} onClick={props.accepted}>Accept</button>
