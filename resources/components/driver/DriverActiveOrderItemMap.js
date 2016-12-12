@@ -32,12 +32,14 @@ class ActiveOrderItemMap extends Component {
       // center: new google.maps.LatLng(latLong)
       center: latLong,
       zoom: 12,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     var marker = new google.maps.Marker({
       position: latLong,
       map: map
     })
   }
+
 
   render() {
     return <div></div>
