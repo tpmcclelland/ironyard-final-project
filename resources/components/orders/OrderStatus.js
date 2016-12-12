@@ -5,8 +5,6 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
 
-import OrderStatusDetail from './OrderStatusDetail'
-
 class OrderStatus extends React.Component {
   constructor(props) {
     super(props)

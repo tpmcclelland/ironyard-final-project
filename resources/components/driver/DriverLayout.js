@@ -8,7 +8,7 @@ const DriverLayout = (props) => <div>
     <main className="container">
         <div className="row">
             <section className="col-xs-12 section-background">
-                <div className="row">
+                <div className="row driver-component">
                     {props.children}
                 </div>
             </section>
