@@ -27,6 +27,7 @@ class DriverAvailableOrders extends React.Component {
             driverId: driver.id
         })
     }
+
     accepted(currentIndex) {
       let updatedAvailableOrderSet = this.props.available
       let item = updatedAvailableOrderSet[currentIndex]
@@ -75,10 +76,8 @@ class DriverAvailableOrders extends React.Component {
           'Content-Type': 'application/json'
         }
       })
-      .then(response => response.json())
-      .then(this.triggerUpdate)
-      .then(response => console.log(response))
     }
+
 
     render() {
         var orders = this.props.available.map((item, i) => {

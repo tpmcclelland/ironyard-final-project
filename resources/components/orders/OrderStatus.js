@@ -12,23 +12,61 @@ class OrderStatus extends React.Component {
     this.state = {
       orders: [],
       toggle: false,
-      ordersReady: false
+      ordersReady: false,
+      displayPaymentSuccess: false
   }
 }
 
   componentDidMount() {
-      fetch('/api/v1/orders', {
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: {
-          'content-Type': 'application/json'
-        }
+
+    if (this.props.paymentSuccess) {
+      this.setState({
+        displayPaymentSuccess: true
       })
-        .then(response => response.json())
-        .then(this.handleOrders)
+    }
+
+    this.subscribeToUpdatedState()
+    this.fetchOrders()
+  }
+
+  fetchOrders() {
+    fetch('/api/v1/orders', {
+      method: 'GET',
+      credentials: 'same-origin',
+      headers: {
+        'content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(this.handleOrders)
+  }
+
+  subscribeToUpdatedState() {
+    var storage = JSON.parse(sessionStorage.getItem('user'))
+    var cookerId = storage.cooker.id
+
+    var pusher = new Pusher('0233f61567581ef06f8b', {
+      encrypted: true
+    })
+
+    //need to change this to use the cooker channel
+    var pusherChannel = pusher.subscribe('cooker_' + cookerId)
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+     pusherChannel.bind('state_change', (data) => {
+      console.log('pusher', data)
+       this.setState({
+         orderReady: false,
+         orders: []
+       })
+       this.fetchOrders()
+    })
   }
 
   handleOrders(response) {
+
     var storage = JSON.parse(sessionStorage.getItem('user'))
     var userId = storage.user.id
     if (response.state_id !== null) {
@@ -76,6 +114,7 @@ class OrderStatus extends React.Component {
             this.setState({
               orders: updatedOrders,
               ordersReady: true,
+              displayPaymentSuccess: false
             })
           })
       }
@@ -279,12 +318,16 @@ render() {
     })
 
   return <div className="orderStatus col-xs-12">
-    <h1 className="heading">Order Status</h1>
-    {this.props.paymentSuccess? <div className="alert alert-success" role="alert">You've completed your order</div>: ''}
+    <div className={this.state.displayPaymentSuccess? 'alert alert-success': 'hidden'} role="alert">
+      <h3>You've completed your order</h3>
+    </div>
     <div className={this.state.ordersReady?'hidden':'container-fluid'}>
-      <h3>Preparing your orders...</h3>
+      <h1 className="heading">Preparing your orders</h1>
+      <span className="fa fa-refresh fa-spin fa-5x fa-fw"></span>
+      <span className="sr-only">Loading...</span>
     </div>
     <div className={this.state.ordersReady?'list-group container-fluid':'hidden'}>
+      <h1 className="heading">Order Status</h1>
       {userOrders}
     </div>
   </div>

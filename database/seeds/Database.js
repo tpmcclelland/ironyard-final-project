@@ -146,23 +146,23 @@ class DatabaseSeeder {
     // this is uses real data because we want to have a defined list of statuses
     const states = yield this.createState()
 
-    const driver = yield this.createDriver()
-    const cooker = yield this.createCooker()
-
-    const recipe = yield this.createRecipe()
-    const ingredient = yield this.createIngredient()
-    const ingredientRecipe = yield this.createIngredientRecipe(recipe, ingredient)
-
-    const favorite = yield this.createFavorite(cooker, recipe)
-
-    const store = yield this.createStore()
-    const order = yield this.createOrder(driver, store)
-
-    const shoppingList = yield this.createShoppingList(cooker, order)
-    const shoppingListIngredients = yield this.createIngredientShoppingList(shoppingList, ingredientRecipe)
-
-    const rating = yield this.createRating(driver)
-    const review = yield this.createReview(order)
+    // const driver = yield this.createDriver()
+    // const cooker = yield this.createCooker()
+    //
+    // const recipe = yield this.createRecipe()
+    // const ingredient = yield this.createIngredient()
+    // const ingredientRecipe = yield this.createIngredientRecipe(recipe, ingredient)
+    //
+    // const favorite = yield this.createFavorite(cooker, recipe)
+    //
+    // const store = yield this.createStore()
+    // const order = yield this.createOrder(driver, store)
+    //
+    // const shoppingList = yield this.createShoppingList(cooker, order)
+    // const shoppingListIngredients = yield this.createIngredientShoppingList(shoppingList, ingredientRecipe)
+    //
+    // const rating = yield this.createRating(driver)
+    // const review = yield this.createReview(order)
 
 
 
