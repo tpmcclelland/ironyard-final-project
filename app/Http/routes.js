@@ -36,6 +36,7 @@ Route.group('v1', function () {
  Route.post('/register', 'RegisterController.register')
   Route.post('/payment', 'api/PaymentController.charge')
   Route.post('/payment/save', 'api/PaymentController.saveOrder')
+  Route.get('/cooker/:id/favorites', 'api/CookerController.favorites')
 }).prefix('/api/v1')
 
 
