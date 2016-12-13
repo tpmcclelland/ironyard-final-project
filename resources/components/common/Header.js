@@ -20,8 +20,10 @@ class Header extends React.Component {
     const user = JSON.parse(sessionStorage.getItem('user'))
     const driver = user.driver
 
-    if (driver.id !== undefined) {
-      this.setState({driver: true})
+    if (driver != null) {
+      if (driver.id !== undefined ) {
+        this.setState({driver: true})
+      }
     } else {
       this.setState({cooker: user.cooker})
       this.getFavoriteCount()

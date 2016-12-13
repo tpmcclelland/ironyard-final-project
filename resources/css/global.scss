@@ -196,3 +196,12 @@
   opacity: 0.01;
   transition: opacity 300ms ease-in;
 }
+
+.validation-message {
+  background-color: #f2dede;
+  padding: 10px;
+  font-weight: bold;
+  margin: 5px;
+  border-radius: 5px;
+
+}
