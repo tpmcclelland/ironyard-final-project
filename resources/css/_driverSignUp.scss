@@ -1,0 +1,40 @@
+@import "variables";
+
+.driver-sign-up {
+  .background {
+    //height: 100vh;
+    min-height: 100vh;
+    background: url('../assets/bike-basket.jpeg') space fixed center;
+    background-size: cover;
+    justify-content: flex-start;
+  }
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .form {
+    background-color: rgba(101, 101, 101, 0.35);
+    color: white;
+    h1 {
+      color: white;
+      font-weight: 300;
+      &:first-child {
+        align-self: flex-start;
+      }
+      &:nth-child(3) {
+        align-self: flex-end;
+      }
+    }
+    h3 {
+      font-weight: 400;
+      margin: 10px;
+    }
+    button {
+      margin-top: 70px;
+      background-color: rgba(240, 200, 8, 0.6);
+      border: 2px solid $yellow;
+    }
+  }
+}

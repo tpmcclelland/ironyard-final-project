@@ -167,12 +167,9 @@ class ShoppingList extends Component {
             </ReactCSSTransitionGroup>
 
           </ul>
-          <div className="col-sm-8 col-sm-offset-2">
-          <button type="button" className="btn btn-block btn-default schedule-button" onClick={this.schedule}>Schedule</button>
-          <button type="button" className="btn btn-block btn-default print-button" onClick={() => window.print()}>Print List</button>
-
-          </div>
-
+            <div className="col-xs-6 col-xs-offset-3">
+              <button type="button" className="btn btn-block btn-default schedule-button" onClick={this.schedule}>Schedule</button>
+            </div>
         </div>
         </ReactCSSTransitionGroup>
     }

@@ -5,14 +5,15 @@ import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
 import {browserHistory} from 'react-router'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import validator from 'validator'
 
 class Schedule extends Component {
     constructor(props) {
         super(props)
         classAutoBind(this)
         this.state = {
-            startDeliveryWindow: "select",
-            endDeliveryWindow: "select",
+            startDeliveryWindow: "",
+            endDeliveryWindow: "",
             shippingFirstName: "",
             shippingLastName: "",
             email: "",
@@ -21,11 +22,18 @@ class Schedule extends Component {
             shippingCity: "",
             shippingState: "",
             shippingZipcode: "",
+            errorMessages: []
         }
     }
     componentWillMount() {
 
     }
+
+    componentWillUpdate() {
+      // this.isValid()
+
+    }
+
     componentDidMount() {
         var storage = JSON.parse(sessionStorage.getItem('user'))
         var user = storage.user
@@ -49,13 +57,38 @@ class Schedule extends Component {
         // console.log(updatedState)
         this.setState(updatedState)
         // this.collectShippingAddress()
+       setTimeout(() => {this.isValid()},0)
     }
     submitOrder(e) {
+      e.preventDefault()
+
+      if (this.isValid()) {
         store.dispatch({type: 'PAYMENT_AVAILABLE', paymentAvailable: true})
         store.dispatch({type: 'LIST_AVAILABLE', shoppingListAvailable: false})
-        // e.preventDefault()
+
         this.createOrder()
+      }
+
     }
+
+    isValid() {
+      var newErrorMessages = []
+
+      var keys = Object.keys(this.state)
+      console.log(keys)
+
+      keys.forEach(key => {
+        if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
+      })
+
+
+      this.setState({
+        errorMessages: newErrorMessages
+      })
+
+      return newErrorMessages.length == 0
+    }
+
     createOrder() {
         fetch('/api/v1/orders', {
             method: 'POST',
@@ -87,6 +120,11 @@ class Schedule extends Component {
     }
 
     render() {
+
+        const errorMessages = this.state.errorMessages.map((message,i) => {
+          return <li key={i}>{message}</li>
+        })
+
         var today = moment().format('YYYY-MM-DD')
 
         return <ReactCSSTransitionGroup
@@ -97,15 +135,18 @@ class Schedule extends Component {
           transitionEnterTimeout={2000}
           transitionLeave={false}>
           <div className="schedule col-xs-12">
-      <form encType="multipart/form-data">
+            {/*{errorMessages.length? <div className="alert alert-danger"><ul>{errorMessages}</ul></div> : ''}*/}
+      <form onSubmit={this.submitOrder} encType="multipart/form-data">
+        {/*<ValidateGroup>*/}
             <div className="form-group">
                 <h2 className="heading">Delivery Window</h2>
                 <div className="form-group well">
                     <div className="row">
                         <div className="col-sm-6">
                             <label htmlFor="startDeliveryWindow">Start</label>
-                            <select id="startDeliveryWindow" name="startDeliveryWindow" className="form-control" value={this.state.startDeliveryWindow} onChange={this.typing} required>
-                                <option disabled value="select">Select a time</option>
+                          {/*<Validate validators={[(v) => !validator.isEmpty(v)]}>*/}
+                            <select id="startDeliveryWindow" name="startDeliveryWindow" value={this.state.startDeliveryWindow} className="form-control" onChange={this.typing}>
+                                <option disabled value="">Select a time</option>
                                 <option value={today + ' 07:00:00'}>7:00 AM</option>
                                 <option value={today + ' 08:00:00'}>8:00 AM</option>
                                 <option value={today + ' 09:00:00'}>9:00 AM</option>
@@ -131,11 +172,14 @@ class Schedule extends Component {
                                 <option value={today + ' 05:00:00'}>5:00 AM</option>
                                 <option value={today + ' 06:00:00'}>6:00 AM</option>
                             </select>
+                          {this.state.errorMessages.includes('startDeliveryWindow') ?<div className="validation-message">Please fill in this field</div>: '' }
+                            {/*<ErrorMessage>Start Time is Required</ErrorMessage>*/}
+                          {/*</Validate>*/}
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="endDeliveryWindow">End</label>
-                            <select id="endDeliveryWindow" name="endDeliveryWindow" className="form-control" value={this.state.endDeliveryWindow} onChange={this.typing} required>
-                                <option disabled value="select">Select a time</option>
+                            <select id="endDeliveryWindow" name="endDeliveryWindow" className="form-control" value={this.state.endDeliveryWindow} onChange={this.typing}>
+                                <option disabled value="">Select a time</option>
                                 <option value={today + ' 07:00:00'}>7:00 AM</option>
                                 <option value={today + ' 08:00:00'}>8:00 AM</option>
                                 <option value={today + ' 09:00:00'}>9:00 AM</option>
@@ -161,6 +205,7 @@ class Schedule extends Component {
                                 <option value={today + ' 05:00:00'}>5:00 AM</option>
                                 <option value={today + ' 06:00:00'}>6:00 AM</option>
                             </select>
+                          {this.state.errorMessages.includes('endDeliveryWindow') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                 </div>
@@ -169,33 +214,42 @@ class Schedule extends Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <label htmlFor="shippingFirstName">First Name</label>
-                            <input className="form-control" type="text" name="shippingFirstName" id="shippingFirstName" value={this.state.shippingFirstName} onChange={this.typing} placeholder="Snow" required/>
+                          {/*<Validate validators={[(v) => !validator.isEmpty(v)]}>*/}
+                            <input className="form-control" type="text" name="shippingFirstName" id="shippingFirstName" value={this.state.shippingFirstName} onChange={this.typing} placeholder="Firstname"/>
+                            {/*<ErrorMessage>First Name is Required</ErrorMessage>*/}
+                          {/*</Validate>*/}
+                          {this.state.errorMessages.includes('shippingFirstName') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingLastName">Last Name</label>
-                            <input className="form-control" type="text" name="shippingLastName" id="shippingLastName" value={this.state.shippingLastName} onChange={this.typing} placeholder="White" required/>
+                            <input className="form-control" type="text" name="shippingLastName" id="shippingLastName" value={this.state.shippingLastName} onChange={this.typing} placeholder="White"/>
+                          {this.state.errorMessages.includes('shippingLastName') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                     <div className="row">
                         <br />
                         <div className="col-sm-6">
                             <label htmlFor="email">Email</label>
-                            <input className="form-control" type="email" name="email" id="email" value={this.state.email} onChange={this.typing} placeholder="Winter@is.coming" required/>
+                            <input className="form-control" type="email" name="email" id="email" value={this.state.email} onChange={this.typing} placeholder="Winter@is.coming"/>
+                          {this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingTelephone">Telephone</label>
-                            <input className="form-control" type="tel" name="shippingTelephone" id="shippingTelephone" value={this.state.shippingTelephone} onChange={this.typing} placeholder="123 456 7890" required/>
+                            <input className="form-control" type="tel" name="shippingTelephone" id="shippingTelephone" value={this.state.shippingTelephone} onChange={this.typing} placeholder="123 456 7890" />
+                          {this.state.errorMessages.includes('shippingTelephone') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                     <div className="row">
                         <br />
                         <div className="col-sm-6">
                             <label htmlFor="shippingAddress">Address</label>
-                            <input className="form-control" type="text" name="shippingAddress" id="shippingAddress" value={this.state.shippingAddress} onChange={this.typing} placeholder="12 Upup Downdown PKWY" required/>
+                            <input className="form-control" type="text" name="shippingAddress" id="shippingAddress" value={this.state.shippingAddress} onChange={this.typing} placeholder="12 Upup Downdown PKWY" />
+                          {this.state.errorMessages.includes('shippingAddress') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingCity">City</label>
-                            <input className="form-control" type="text" name="shippingCity" id="shippingCity" value={this.state.shippingCity} onChange={this.typing} placeholder="Bee Ayystart" required/>
+                            <input className="form-control" type="text" name="shippingCity" id="shippingCity" value={this.state.shippingCity} onChange={this.typing} placeholder="Bee Ayystart" />
+                          {this.state.errorMessages.includes('shippingCity') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                     <div className="row">
@@ -203,7 +257,7 @@ class Schedule extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="shippingState">State</label>
                             <select id="shippingState" name="shippingState" className="form-control" value={this.state.shippingState} onChange={this.typing}>
-                                <option disabled value="default">-Select State-</option>
+                                <option disabled value="">-Select State-</option>
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
                                 <option value="AZ">Arizona</option>
@@ -256,21 +310,25 @@ class Schedule extends Component {
                                 <option value="WI">Wisconsin</option>
                                 <option value="WY">Wyoming</option>
                             </select>
+                          {this.state.errorMessages.includes('shippingState') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingZipcode">Zipcode</label>
-                            <input className="form-control" type="text" name="shippingZipcode" id="shippingZipcode" value={this.state.shippingZipcode} onChange={this.typing} placeholder="46202" required/>
+                            <input className="form-control" type="text" name="shippingZipcode" id="shippingZipcode" value={this.state.shippingZipcode} onChange={this.typing} placeholder="46202" />
+                          {this.state.errorMessages.includes('shippingZipcode') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                 </div>
                 <div className="form-group">
                 <div className="row">
                     <div className="col-xs-6 col-xs-offset-3">
-                        <button className="btn btn-default btn-block" type="button" onClick={this.submitOrder} disabled={this.state.startDeliveryWindow == 'select' || this.state.endDeliveryWindow == 'select'?true:false}>Submit Address</button>
+                        {/*<button className="btn btn-default btn-block" type="submit" disabled={this.state.startDeliveryWindow == 'select' || this.state.endDeliveryWindow == 'select'?true:false}>Submit Address</button>*/}
+                      <button className="btn btn-default btn-block" type="submit">Submit Address</button>
                     </div>
                 </div>
                 </div>
             </div>
+        {/*</ValidateGroup>*/}
         </form>
     </div>
         </ReactCSSTransitionGroup>

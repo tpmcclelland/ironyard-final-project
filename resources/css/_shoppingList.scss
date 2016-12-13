@@ -25,13 +25,10 @@
         margin-bottom: 10px;
         border: 2px solid $green;
     }
-    .print-button {
-        margin-bottom: 20px;
-        border: 2px solid $darkBlue;
-    }
 }
 @media (min-width: 768px) {
     .shopping {
         padding: 80px 50px 0 20px;
     }
+    padding-bottom: 30px;
 }
