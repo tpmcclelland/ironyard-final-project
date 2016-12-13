@@ -6,6 +6,7 @@ import AvailableOrderItem from './DriverAvailableOrderItem'
 
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class DriverAvailableOrders extends React.Component {
     constructor(props) {
@@ -94,16 +95,29 @@ class DriverAvailableOrders extends React.Component {
 
           return <AvailableOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} latitude={latitude} longitude={longitude} orderID={orderID} showDetails={() => this.showAvailableDetails(i)} accepted={() => this.accepted(i)} />
           })
-      return <div className="driver col-xs-12 available">
+      return <ReactCSSTransitionGroup
+        transitionName="component"
+        transitionAppear={true}
+        transitionAppearTimeout={500}
+        transitionEnter={false}
+        transitionLeave={false}>
+        <div className="driver col-xs-12 available">
         <div className="row">
             <div className='col-xs-12'>
               <h1 className="heading">Available Orders</h1>
             </div>
         </div>
           <div className="list-group container-fluid">
-          {orders}
+            <ReactCSSTransitionGroup
+              transitionName="list"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={300}>
+              {orders}
+            </ReactCSSTransitionGroup>
+
           </div>
       </div>
+      </ReactCSSTransitionGroup>
     }
 }
 

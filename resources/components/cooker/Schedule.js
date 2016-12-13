@@ -4,6 +4,7 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
 import {browserHistory} from 'react-router'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class Schedule extends Component {
     constructor(props) {
@@ -86,7 +87,13 @@ class Schedule extends Component {
     render() {
         var today = moment().format('YYYY-MM-DD')
 
-        return <div className="schedule col-xs-12">
+        return <ReactCSSTransitionGroup
+          transitionName="component"
+          transitionAppear={true}
+          transitionAppearTimeout={500}
+          transitionEnter={true}
+          transitionLeave={false}>
+          <div className="schedule col-xs-12">
       <form encType="multipart/form-data">
             <div className="form-group">
                 <h2 className="heading">Delivery Window</h2>
@@ -263,6 +270,7 @@ class Schedule extends Component {
             </div>
         </form>
     </div>
+        </ReactCSSTransitionGroup>
 }
 }
 

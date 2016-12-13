@@ -4,6 +4,7 @@ import update from 'react-addons-update'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class OrderStatus extends React.Component {
   constructor(props) {
@@ -317,20 +318,32 @@ render() {
         </div>
     })
 
-  return <div className="orderStatus col-xs-12">
+  return <ReactCSSTransitionGroup
+    transitionName="component"
+    transitionAppear={true}
+    transitionAppearTimeout={500}
+    transitionEnter={false}
+    transitionLeave={false}>
+    <div className="orderStatus col-xs-12">
     <div className={this.state.displayPaymentSuccess? 'alert alert-success': 'hidden'} role="alert">
       <h3>You've completed your order</h3>
     </div>
-    <div className={this.state.ordersReady?'hidden':'container-fluid'}>
+    <div className={!this.state.ordersReady? 'container': 'hidden'}>
       <h1 className="heading">Preparing your orders</h1>
       <span className="fa fa-refresh fa-spin fa-5x fa-fw"></span>
       <span className="sr-only">Loading...</span>
     </div>
     <div className={this.state.ordersReady?'list-group container-fluid':'hidden'}>
       <h1 className="heading">Order Status</h1>
-      {userOrders}
+      <ReactCSSTransitionGroup
+        transitionName="list"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={300}>
+        {userOrders}
+      </ReactCSSTransitionGroup>
     </div>
   </div>
+  </ReactCSSTransitionGroup>
     }
   }
 

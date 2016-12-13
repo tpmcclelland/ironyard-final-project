@@ -5,6 +5,7 @@ import Modal from 'react-modal'
 
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 const customStyles = {
   overlay : {
@@ -239,7 +240,14 @@ class Recipes extends Component {
       var ingredients = this.state.ingredients.map((ingredient, i) => {
         return <li key={i}>{ingredient}</li>
       })
-        return <div className="recipes col-xs-12">
+
+        return <ReactCSSTransitionGroup
+          transitionName="component"
+          transitionAppear={true}
+          transitionAppearTimeout={500}
+          transitionEnter={false}
+          transitionLeave={false}>
+          <div className="recipes col-xs-12">
             <div className="col-sm-5 col-sm-push-7 col-xs-12">
                 <form className="navbar-form navbar-left" onSubmit={this.search}>
                     <div className="form-group">
@@ -253,7 +261,12 @@ class Recipes extends Component {
             </div>
         <div className="row">
           <div className="col-xs-11">
-          {recipes}
+            <ReactCSSTransitionGroup
+              transitionName="list"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={300}>
+              {recipes}
+            </ReactCSSTransitionGroup>
           </div>
         </div>
 
@@ -320,6 +333,7 @@ class Recipes extends Component {
         {/* End Modal */}
 
         </div>
+        </ReactCSSTransitionGroup>
     }
 }
 

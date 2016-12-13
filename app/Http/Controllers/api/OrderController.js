@@ -105,7 +105,11 @@ class OrderController {
         .where('id', request.param('id'))
          .update({ state_id: stateValue[0].id, driver_id: request.input('driver_id')})
 
-      this.pushStateUpdate(cooker, request.param('id'), stateValue[0])
+      const order = yield Order.query().where('id', request.param('id')).with('shoppingList.cooker').fetch()
+      const orderObj = order.toJSON()
+      // const cooker = yield order.shoppingList().cooker().fetch()
+
+      this.pushStateUpdate(orderObj[0].shoppingList.cooker_id, request.param('id'), stateValue[0])
 
       return response.json({message: 'Updated state and driver'})
 
@@ -138,7 +142,7 @@ class OrderController {
     console.log('pushed order unavailable')
   }
 
-  pushStateUpdate(cooker, orderId, state) {
+  pushStateUpdate(cookerId, orderId, state) {
 
     var pusher = new Pusher({
       appId: Env.get('PUSHER_APP_ID'),
@@ -148,9 +152,9 @@ class OrderController {
     })
 
     //need to change this to use the cooker channel
-    pusher.trigger('cooker_' + cooker.id, 'state_change', {
+    pusher.trigger('cooker_' + cookerId, 'state_change', {
       orderId: orderId,
-      cookerId: cooker.id,
+      cookerId: cookerId,
       stateId: state.id
     })
 

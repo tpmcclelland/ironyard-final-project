@@ -44,6 +44,7 @@
     "pg": "^6.1.0",
     "pusher": "^1.5.1",
     "react": "^15.2.1",
+    "react-addons-css-transition-group": "^15.4.1",
     "react-addons-test-utils": "^15.3.2",
     "react-addons-update": "^15.4.1",
     "react-chartjs": "^0.8.0",
