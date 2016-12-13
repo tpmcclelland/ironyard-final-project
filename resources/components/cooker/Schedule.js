@@ -51,6 +51,8 @@ class Schedule extends Component {
         // this.collectShippingAddress()
     }
     submitOrder(e) {
+        store.dispatch({type: 'PAYMENT_AVAILABLE', paymentAvailable: true})
+        store.dispatch({type: 'LIST_AVAILABLE', shoppingListAvailable: false})
         // e.preventDefault()
         this.createOrder()
     }
@@ -263,7 +265,7 @@ class Schedule extends Component {
                 <div className="form-group">
                 <div className="row">
                     <div className="col-xs-6 col-xs-offset-3">
-                        <button className="btn btn-default btn-block" type="button" onClick={this.submitOrder}>Submit Address</button>
+                        <button className="btn btn-default btn-block" type="button" onClick={this.submitOrder} disabled={this.state.startDeliveryWindow == 'select' || this.state.endDeliveryWindow == 'select'?true:false}>Submit Address</button>
                     </div>
                 </div>
                 </div>
@@ -276,8 +278,9 @@ class Schedule extends Component {
 
 const mapStateToProps = function(store) {
   return {
-    amount: store.sharedList.amount
-
+    amount: store.sharedList.amount,
+    shoppingListAvailable: store.sharedRecipe.shoppingListAvailable,
+    paymentAvailable: store.sharedRecipe.paymentAvailable,
   }
 }
 

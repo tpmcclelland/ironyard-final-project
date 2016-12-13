@@ -19,9 +19,8 @@ class Header extends React.Component {
   componentDidMount() {
     const user = JSON.parse(sessionStorage.getItem('user'))
     const driver = user.driver
-    console.log("header", user.cooker, user.driver)
 
-    if (driver) {
+    if (driver.id !== undefined) {
       this.setState({driver: true})
     } else {
       this.setState({cooker: user.cooker})

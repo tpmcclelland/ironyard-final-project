@@ -29,7 +29,6 @@ class DriverMetrics extends React.Component {
     }
     handleMetrics(response) {
         var month = moment().format('MMMM')
-        console.log(response)
         var ordersThisMonth = []
         response.delivered_orders.forEach((order) => {
             if (moment(order.delivery_end_time).format('MMMM') === month) {
@@ -44,11 +43,24 @@ class DriverMetrics extends React.Component {
         })
     }
     render() {
-        var reviews = this.state.reviews.map((item, i) => {
-            return <blockquote key={i} className={i%2 == 0?'text-left blockquote':'blockquote-reverse'}>
-                <p>{item}</p>
-            </blockquote>
-        })
+        if (this.state.reviews.length < 1) {
+            this.state.reviews.push('a')
+            var reviews = this.state.reviews.map((item, i) => {
+                return <h3 className="lead" key={i}>No customer reviews yet</h3>
+            })
+        } else {
+            var reviews = this.state.reviews.map((item, i) => {
+                if (this.state.reviews.length == 1 && item == "") {
+                    return <h3 className="lead" key={i}>No customer reviews yet</h3>
+                }
+                if (item !== "") {
+                    return <blockquote key={i} className={i%2 == 0?'text-left blockquote':'blockquote-reverse'}>
+                        <p>{item}</p>
+                    </blockquote>
+                }
+            })
+        }
+
         var width = (this.state.averageRating / 5) * 100 + '%'
             return <div className="driver col-xs-12 metrics">
                 <h1 className="heading">Metrics</h1>

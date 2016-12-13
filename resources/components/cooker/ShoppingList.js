@@ -155,7 +155,7 @@ class ShoppingList extends Component {
           transitionEnter={false}
           transitionLeave={false}>
           <div className="shopping col-xs-12">
-          <h1 className="heading">2. View your Shopping List</h1>
+          <h1 className="heading">Shopping List</h1>
           <p>Make any changes necessary to the quantities or remove items before completing your order.</p>
           {/*<button type="button" className="btn btn-default btn-danger" onClick={this.clearList}>Remove All</button>*/}
           <ul className="list-group">
@@ -178,7 +178,6 @@ class ShoppingList extends Component {
 const mapStateToProps = function(store) {
   return {
     refreshShoppingList: store.sharedRecipe.refreshShoppingList
-
   }
 }
 

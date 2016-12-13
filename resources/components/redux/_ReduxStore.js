@@ -38,7 +38,11 @@ function recipeReducer (state = {
   favoriteCount: 0,
   favoriteRecipes: [],
   displayFavorites: false,
-  refreshShoppingList: false
+  refreshShoppingList: false,
+  shoppingListAvailable: false,
+  paymentAvailable: false,
+  ordersAvailable: false,
+  addedToList: false,
 }, action) {
   var newState = Object.assign({}, state)
 
@@ -61,6 +65,22 @@ function recipeReducer (state = {
 
     case 'LIST_REFRESH':
       newState.refreshShoppingList = action.refreshShoppingList
+      break
+
+    case 'LIST_AVAILABLE':
+      newState.shoppingListAvailable = action.shoppingListAvailable
+      break
+
+    case 'PAYMENT_AVAILABLE':
+      newState.paymentAvailable = action.paymentAvailable
+      break
+
+    case 'ORDERS_AVAILABLE':
+      newState.ordersAvailable = action.ordersAvailable
+      break
+
+    case 'ADDED_TO_LIST':
+      newState.addedToList = action.addedToList
       break
   }
 
