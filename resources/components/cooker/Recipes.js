@@ -56,7 +56,7 @@ class Recipes extends Component {
         }
     }
     componentDidMount() {
-        this.fetchRecipes(this.props.resultSize, this.props.displayFavorites, true)
+      this.fetchRecipes(this.props.resultSize, this.props.displayFavorites, true)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -66,6 +66,7 @@ class Recipes extends Component {
     componentWillUnmount() {
       store.dispatch({type: 'DISPLAY_FAVORITES', displayFavorites: false})
     }
+
 
     fetchRecipes(resultSize, showFavorites, forceUpdate) {
 
@@ -202,6 +203,7 @@ class Recipes extends Component {
         added: true
       })
       this.hideAlertPanel()
+      store.dispatch({type: 'ADDED_TO_LIST', addedToList: true})
     }
     hideAlertPanel() {
       var alert = setTimeout(() => {this.setState({displayAlertPanel: false})}, 1000)
@@ -226,6 +228,9 @@ class Recipes extends Component {
         favorited: false,
         added: false
       })
+      if (this.props.addedToList) {
+        store.dispatch({type: 'LIST_AVAILABLE', shoppingListAvailable: true})
+      }
     }
 
     render() {
@@ -342,8 +347,10 @@ const mapStateToProps = function(store) {
     favoriteCount: store.sharedUser.favoriteCount,
     resultSize: store.sharedRecipe.resultSize,
     favoriteRecipes: store.sharedRecipe.favoriteRecipes,
-    displayFavorites: store.sharedRecipe.displayFavorites
-
+    displayFavorites: store.sharedRecipe.displayFavorites,
+    shoppingListAvailable: store.sharedRecipe.shoppingListAvailable,
+    ordersAvailable: store.sharedRecipe.ordersAvailable,
+    addedToList: store.sharedRecipe.addedToList
   }
 }
 

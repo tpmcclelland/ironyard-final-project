@@ -93,25 +93,25 @@ class OrderStatus extends React.Component {
                 }
               })
             }
-          }
-          if (ratingArray !== undefined && ratingArray.length !== 0) {
-            var orderRating = ratingArray[0]
-            var reviewShown = true
-            var disable = true
-          } else {
-            var orderRating = 'default'
-            var reviewShown = false
-            var disable = false
-          }
-            updatedOrders.push({
-              order: res,
-              state: res.state.type,
-              detailsShown: false,
-              reviewShown: reviewShown,
-              rating: orderRating,
-              review: review,
-              disable: disable
-            })
+            if (ratingArray !== undefined && ratingArray.length !== 0) {
+              var orderRating = ratingArray[0]
+              var reviewShown = true
+              var disable = true
+            } else {
+              var orderRating = 'default'
+              var reviewShown = false
+              var disable = false
+            }
+              updatedOrders.push({
+                order: res,
+                state: res.state.type,
+                detailsShown: false,
+                reviewShown: reviewShown,
+                rating: orderRating,
+                review: review,
+                disable: disable
+              })
+            }
             this.setState({
               orders: updatedOrders,
               ordersReady: true,
