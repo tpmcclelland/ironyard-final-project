@@ -2,7 +2,8 @@
 
 .driver-sign-up {
   .background {
-    height: 100vh;
+    //height: 100vh;
+    min-height: 100vh;
     background: url('../assets/bike-basket.jpeg') space fixed center;
     background-size: cover;
     justify-content: flex-start;
@@ -40,13 +41,11 @@
       border: 2px solid $yellow;
     }
   }
-  @media (min-width: 768px) {
-    .background {
-      //height: auto;
-      //background: url('../assets/bike-basket.jpeg') space fixed center;
-      //background-size: cover;
-      //justify-content: flex-start;
-    }
-
-  }
+  //@media (min-width: 768px) {
+  //  .background {
+  //    min-height: 100vh;
+  //    background: url('../assets/bike-basket.jpeg') space fixed center;
+  //    background-size: 1000px;
+  //    //justify-content: flex-start;
+  //  }
 }
