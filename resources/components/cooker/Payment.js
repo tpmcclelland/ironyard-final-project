@@ -21,7 +21,8 @@ class Payment extends Component {
             ship_to_address: "",
             paymentSuccess: false,
             cardNumber: "",
-            cvc: ""
+            cvc: "",
+            processing: false
         }
 
       classAutoBind(this)
@@ -76,6 +77,10 @@ class Payment extends Component {
 
     } else { // Token was created!
       store.dispatch({type: 'LIST_AVAILABLE', shoppingListAvailable: false})
+
+      this.setState({
+        processing: true
+      })
 
       // Get the token ID:
       var token = response.id;
@@ -174,7 +179,12 @@ class Payment extends Component {
           transitionAppearTimeout={500}
           transitionEnter={false}
           transitionLeave={false}>
-      <div className="payment col-xs-12">
+          <div className={this.state.processing ? 'payment col-xs-12': 'hidden'}>
+            <h1 className="heading">Processing Your Payment</h1>
+            <span className="fa fa-refresh fa-spin fa-5x fa-fw"></span>
+            <span className="sr-only">Payment Processing...</span>
+          </div>
+      <div className={!this.state.processing? 'payment col-xs-12': 'hidden'}>
           <form action="/api/v1/payment" method="POST" id="payment-form">
             <div className="form-group">
                 <div className="row">
