@@ -19,7 +19,9 @@ class Payment extends Component {
             billingZipcode: "",
             paymentCardHolderName: "",
             ship_to_address: "",
-            paymentSuccess: false
+            paymentSuccess: false,
+            cardNumber: "",
+            cvc: ""
         }
 
       classAutoBind(this)
@@ -73,6 +75,7 @@ class Payment extends Component {
       $form.find('#submit-button').prop('disabled', false); // Re-enable submission
 
     } else { // Token was created!
+      store.dispatch({type: 'LIST_AVAILABLE', shoppingListAvailable: false})
 
       // Get the token ID:
       var token = response.id;
@@ -129,6 +132,8 @@ class Payment extends Component {
           paymentSuccess: true
         })
         store.dispatch({type:'PAYMENT_SUCCESS', paymentSuccess: true})
+        store.dispatch({type: 'PAYMENT_AVAILABLE', paymentAvailable: false})
+        store.dispatch({type: 'ORDERS_AVAILABLE', ordersAvailable: true})
         browserHistory.push('/cooker/orders')
       })
 
@@ -198,11 +203,11 @@ class Payment extends Component {
                       <br />
                         <div className="col-sm-8">
                             <label htmlFor="paymentCardNumber">Card Number</label>
-                            <input className="form-control" type="text" id="paymentCardNumber" data-stripe="number" required/>
+                            <input className="form-control" type="text" id="paymentCardNumber" data-stripe="number" name="cardNumber" value={this.state.cardNumber} onChange={this.typing} required/>
                         </div>
                         <div className="col-sm-4">
                           <label htmlFor="paymentCvc">CVC</label>
-                          <input className="form-control" type="text"  data-stripe="cvc" required/>
+                          <input className="form-control" type="text"  data-stripe="cvc" required name="cvc" value={this.state.cvc} onChange={this.typing}/>
                         </div>
                     </div>
                     <div className="row">
@@ -328,7 +333,7 @@ class Payment extends Component {
                 <div className="form-group">
                 <div className="row">
                   <div className="col-xs-6 col-xs-offset-3">
-                    <button id="submit-button" className="btn btn-default btn-block" onClick={this.submitPayment}>Submit Payment</button>
+                    <button id="submit-button" className="btn btn-default btn-block" onClick={this.submitPayment} disabled={this.state.cardNumber.length < 16 || this.state.cvc < 3?true:false}>Submit Payment</button>
                   </div>
                 </div>
 
@@ -342,8 +347,10 @@ class Payment extends Component {
 
 const mapStateToProps = function(store) {
   return {
-    amount: store.sharedList.amount
-
+    amount: store.sharedList.amount,
+    shoppingListAvailable: store.sharedRecipe.shoppingListAvailable,
+    paymentAvailable: store.sharedRecipe.paymentAvailable,
+    ordersAvailable: store.sharedRecipe.ordersAvailable
   }
 }
 
