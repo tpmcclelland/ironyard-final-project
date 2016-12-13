@@ -24,10 +24,17 @@ class OrderStatus extends React.Component {
       this.setState({
         displayPaymentSuccess: true
       })
+
+      var alert = setTimeout(() => {
+        this.setState({displayPaymentSuccess: false})
+        this.subscribeToUpdatedState()
+        this.fetchOrders()
+      }, 1000)
+    } else {
+      this.subscribeToUpdatedState()
+      this.fetchOrders()
     }
 
-    this.subscribeToUpdatedState()
-    this.fetchOrders()
   }
 
   fetchOrders() {
@@ -334,7 +341,7 @@ render() {
     <div className={this.state.displayPaymentSuccess? 'alert alert-success': 'hidden'} role="alert">
       <h3>You've completed your order</h3>
     </div>
-    <div className={!this.state.ordersReady? 'container': 'hidden'}>
+    <div className={!this.state.ordersReady && !this.state.displayPaymentSuccess? 'container': 'hidden'}>
       <h1 className="heading">Preparing your orders</h1>
       <span className="fa fa-refresh fa-spin fa-5x fa-fw"></span>
       <span className="sr-only">Loading...</span>
