@@ -2,13 +2,13 @@
 // border-right: 2px solid $red;
 // border-top: 2px solid $red;
 // transform: rotate(45deg);
-.flex {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
 .driver-navigation {
+    .flex {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
     padding-top: 20px;
     padding-bottom: 20px;
     display: inline-block;

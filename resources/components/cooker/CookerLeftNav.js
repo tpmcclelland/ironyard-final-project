@@ -135,26 +135,36 @@ class CookerLeftNav extends React.Component {
     }
     render() {
         return <div className="navigation flex">
-            <Link to='/cooker' onClick={() => this.click('/cooker')} className={this.state.paymentDisabled?'':'inactive'}>
-                <button className={this.state.paymentDisabled === false?'navigation-step btn inactive':this.state.recipesClicked?'navigation-step red-clicked btn':'navigation-step red-background btn'} type="button" disabled={this.state.paymentDisabled?false:true}></button>
-            </Link>
-            <h3 className={this.state.paymentDisabled?'lead':'lead inactive'}>pick your recipes</h3>
-            <Link to='/cooker/shoppinglist' onClick={() => this.click('/cooker/shoppinglist')} className={this.state.shoppingListDisabled?'inactive':''}>
-                <button className={this.state.shoppingListDisabled?'inactive btn navigation-step':this.state.listClicked?'navigation-step green-clicked btn':'navigation-step green-background btn'} type="button"  disabled={this.state.shoppingListDisabled?true:false}></button>
-            </Link>
-            <h3 className={this.state.shoppingListDisabled?'lead inactive':'lead'}>edit your shopping list</h3>
-            <Link to='/cooker/schedule' onClick={() => this.click('/cooker/schedule')}  className={this.state.shoppingListDisabled?'inactive':''}>
-                <button className={this.state.shoppingListDisabled?'inactive btn navigation-step':this.state.scheduleClicked?'navigation-step lightBlue-clicked btn':'navigation-step lightBlue-background btn'} type="button" disabled={this.state.shoppingListDisabled?true:false}></button>
-            </Link>
-            <h3 className={this.state.shoppingListDisabled?'lead inactive':'lead'}>schedule your delivery</h3>
-            <Link to='/cooker/payment' onClick={() => this.click('/cooker/payment')}  className={this.state.paymentDisabled?'inactive':''}>
-                <button className={this.state.paymentDisabled?'inactive btn navigation-step':this.state.paymentClicked?'navigation-step yellow-clicked btn':'navigation-step yellow-background btn'} type="button" disabled={this.state.paymentDisabled?true:false}></button>
-            </Link>
-            <h3 className={this.state.paymentDisabled?'lead inactive':'lead'}>pay for your order</h3>
-            <Link to='/cooker/orders' onClick={() => this.click('/cooker/orders')} className={this.state.ordersDisabled?'inactive':''}>
-                <button className={this.state.ordersDisabled?'inactive btn navigation-step':this.state.viewOrdersClicked?'navigation-step darkBlue-clicked btn':'navigation-step darkBlue-background btn'} type="button" disabled={this.state.ordersDisabled?true:false}></button>
-            </Link>
-            <h3 className={this.state.ordersDisabled?'lead inactive':'lead'}>view your orders</h3>
+            <div className="text-center phone-nav-item">
+                <Link to='/cooker' onClick={() => this.click('/cooker')} className={this.state.paymentDisabled?'':'inactive'}>
+                    <button className={this.state.paymentDisabled === false?'navigation-step btn inactive':this.state.recipesClicked?'navigation-step red-clicked btn':'navigation-step red-background btn'} type="button" disabled={this.state.paymentDisabled?false:true}></button>
+                </Link>
+                <h3 className={this.state.paymentDisabled?'lead':'lead inactive'}>pick <span className="hidden-xs">your recipes</span></h3>
+            </div>
+            <div className="text-center phone-nav-item">
+                <Link to='/cooker/shoppinglist' onClick={() => this.click('/cooker/shoppinglist')} className={this.state.shoppingListDisabled?'inactive':''}>
+                    <button className={this.state.shoppingListDisabled?'inactive btn navigation-step':this.state.listClicked?'navigation-step green-clicked btn':'navigation-step green-background btn'} type="button"  disabled={this.state.shoppingListDisabled?true:false}></button>
+                </Link>
+                <h3 className={this.state.shoppingListDisabled?'lead inactive':'lead'}>edit <span className="hidden-xs">your shopping list</span></h3>
+                </div>
+            <div className="text-center phone-nav-item">
+                <Link to='/cooker/schedule' onClick={() => this.click('/cooker/schedule')}  className={this.state.shoppingListDisabled?'inactive':''}>
+                    <button className={this.state.shoppingListDisabled?'inactive btn navigation-step':this.state.scheduleClicked?'navigation-step lightBlue-clicked btn':'navigation-step lightBlue-background btn'} type="button" disabled={this.state.shoppingListDisabled?true:false}></button>
+                </Link>
+                <h3 className={this.state.shoppingListDisabled?'lead inactive':'lead'}>schedule <span className="hidden-xs">your delivery</span></h3>
+            </div>
+            <div className="text-center phone-nav-item">
+                <Link to='/cooker/payment' onClick={() => this.click('/cooker/payment')}  className={this.state.paymentDisabled?'inactive':''}>
+                    <button className={this.state.paymentDisabled?'inactive btn navigation-step':this.state.paymentClicked?'navigation-step yellow-clicked btn':'navigation-step yellow-background btn'} type="button" disabled={this.state.paymentDisabled?true:false}></button>
+                </Link>
+                <h3 className={this.state.paymentDisabled?'lead inactive':'lead'}>pay <span className="hidden-xs">for your order</span></h3>
+            </div>
+            <div className="text-center phone-nav-item">
+                <Link to='/cooker/orders' onClick={() => this.click('/cooker/orders')} className={this.state.ordersDisabled?'inactive':''}>
+                    <button className={this.state.ordersDisabled?'inactive btn navigation-step':this.state.viewOrdersClicked?'navigation-step darkBlue-clicked btn':'navigation-step darkBlue-background btn'} type="button" disabled={this.state.ordersDisabled?true:false}></button>
+                </Link>
+                <h3 className={this.state.ordersDisabled?'lead inactive':'lead'}>view <span className="hidden-xs">your orders</span></h3>
+            </div>
         </div>
     }
 }

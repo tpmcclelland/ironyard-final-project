@@ -1,5 +1,10 @@
 .shopping {
-    padding: 80px 50px 0 50px;
+    padding: 50px 25px 0 25px;
     box-shadow: -12px 0px 0px 0px $green;
     min-height: 100vh;
+}
+@media (min-width: 768px) {
+    .shopping {
+        padding: 80px 50px 0 20px;
+    }
 }

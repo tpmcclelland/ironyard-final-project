@@ -1,7 +1,7 @@
 @import "variables";
 
 .recipes {
-    padding: 80px 50px 0 20px;
+    padding: 50px 10px 0 10px;
     box-shadow: -12px 0px 0px 0px $red;
     min-height: 100vh;
     img {
@@ -113,5 +113,11 @@
         background-color: rgba(142, 166, 4, 0.6);
         border: 2px solid rgba(142, 166, 4, 0.6);
         color: white;
+    }
+}
+
+@media (min-width: 768px) {
+    .recipes {
+        padding: 80px 50px 0 20px;
     }
 }
