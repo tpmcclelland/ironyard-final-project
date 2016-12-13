@@ -62,6 +62,12 @@ class DriverMetrics extends React.Component {
         }
 
         var width = (this.state.averageRating / 5) * 100 + '%'
+        var number = Number(this.state.averageRating)
+        if (Number.isInteger(number)) {
+            var numberRating = number
+        } else {
+            var numberRating = number.toFixed(2)
+        }
             return <div className="driver col-xs-12 metrics">
                 <h1 className="heading">Metrics</h1>
                 <div className="row">
@@ -88,7 +94,7 @@ class DriverMetrics extends React.Component {
                             <p className="lead text-left rating">average rating</p>
                             </div>
                             <div className="col-xs-5">
-                            <p className="text-right lead">{this.state.averageRating} out of 5</p>
+                            <p className="text-right lead">{numberRating} out of 5</p>
                             </div>
                         </div>
                         </div>

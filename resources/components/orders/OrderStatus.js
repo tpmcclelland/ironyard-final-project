@@ -334,8 +334,9 @@ render() {
   return <ReactCSSTransitionGroup
     transitionName="component"
     transitionAppear={true}
-    transitionAppearTimeout={500}
-    transitionEnter={false}
+    transitionAppearTimeout={2000}
+    transitionEnter={true}
+    transitionEnterTimeout={2000}
     transitionLeave={false}>
     <div className="orderStatus col-xs-12">
     <div className={this.state.displayPaymentSuccess? 'alert alert-success': 'hidden'} role="alert">

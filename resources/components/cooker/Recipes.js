@@ -235,7 +235,7 @@ class Recipes extends Component {
 
     render() {
       var recipes = this.state.recipes.map((recipe, i) => {
-        return <div className="col-xs-6 col-md-4 col-lg-3 bring-to-front" key={i}>
+        return <div className="col-xs-6 col-md-4 col-lg-3" key={i}>
           <div className="recipe-panel" onClick={() => this.openModal(recipe.id)}>
               <h3 className="recipe-title lead">{recipe.recipeName}</h3>
               <img src={recipe.imageUrlsBySize["90"]}/>
@@ -249,11 +249,14 @@ class Recipes extends Component {
         return <ReactCSSTransitionGroup
           transitionName="component"
           transitionAppear={true}
-          transitionAppearTimeout={500}
+          transitionAppearTimeout={2000}
           transitionEnter={false}
           transitionLeave={false}>
           <div className="recipes col-xs-12">
-            <div className="col-sm-5 col-sm-push-7 col-xs-12">
+          <div className="col-sm-7 col-xs-12">
+              <h1 className="heading">Recipes</h1>
+          </div>
+            <div className="col-sm-5 col-xs-12 text-right">
                 <form className="navbar-form navbar-left" onSubmit={this.search}>
                     <div className="form-group">
                         <input type="text" className="form-control" placeholder="Search" value={this.state.searchTerm} onChange={this.updateSearchTerm} />
@@ -261,9 +264,7 @@ class Recipes extends Component {
                     <button type="button" className="btn btn-default search-button" onClick={this.search} onFocus={() => this.changeFocus('search')} ref='search'>Search</button>
                 </form>
             </div>
-            <div className="col-sm-7 col-sm-pull-5 col-xs-12">
-                <h1 className="heading">Recipes</h1>
-            </div>
+
         <div className="row">
           <div className="col-xs-11">
             <ReactCSSTransitionGroup

@@ -1,11 +1,16 @@
 .schedule {
     box-shadow: -12px 0px 0px 0px $lightBlue;
-    padding: 80px 50px 0 50px;
+    padding: 50px 25px 0 25px;
     min-height: 100vh;
     .well {
             border: 2px solid $lightBlue;
             background-color: whitesmoke;
             margin-top: 2px;
             margin-bottom: 30px;
+    }
+}
+@media (min-width: 768px) {
+    .schedule {
+        padding: 80px 50px 0 20px;
     }
 }

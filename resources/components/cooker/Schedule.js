@@ -130,9 +130,9 @@ class Schedule extends Component {
         return <ReactCSSTransitionGroup
           transitionName="component"
           transitionAppear={true}
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
+          transitionAppearTimeout={2000}
           transitionEnter={true}
+          transitionEnterTimeout={2000}
           transitionLeave={false}>
           <div className="schedule col-xs-12">
             {/*{errorMessages.length? <div className="alert alert-danger"><ul>{errorMessages}</ul></div> : ''}*/}

@@ -57,9 +57,8 @@ class Favorites extends React.Component {
     return<ReactCSSTransitionGroup
       transitionName="component"
       transitionAppear={true}
-      transitionAppearTimeout={500}
+      transitionAppearTimeout={2000}
       transitionEnter={true}
-      transitionEnterTimeout={500}
       transitionLeave={false}>
         <section className="favorites">
           <div className="row">

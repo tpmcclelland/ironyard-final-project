@@ -176,7 +176,7 @@ class Payment extends Component {
         return <ReactCSSTransitionGroup
           transitionName="component"
           transitionAppear={true}
-          transitionAppearTimeout={500}
+          transitionAppearTimeout={2000}
           transitionEnter={false}
           transitionLeave={false}>
           <div className={this.state.processing ? 'payment col-xs-12': 'hidden'}>

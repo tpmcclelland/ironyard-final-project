@@ -1,7 +1,7 @@
 @import "variables";
 
 .favorites {
-  padding: 80px 50px 0 20px;
+  padding: 50px 25px 0 25px;
   box-shadow: -12px 0px 0px 0px $red;
   min-height: 100vh;
   img {
@@ -13,12 +13,13 @@
     border-radius: 4px;
   }
   .favorite-heading {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     padding-bottom: 5px;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
     .list-group-item-heading {
       font-weight: 400;
+      text-align: center;
       &.favorite {
         font-style: italic;
         font-size: 14px;
@@ -32,10 +33,26 @@
   }
 
   img {
-    width: 200px;
+    width: 250px;
     border-radius: 10px;
     border: 2px solid whitesmoke;
     margin-left: 15px;
     margin-bottom: 15px;
   }
+}
+
+@media (min-width: 768px) {
+    .favorites {
+        padding: 80px 50px 0 35px;
+        img {
+          width: 300px;
+        }
+        .list-group-item-text {
+          font-size: 16px;
+        }
+        .recipe-details {
+          margin-top: 20px;
+        }
+    }
+
 }
