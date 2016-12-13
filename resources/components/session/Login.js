@@ -106,28 +106,39 @@ class Login extends React.Component {
         }
     }
 
-    render() {
-        return <div className="container col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-12 well">
-                          <h2>Login</h2>
-                          <br/>
-                          <div id="errors"></div>
-                          <br/>
-                          <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" name="email" className="form-control" required value={this.state.email} onChange={this.handleEmailChange}/>
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input type="password" name="password" className="form-control" required value={this.state.password} onChange={this.handlePasswordChange} onKeyPress={this.handleKeyPress}/>
-                          </div>
-                          <div className="form-group">
-                              <button id="signin" type="button" className="btn btn-primary btn-block" onClick={this.handleClick}>Log In</button>
-                          </div>
-                          <div className="form-group">
-                            <Link to='/' className="btn btn-danger btn-block">Cancel</Link>
-                        </div>
-                    </div>
-    }
+  render() {
+    return <div className="sign-in-page">
+      <div className="background">
+        <div className="flex">
+          <br />
+          <br />
+          <br />
+          <br />
+
+        <div className="form well col-xs-8 col-sm-6 col-md-4">
+          <h2>Login</h2>
+          <br/>
+          <div id="errors"></div>
+          <br/>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input type="email" name="email" className="form-control" required value={this.state.email} onChange={this.handleEmailChange}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input type="password" name="password" className="form-control" required value={this.state.password} onChange={this.handlePasswordChange} onKeyPress={this.handleKeyPress}/>
+          </div>
+          <div className="form-group">
+            <button id="signin" type="button" className="btn btn-primary btn-block" onClick={this.handleClick}>Log In</button>
+          </div>
+          <div className="form-group">
+            <Link to='/' className="btn btn-danger btn-block">Cancel</Link>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  }
 }
 
 const mapStateToProps = function(store) {
