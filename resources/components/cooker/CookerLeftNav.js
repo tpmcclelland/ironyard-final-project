@@ -22,14 +22,11 @@ class CookerLeftNav extends React.Component {
     }
     componentDidMount() {
         var pathname = this.props.children.props.location.pathname
-        // if (pathname == '/cooker/shoppinglist' || pathname == '/cooker/schedule') {
-        //     this.restrictNavigation('shoppingListAvailable')
-        // } else if (pathname == '/cooker/payment') {
-        //     this.restrictNavigation('paymentAvailable')
-        // } else if (pathname == '/cooker/orders') {
-        //     this.restrictNavigation('ordersAvailable')
-        // }
-        this.click(pathname)
+        if (pathname.includes('favorites')) {
+            this.click('/favorites')
+        } else {
+            this.click(pathname)
+        }
     }
     componentWillReceiveProps(nextProps) {
         var nextPathname = nextProps.children.props.location.pathname
@@ -48,7 +45,11 @@ class CookerLeftNav extends React.Component {
         } else {
             this.restrictNavigation('ordersUnavailable')
         }
-        this.click(nextPathname)
+        if (nextPathname.includes('favorites')) {
+            this.click('/favorites')
+        } else {
+            this.click(nextPathname)
+        }
     }
     restrictNavigation(restriction) {
         switch (restriction) {
@@ -86,6 +87,16 @@ class CookerLeftNav extends React.Component {
     }
     click (button) {
         switch (button) {
+            case '/favorites': {
+                this.setState({
+                    recipesClicked: false,
+                    listClicked: false,
+                    scheduleClicked: false,
+                    paymentClicked: false,
+                    viewOrdersClicked: false,
+                })
+                break;
+            }
             case '/cooker':
                 this.setState({
                     recipesClicked: true,

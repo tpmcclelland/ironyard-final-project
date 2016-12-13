@@ -57,12 +57,12 @@
 
 // transition between screens
 .component-appear {
-  opacity: 0.01;
+  bottom: 200vh;
 }
 
 .component-appear.component-appear-active {
-  opacity: 1;
-  transition: opacity .5s ease-in;
+  bottom: 0;
+  transition: all 1.2s ease;
 }
 
 // animations for lists within components

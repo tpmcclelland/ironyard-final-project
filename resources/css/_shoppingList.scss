@@ -2,6 +2,33 @@
     padding: 50px 25px 0 25px;
     box-shadow: -12px 0px 0px 0px $green;
     min-height: 100vh;
+    input {
+        font-size: 24px;
+        border: none;
+        box-shadow: none;
+        border-bottom: 2px solid $green;
+        border-radius: 0;
+        text-align: center;
+        font-weight: 500;
+        margin-top: 10px;
+    }
+    .remove-btn {
+        margin-top: 10px;
+    }
+    h4 {
+        margin-top: 10px;
+    }
+    h5 {
+        margin-top: 20px;
+    }
+    .schedule-button {
+        margin-bottom: 10px;
+        border: 2px solid $green;
+    }
+    .print-button {
+        margin-bottom: 20px;
+        border: 2px solid $darkBlue;
+    }
 }
 @media (min-width: 768px) {
     .shopping {

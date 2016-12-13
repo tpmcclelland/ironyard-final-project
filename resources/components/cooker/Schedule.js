@@ -92,8 +92,9 @@ class Schedule extends Component {
         return <ReactCSSTransitionGroup
           transitionName="component"
           transitionAppear={true}
-          transitionAppearTimeout={500}
+          transitionAppearTimeout={2000}
           transitionEnter={true}
+          transitionEnterTimeout={2000}
           transitionLeave={false}>
           <div className="schedule col-xs-12">
       <form encType="multipart/form-data">

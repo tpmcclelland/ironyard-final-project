@@ -5,10 +5,10 @@ const Favorite = (props) => <div className="list-group-item">
     <h4 className="list-group-item-heading lead">{props.favorite.recipe.name}</h4>
   </div>
   <div className="row">
-    <div className="col-xs-6">
+    <div className="col-xs-12 col-sm-12 col-md-6 text-center">
       <img className="img" src={props.favorite.recipe.image} alt="recipe image" />
     </div>
-    <div className="col-xs-6 list-group-item-text">
+    <div className="col-xs-12 col-sm-12 col-md-6 list-group-item-text recipe-details text-center">
       <p>Servings: {props.favorite.recipe.serving_size}</p>
       <p>Prep Time: {props.favorite.recipe.prep_time}</p>
       <p>Cook Time: {props.favorite.recipe.cook_time}</p>

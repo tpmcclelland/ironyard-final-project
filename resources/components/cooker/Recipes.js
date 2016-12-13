@@ -249,7 +249,7 @@ class Recipes extends Component {
         return <ReactCSSTransitionGroup
           transitionName="component"
           transitionAppear={true}
-          transitionAppearTimeout={500}
+          transitionAppearTimeout={2000}
           transitionEnter={false}
           transitionLeave={false}>
           <div className="recipes col-xs-12">

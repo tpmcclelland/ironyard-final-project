@@ -151,12 +151,12 @@ class ShoppingList extends Component {
         return <ReactCSSTransitionGroup
           transitionName="component"
           transitionAppear={true}
-          transitionAppearTimeout={500}
+          transitionAppearTimeout={2000}
           transitionEnter={false}
           transitionLeave={false}>
           <div className="shopping col-xs-12">
           <h1 className="heading">Shopping List</h1>
-          <p>Make any changes necessary to the quantities or remove items before completing your order.</p>
+          <p>Make any changes necessary to the quantities or remove items before completing your order. <br /> Click the ingredient quantity to edit.</p>
           {/*<button type="button" className="btn btn-default btn-danger" onClick={this.clearList}>Remove All</button>*/}
           <ul className="list-group">
             <ReactCSSTransitionGroup
@@ -167,9 +167,12 @@ class ShoppingList extends Component {
             </ReactCSSTransitionGroup>
 
           </ul>
+          <div className="col-sm-8 col-sm-offset-2">
+          <button type="button" className="btn btn-block btn-default schedule-button" onClick={this.schedule}>Schedule</button>
+          <button type="button" className="btn btn-block btn-default print-button" onClick={() => window.print()}>Print List</button>
 
-            <button type="button" className="btn btn-block btn-default" onClick={() => window.print()}>Print List</button>
-            <button type="button" className="btn btn-block btn-default" onClick={this.schedule}>Schedule</button>
+          </div>
+
         </div>
         </ReactCSSTransitionGroup>
     }
