@@ -163,3 +163,32 @@
 }
 
 // end main content section
+
+// transition between screens
+.component-appear {
+  opacity: 0.01;
+}
+
+.component-appear.component-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+// animations for lists within components
+.list-enter {
+  opacity: 0.01;
+}
+
+.list-enter.list-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.list-leave {
+  opacity: 1;
+}
+
+.list-leave.list-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}

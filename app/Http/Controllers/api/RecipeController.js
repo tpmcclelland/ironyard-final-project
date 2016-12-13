@@ -33,6 +33,7 @@ class RecipeController {
       // find cooker based on user id
       const user = yield request.auth.getUser()
       const cooker = yield Cooker.findBy('user_id', user.id)
+      console.log('recipe contoller store', user, cooker)
 
       // check to see if recipe has already been saved
       const recipeCheck = yield Recipe.query().where('api_id', request.input('api_id')).pluck('id')

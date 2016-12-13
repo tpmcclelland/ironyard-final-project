@@ -2,6 +2,7 @@ import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import moment from 'moment'
 import ActiveOrderItem from './DriverActiveOrderItem'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
@@ -133,7 +134,13 @@ class DriverActiveOrder extends React.Component {
 
         return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} latitude={latitude} longitude={longitude} orderID={orderID} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} updatePaymentAmountValue={(e) => this.updatePaymentAmountValue(e, i)} submitTotalCost={() => this.submitTotalCost(i)}/>
       })
-      return <div className="driver col-xs-12 active">
+      return <ReactCSSTransitionGroup
+        transitionName="component"
+        transitionAppear={true}
+        transitionAppearTimeout={500}
+        transitionEnter={false}
+        transitionLeave={false}>
+        <div className="driver col-xs-12 active">
         <div className="row">
             {/* <div className='col-sm-4 col-sm-push-8 col-xs-12'>
                 <form className="navbar-form navbar-left" onSubmit={this.updateLocation}>
@@ -148,9 +155,16 @@ class DriverActiveOrder extends React.Component {
             </div>
         </div>
           <div className="list-group">
-            {orders}
+            <ReactCSSTransitionGroup
+              transitionName="list"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={300}>
+              {orders}
+            </ReactCSSTransitionGroup>
+
           </div>
       </div>
+      </ReactCSSTransitionGroup>
     }
 }
 

@@ -46,8 +46,6 @@ class RegisterController {
         driver.license = request.input('license');
         driver.license_expiration = request.input('license_expiration');
         driver.driving_location = request.input('driving_location');
-        driver.home_lat = request.input('home_lat');
-        driver.home_lng = request.input('home_long');
 
         yield user.driver().save(driver);
         break;

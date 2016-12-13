@@ -3,6 +3,7 @@ import classAutoBind from 'react-helpers/dist/classAutoBind'
 import { connect } from 'react-redux'
 import {browserHistory} from 'react-router'
 import store from '../redux/_ReduxStore'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class Payment extends Component {
     constructor(props) {
@@ -162,7 +163,13 @@ class Payment extends Component {
         } else {
           var payment = (amount - 5).toFixed(2)
         }
-        return <div className="payment col-xs-12">
+        return <ReactCSSTransitionGroup
+          transitionName="component"
+          transitionAppear={true}
+          transitionAppearTimeout={500}
+          transitionEnter={false}
+          transitionLeave={false}>
+      <div className="payment col-xs-12">
           <form action="/api/v1/payment" method="POST" id="payment-form">
             <div className="form-group">
                 <div className="row">
@@ -329,6 +336,7 @@ class Payment extends Component {
             </div>
           </form>
     </div>
+        </ReactCSSTransitionGroup>
 }
 }
 
