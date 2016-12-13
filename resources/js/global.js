@@ -21,6 +21,7 @@ import CookerSignup from '../components/session/CookerSignup'
 import DriverActiveOrders from '../components/driver/DriverActiveOrders'
 import DriverAvailableOrders from '../components/driver/DriverAvailableOrders'
 import DriverMetrics from '../components/driver/DriverMetrics'
+import Favorites from '../components/cooker/Favorites'
 
 const newBrowserHistory = syncHistoryWithStore(browserHistory, store)
 
@@ -38,6 +39,7 @@ ReactDOM.render(
               <Route path="schedule" component={Schedule} />
               <Route path="payment" component={Payment} />
               <Route path="orders" component={OrderStatus} />
+              <Route path=":id/favorites" component={Favorites} />
             </Route>
             <Route path="driver" component={Driver}>
                 <IndexRoute component={DriverActiveOrders} />
