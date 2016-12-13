@@ -210,11 +210,16 @@ class OrderStatus extends React.Component {
 
 render() {
     const userOrders = this.state.orders.map((item, i) => {
+        var orderID = item.order.id
         var orderDate = moment(item.order.updated_at).format('dddd, MMMM Do - h:mm A')
         var cost = item.order.shoppingList.estimated_price - 5
+        var driverSubmittedCost = Number(item.order.total_cost)
         var totalCost = cost + 5.00
+        var totalSubmittedCost = driverSubmittedCost + 5.00
         cost = Number(cost).toFixed(2)
+        driverSubmittedCost = Number(driverSubmittedCost).toFixed(2)
         totalCost = Number(totalCost).toFixed(2)
+        totalSubmittedCost = Number(totalSubmittedCost).toFixed(2)
         if (item.order.driver !== null) {
           var driver = item.order.driver.user.first_name + " " +  item.order.driver.user.last_name
           var phone = item.order.driver.user.phone
@@ -273,10 +278,11 @@ render() {
                 <div className={item.detailsShown?'col-xs-12 order-details well':'hidden'}>
                   <div className="row">
                     <div className="col-xs-12 col-sm-6">
+                      <p className="lead">Order ID: {orderID}</p>
                       <p className="lead">Total Cost</p>
-                      <p>Ingredient Cost: ${cost}</p>
+                      <p>Ingredient Cost: ${(item.state == 'picked_up'||item.state == 'delivered')&&driverSubmittedCost!=='0.00'?driverSubmittedCost:cost}</p>
                       <p>Delivery Fee: $5.00</p>
-                      <p>Total Cost: ${totalCost}</p>
+                      <p>Total Cost: ${(item.state == 'picked_up'||item.state == 'delivered')&&driverSubmittedCost!=='0.00'?totalSubmittedCost:totalCost}</p>
                       <div className={item.state == 'available'?'hidden':'driver-details'}>
                         <p className="lead">Driver</p>
                         <p className="capitalize">{driver} - {phone}</p>

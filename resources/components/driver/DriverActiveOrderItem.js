@@ -35,6 +35,7 @@ const ActiveOrderItem = (props) => (
     <div className="row">
         <div className="col-xs-12 well details">
           <div className="col-sm-6">
+          <p className="lead">Order ID: {props.orderID}</p>
           <p className="lead">For: {props.data.order.shoppingList.cooker.user.first_name} {props.data.order.shoppingList.cooker.user.last_name} - {props.data.order.shoppingList.cooker.user.phone}</p>
           <p className="lead">Shopping List</p>
           {props.ingredients}
