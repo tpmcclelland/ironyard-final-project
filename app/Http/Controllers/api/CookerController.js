@@ -1,5 +1,8 @@
 'use strict'
 
+const Favorite = use('App/Model/Favorite')
+const Cooker = use('App/Model/Cooker')
+
 
 class CookerController {
 
@@ -30,6 +33,16 @@ class CookerController {
 
   * destroy(request, response) {
     //
+  }
+
+  * favorites(request, response) {
+
+    const user = request.params('id')
+
+    const favorites = yield Favorite.query().where('cooker_id', user.id).with('recipe.ingredients').fetch()
+
+    response.json(favorites)
+
   }
 
 }

@@ -16,9 +16,21 @@ class Recipe extends Lucid {
     // return this.hasManyThrough('App/Model/Ingredient')
     // }
 
+    // ingredients () {
+    // return this.belongsToMany('App/Model/Ingredient')
+    // }
+
     ingredients () {
-    return this.belongsToMany('App/Model/Ingredient')
-    }
+    return this.hasManyThrough(
+      'App/Model/Ingredient',
+      'App/Model/IngredientRecipe',
+      'id',
+      'recipe_id',
+      'ingredient_id',
+      'id'
+
+    )
+  }
 
 }
 
