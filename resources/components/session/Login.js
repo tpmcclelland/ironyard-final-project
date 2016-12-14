@@ -109,7 +109,7 @@ class Login extends React.Component {
     var newErrorMessages = []
 
     var keys = Object.keys(this.state)
-    console.log(keys)
+    // console.log(keys)
 
     keys.forEach(key => {
       if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
@@ -121,7 +121,7 @@ class Login extends React.Component {
       }
     })
 
-    console.log(newErrorMessages)
+    // console.log(newErrorMessages)
 
 
     this.setState({
@@ -148,13 +148,13 @@ class Login extends React.Component {
           <br/>
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input type="email" name="email" className="form-control" required value={this.state.email} onChange={this.handleEmailChange} autoFocus/>
+            <input type="email" name="email" className="form-control" value={this.state.email} onChange={this.handleEmailChange} autoFocus/>
             {this.state.errorMessages.includes('email') ?<div className="validation-message">Email is Required</div>: '' }
             {this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Email is Invalid</div>: '' }
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" className="form-control" required value={this.state.password} onChange={this.handlePasswordChange} onKeyPress={this.handleKeyPress}/>
+            <input type="password" name="password" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} onKeyPress={this.handleKeyPress}/>
             {this.state.errorMessages.includes('password') ?<div className="validation-message">Password is Required</div>: '' }
           </div>
           <div className="form-group">

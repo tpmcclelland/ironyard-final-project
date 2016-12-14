@@ -121,10 +121,6 @@ class Schedule extends Component {
 
     render() {
 
-        const errorMessages = this.state.errorMessages.map((message,i) => {
-          return <li key={i}>{message}</li>
-        })
-
         var today = moment().format('YYYY-MM-DD')
 
         return <ReactCSSTransitionGroup

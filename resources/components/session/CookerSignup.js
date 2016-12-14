@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link, browserHistory} from 'react-router'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
-import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
+import validator from 'validator'
 
 
 class CookerSignup extends React.Component {
@@ -15,7 +15,6 @@ class CookerSignup extends React.Component {
             username: '',
             email: '',
             password: '',
-            // avatar: '',
             address: '',
             city: '',
             state: '',
@@ -25,17 +24,10 @@ class CookerSignup extends React.Component {
             phone: '',
             home_lat: '',
             home_long: '',
-            mock: false
+            mock: false,
+            errorMessages: [],
+            serverError: false
         }
-    }
-
-    componentDidMount() {
-        attachSharedState(this, (state) => this.setState({sharedState: state}))
-        // attachSharedState(this)
-    }
-
-    componentWillUnmount() {
-        detachSharedState(this)
     }
 
     mockResponse() {
@@ -112,13 +104,14 @@ class CookerSignup extends React.Component {
 
     }
     signedUpHandler(response){
-        // response = ['error 1', 'error 2']
-        // response.user = undefined
-        // console.log(this.state)
-        // console.log(response)
+
+      if (response.error) {
+        this.setState({
+          serverError: 'Email already in use. Please use a different email.'})
+      }
 
         if(typeof response.user != 'undefined') {
-            sessionStorage.setItem('user', JSON.stringify(response.user))
+          sessionStorage.setItem('user', JSON.stringify(response.user))
           store.dispatch({type:'MESSAGE', message:'Welcome'})
           store.dispatch({type:'CURRENT_USER', user: response.user})
 
@@ -134,14 +127,57 @@ class CookerSignup extends React.Component {
       }
 
     handleClick() {
-         this.signup()
+      if (this.isValid()){
+        this.signup()
+      }
+
     }
 
-    // handleChanges(event) {
-    //   var updatedState = {}
-    //   updatedState[event.target.name] = event.target.value
-    //   this.setState(updatedState)
-    // }
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      if(this.isValid()) {
+        this.signup()
+      }
+
+    }
+  }
+
+  isValid() {
+    var newErrorMessages = []
+
+    var keys = Object.keys(this.state)
+
+    keys.forEach(key => {
+      if(key !== 'home_lat' && key !== 'home_long') {
+        if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
+      }
+
+      if (key === 'email') {
+        !validator.isEmail(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
+      if (key === 'password') {
+        !validator.isLength(this.state[key], {min:6, max:undefined}) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
+    })
+
+    console.log(newErrorMessages)
+
+    this.setState({
+      errorMessages: newErrorMessages,
+      serverError: false
+    })
+
+    return newErrorMessages.length == 0
+  }
+
+    handleChanges(event) {
+      var updatedState = {}
+      updatedState[event.target.name] = event.target.value
+      this.setState(updatedState)
+      setTimeout(() => {this.isValid()},0)
+    }
 
     render() {
       return <div className="cooker-sign-up">
@@ -157,7 +193,7 @@ class CookerSignup extends React.Component {
                 <br/>
               </div>
               <div className="col-xs-12">
-                <div id="errors"></div>
+                {this.state.serverError ?<div className="validation-message">{this.state.serverError}</div>: '' }
                 <br/>
               </div>
             </div>
@@ -165,49 +201,57 @@ class CookerSignup extends React.Component {
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="firstName">First Name</label>
-                  <input type="text" id="firstName" name="firstName" className="form-control" required value={this.state.first_name} onChange={(e) => this.setState({first_name: e.target.value})}/>
+                  <input type="text" id="firstName" name="first_name" className="form-control" value={this.state.first_name} onChange={this.handleChanges} autoFocus/>
+                  {this.state.errorMessages.includes('first_name') ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="lastName">Last Name</label>
-                  <input type="text" id="lastName" name="lastName" className="form-control" required value={this.state.last_name} onChange={(e) => this.setState({last_name: e.target.value})}/>
+                  <input type="text" id="lastName" name="last_name" className="form-control"  value={this.state.last_name} onChange={this.handleChanges}/>
+                  {this.state.errorMessages.includes('last_name') ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="username">Username</label>
-                  <input type="text" id="username" name="username" className="form-control" required value={this.state.username} onChange={(e) => this.setState({username: e.target.value})}/>
+                  <input type="text" id="username" name="username" className="form-control"  value={this.state.username} onChange={this.handleChanges}/>
+                  {this.state.errorMessages.includes('username') ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
-                {/* <div className="form-group">
-                 <label htmlFor="avatar">Avatar</label>
-                 <input type="file" id="avatar" name="avatar" className="form-control" required onChange={(e) => this.setState({avatar:e.target.files[0]})}/>
-                 </div> */}
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
-                  <input type="email" id="email" name="email" className="form-control" required value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
+                  <input type="email" id="email" name="email" className="form-control"  value={this.state.email} onChange={this.handleChanges}/>
+                  {this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Please enter a valid email</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
-                  <input type="password" id="password" name="password" className="form-control" required value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
+                  <input type="password" id="password" name="password" className="form-control"  value={this.state.password} onChange={this.handleChanges}/>
+                  {this.state.errorMessages.includes('password') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {this.state.errorMessages.includes('password-invalid') ?<div className="validation-message">Password must be longer than 6 digits</div>: '' }
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="address">Address</label>
-                  <input type="text" id="address" name="address" className="form-control" required value={this.state.address} onChange={(e) => this.setState({address: e.target.value})}/>
+                  <input type="text" id="address" name="address" className="form-control"  value={this.state.address} onChange={this.handleChanges}/>
+                  {this.state.errorMessages.includes('address') ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="city">City</label>
-                  <input type="text" id="city" name="city" className="form-control" required value={this.state.city} onChange={(e) => this.setState({city: e.target.value})}/>
+                  <input type="text" id="city" name="city" className="form-control" value={this.state.city} onChange={this.handleChanges}/>
+                  {this.state.errorMessages.includes('city') ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="state">State</label>
-                  <input type="text" id="state" name="state" className="form-control" required value={this.state.state} onChange={(e) => this.setState({state: e.target.value})}/>
+                  <input type="text" id="state" name="state" className="form-control" value={this.state.state} onChange={this.handleChanges}/>
+                  {this.state.errorMessages.includes('state') ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="zip">Zip</label>
-                  <input type="text" id="zip" name="zip" className="form-control" required value={this.state.zip} onChange={(e) => this.setState({zip:e.target.value})}/>
+                  <input type="text" id="zip" name="zip" className="form-control" value={this.state.zip} onChange={this.handleChanges}/>
+                  {this.state.errorMessages.includes('zip') ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="phone">Phone Number</label>
-                  <input type="tel" id="phone" name="phone" className="form-control" required value={this.state.phone} onChange={(e) => this.setState({phone: e.target.value})}/>
+                  <input type="tel" id="phone" name="phone" className="form-control" value={this.state.phone} onChange={this.handleChanges} onKeyPress={this.handleKeyPress}/>
+                  {this.state.errorMessages.includes('phone') ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
               </div>
             </div>
