@@ -10,7 +10,7 @@ const AvailableOrderItem = (props) => (
     <h5 className="list-group-item-text">From {props.startTime} to {props.endTime}</h5>
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-4 list-group-button'>
-    <button type="button" className="btn btn-default btn-block" onClick={props.showDetails}>{props.data.detailsShown?'Show Details':'Hide Details'}</button>
+    <button type="button" className="btn btn-default btn-block" onClick={props.showDetails}>{props.data.detailsShown?'Hide Details':'Show Details'}</button>
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-4 list-group-button'>
     <button type="button" className={props.data.accepted?'btn btn-block btn-primary':'btn btn-default btn-block'} onClick={props.accepted}>Accept</button>
@@ -27,7 +27,7 @@ const AvailableOrderItem = (props) => (
       </div>
     </form>
     </div>
-    <div className={props.data.detailsShown?'hidden':'container-fluid'}>
+    <div className={props.data.detailsShown?'container-fluid':'hidden'}>
     <div className="row">
         <div className="col-xs-12 well details">
           <div className="col-sm-6">
@@ -38,7 +38,7 @@ const AvailableOrderItem = (props) => (
           </div>
           <div className="col-sm-6">
             <p className="lead">Map</p>
-            <div id={'map-'+props.orderID} className="map"><OrderItemMap latitude={props.latitude} longitude={props.longitude} orderID={props.orderID} /></div>
+            <div id={'map-'+props.orderID} className="map"><OrderItemMap latitude={props.latitude} longitude={props.longitude} orderID={props.orderID} {...props} /></div>
           </div>
         </div>
     </div>

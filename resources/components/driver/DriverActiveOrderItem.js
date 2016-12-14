@@ -11,7 +11,7 @@ const ActiveOrderItem = (props) => (
     <h5 className="list-group-item-text">From {props.startTime} to {props.endTime}</h5>
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-3 list-group-button'>
-    <button type="button" className="btn btn-default btn-block" onClick={props.showDetails}>{props.data.detailsShown?'Show Details':'Hide Details'}</button>
+    <button type="button" className="btn btn-default btn-block" onClick={props.showDetails}>{props.data.detailsShown?'Hide Details':'Show Details'}</button>
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-3 list-group-button'>
     <button type="button" className={props.data.pickedUp?'btn btn-picked-up btn-block':'btn btn-default btn-block'} onClick={props.pickedUp}>Picked Up</button>
@@ -20,28 +20,26 @@ const ActiveOrderItem = (props) => (
     <button type="button" className={props.data.delivered?'btn btn-primary btn-block':'btn btn-default btn-block'} onClick={props.showDelivery}>Delivered</button>
     </div>
     <div className={props.data.totalCostShown?'row':'hidden'}>
-    <form className="form-inline col-xs-12 col-sm-7 col-sm-offset-5 total-amount">
+    <form className="form-inline col-xs-12 col-md-7 col-md-offset-5 total-amount">
       <div className="form-group">
           <label htmlFor="total-amount">Total Amount:</label>
         <div className="input-group text-center">
           <div className="input-group-addon">$</div>
           <input type="text" className="form-control" id="total-amount" defaultValue={props.data.paymentAmount} onChange={props.updatePaymentAmountValue}/>
         </div>
-        <button type="button" className="btn btn-default hide-total-amount" onClick={props.submitTotalCost}>Submit</button>
+        <button type="button" className="btn btn-default hide-total-amount" onClick={props.submitTotalCost} disabled={props.data.paymentAmount.length === 0 || props.data.pickedUp?true:false}>Submit</button>
       </div>
     </form>
     </div>
     <div className={props.data.deliveryShown?'col-xs-12 col-sm-7 col-sm-offset-5 delivery-buttons':'hidden'}>
-        <div className="col-xs-4 col-xs-offset-4">
-            <button type="button" className="btn btn-success btn-block" onClick={props.delivered}>Confirm Delivery</button>
+        <div className="col-xs-6 col-md-4 col-md-offset-4">
+            <button type="button" className="btn btn-block btn-default confirm-delivery" onClick={props.delivered}>Confirm <span className="hidden-xs">Delivery</span></button>
         </div>
-        <div className="col-xs-4">
-            <button type="button" className="btn btn-danger btn-block" onClick={props.showDelivery}>Cancel</button>
+        <div className="col-xs-6 col-md-4">
+            <button type="button" className="btn btn-block btn-default cancel-delivery" onClick={props.showDelivery}>Cancel</button>
         </div>
-
-
     </div>
-    <div className={props.data.detailsShown?'hidden':'container-fluid'}>
+    <div className={props.data.detailsShown?'container-fluid':'hidden'}>
     <div className="row">
         <div className="col-xs-12 well details">
           <div className="col-sm-6">
@@ -52,7 +50,7 @@ const ActiveOrderItem = (props) => (
           </div>
           <div className="col-sm-6">
             <p className="lead">Map</p>
-            <div id={'map-'+props.orderID} className="map"><OrderItemMap latitude={props.latitude} longitude={props.longitude} orderID={props.orderID} shownFlag={props.data.detailsShown} /></div>
+            <div id={'map-'+props.orderID} className="map"><OrderItemMap latitude={props.latitude} longitude={props.longitude} orderID={props.orderID} shownFlag={props.data.detailsShown} {...props}/></div>
 
           </div>
         </div>

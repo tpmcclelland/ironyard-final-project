@@ -21,6 +21,11 @@ class DriverNav extends React.Component {
             })
         }
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.route !== undefined) {
+            this.click(nextProps.route.pathname)
+        }
+    }
     click (button) {
         switch (button) {
             case '/driver':
