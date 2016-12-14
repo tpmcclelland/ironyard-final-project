@@ -296,6 +296,7 @@ class Recipes extends Component {
             <div className="col-sm-6 col-sm-push-6">
               <img className="modal-image" src={this.state.recipeImage}/>
               <p className="small text-right">From: {this.state.recipeOwner}</p>
+              <p className="text-right directions-link"><a href={this.state.recipeDirections} target="_blank">See recipe instructions here</a></p>
             </div>
             <div className="col-sm-6 col-sm-pull-6">
               <div className="row">
@@ -307,7 +308,7 @@ class Recipes extends Component {
                 </div>
                 <div className="col-xs-6">
                   <button className={this.state.favorited?'btn btn-default btn-block favorite-button-clicked ':'btn btn-default btn-block favorite-button'} onClick={this.favorite} ref='favorite' onFocus={() => this.changeFocus('favorite')}>{this.state.favorited?'Favorited':'Favorite'}</button>
-                  <button className={this.state.added?'btn btn-default btn-block add-button-clicked':'btn btn-default btn-block add-button'} onClick={this.addToList} ref="add" onFocus={() => this.changeFocus('add')}>{this.state.favorited?'Added to List':'Add to List'}</button>
+                  <button className={this.state.added?'btn btn-default btn-block add-button-clicked':'btn btn-default btn-block add-button'} onClick={this.addToList} ref="add" onFocus={() => this.changeFocus('add')}>{this.state.added?'Added to List':'Add to List'}</button>
                 </div>
               </div>
               <div className="row">
@@ -318,15 +319,6 @@ class Recipes extends Component {
                   </ul>
                 </div>
               </div>
-            </div>
-
-          </div>
-          <div className="row">
-            <div className="col-xs-12">
-              {/* <h3>Directions</h3> */}
-              {/* <iframe width="100%" height="350px" src={this.state.recipeDirections}>
-              <p>Your browser does not support iframes view directions <a href={this.state.recipeDirections}></a>.</p>
-              </iframe> */}
             </div>
           </div>
           <div className={this.state.displayAlertPanel?'panel panel-default alert':'alert-hidden'}>
