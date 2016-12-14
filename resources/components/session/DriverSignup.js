@@ -145,9 +145,9 @@ class DriverSignup extends React.Component {
         !validator.isLength(this.state[key], {min:6, max:undefined}) ? newErrorMessages.push(key + '-invalid') : ''
       }
 
-      if (key === 'license_expiration') {
-        !validator.isDate(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
-      }
+      // if (key === 'license_expiration') {
+      //   !validator.isDate(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
+      // }
 
     })
 
@@ -234,7 +234,7 @@ class DriverSignup extends React.Component {
                   {/*selected={this.state.license_expiration}*/}
                 {/*onChange={this.handleChange} />*/}
                 {this.state.errorMessages.includes('license_expiration') ?<div className="validation-message">Please fill in this field</div>: '' }
-                {this.state.errorMessages.includes('license_expiration-invalid') ?<div className="validation-message">Please enter a valid date.</div>: '' }
+                {/*{this.state.errorMessages.includes('license_expiration-invalid') ?<div className="validation-message">Please enter a valid date.</div>: '' }*/}
               </div>
               {/*<div className="form-group">*/}
                 {/*<label htmlFor="location">Preferred Location</label>*/}

@@ -38,7 +38,7 @@ class Driver extends React.Component {
     var pusherChannel = pusher.subscribe('order')
 
     // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
 
     // pusherChannel.bind('new_chat', function(chat) {
     //   this.addChatMessage(chat)
