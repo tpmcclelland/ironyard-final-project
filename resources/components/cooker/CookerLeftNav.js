@@ -95,6 +95,7 @@ class CookerLeftNav extends React.Component {
                     paymentClicked: false,
                     viewOrdersClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             }
             case '/cooker':
@@ -105,6 +106,7 @@ class CookerLeftNav extends React.Component {
                     paymentClicked: false,
                     viewOrdersClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             case '/cooker/shoppinglist':
                 this.setState({
@@ -114,6 +116,7 @@ class CookerLeftNav extends React.Component {
                     paymentClicked: false,
                     viewOrdersClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             case '/cooker/schedule':
                 this.setState({
@@ -123,6 +126,7 @@ class CookerLeftNav extends React.Component {
                     paymentClicked: false,
                     viewOrdersClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             case '/cooker/payment':
                 this.setState({
@@ -132,6 +136,7 @@ class CookerLeftNav extends React.Component {
                     paymentClicked: true,
                     viewOrdersClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             case '/cooker/orders':
                 this.setState({
@@ -141,6 +146,7 @@ class CookerLeftNav extends React.Component {
                     paymentClicked: false,
                     viewOrdersClicked: true,
                 })
+                window.scrollTo(0,0)
                 break;
         }
     }

@@ -34,6 +34,7 @@ class DriverNav extends React.Component {
                     availableClicked: false,
                     metricsClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             case '/driver/available':
                 this.setState({
@@ -41,6 +42,7 @@ class DriverNav extends React.Component {
                     availableClicked: true,
                     metricsClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             case '/driver/metrics':
                 this.setState({
@@ -48,6 +50,7 @@ class DriverNav extends React.Component {
                     availableClicked: false,
                     metricsClicked: true,
                 })
+                window.scrollTo(0,0)
                 break;
         }
     }
