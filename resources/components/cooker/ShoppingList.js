@@ -10,10 +10,10 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 class ShoppingList extends Component {
     constructor(props) {
         super(props)
+        classAutoBind(this)
         this.state = {
             recipeIngredients: []
         }
-      classAutoBind(this)
     }
 
     componentWillMount() {

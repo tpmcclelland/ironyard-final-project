@@ -91,6 +91,7 @@
     border: 2px solid rgba(209, 0, 0, 0.6);
     color: white;
     cursor: not-allowed;
+    pointer-events: none;
     &:hover {
         opacity: 1;
         background-color: rgba(209, 0, 0, 0.6);
@@ -110,11 +111,16 @@
     border: 2px solid rgba(142, 166, 4, 0.6);
     color: white;
     cursor: not-allowed;
+    pointer-events: none;
     &:hover {
         background-color: rgba(142, 166, 4, 0.6);
         border: 2px solid rgba(142, 166, 4, 0.6);
         color: white;
     }
+}
+.directions-link {
+    color: gray;
+    font-style: italic;
 }
 
 @media (min-width: 768px) {

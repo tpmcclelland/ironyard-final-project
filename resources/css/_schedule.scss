@@ -8,6 +8,10 @@
             margin-top: 2px;
             margin-bottom: 30px;
     }
+    .submit-btn {
+        border: 2px solid $lightBlue;
+        margin-bottom: 30px;
+    }
 }
 @media (min-width: 768px) {
     .schedule {
