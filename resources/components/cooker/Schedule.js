@@ -75,7 +75,7 @@ class Schedule extends Component {
       var newErrorMessages = []
 
       var keys = Object.keys(this.state)
-      console.log(keys)
+      // console.log(keys)
 
       keys.forEach(key => {
         if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
