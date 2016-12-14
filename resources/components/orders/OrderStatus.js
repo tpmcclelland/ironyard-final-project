@@ -31,6 +31,9 @@ class OrderStatus extends React.Component {
         this.fetchOrders()
       }, 3000)
     } else {
+      this.setState({
+        displayPaymentSuccess: false
+      })
       this.subscribeToUpdatedState()
       this.fetchOrders()
     }
