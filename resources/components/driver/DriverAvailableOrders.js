@@ -89,15 +89,14 @@ class DriverAvailableOrders extends React.Component {
 
     render() {
         var orders = this.props.available.map((item, i) => {
-            console.log(item.detailsShown)
-          let startTime = moment(item.order.delivery_start_time).format('LT')
-          let endTime = moment(item.order.delivery_end_time).format('LT')
+          let startTime = moment(item.order.delivery_start_time).utcOffset(-5).format('h:mm a')
+          let endTime = moment(item.order.delivery_end_time).utcOffset(-5).format('h:mm a')
           let latitude = item.order.shoppingList.cooker.home_lat
           let longitude = item.order.shoppingList.cooker.home_long
           let orderID = item.order.id
           var ingredients = item.order.shoppingList.recipeIngredients.map((item, i) => {
                 return <ul key={i}>
-                  <li>{item.ingredient.name}</li>
+                  <li>{item.quantity} x {item.ingredient.name}</li>
                 </ul>
             })
 

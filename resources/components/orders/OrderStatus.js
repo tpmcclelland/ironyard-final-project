@@ -221,7 +221,7 @@ class OrderStatus extends React.Component {
 render() {
     const userOrders = this.state.orders.map((item, i) => {
         var orderID = item.order.id
-        var orderDate = moment(item.order.updated_at).format('dddd, MMMM Do - h:mm A')
+        var orderDate = moment(item.order.updated_at).utcOffset(-5).format('dddd, MMMM Do - h:mm A')
         var cost = item.order.shoppingList.estimated_price - 5
         var driverSubmittedCost = Number(item.order.total_cost)
         var totalCost = cost + 5.00
@@ -236,7 +236,7 @@ render() {
         }
         var ingredients = item.order.shoppingList.recipeIngredients.map((item, i) => {
           return <ul key={i}>
-            <li>{item.ingredient.name}</li>
+            <li>{item.quantity} x {item.ingredient.name}</li>
           </ul>
         })
         if (item.state == 'available') {
@@ -279,7 +279,7 @@ render() {
                 </div>
               </div>
               <div className="col-xs-12 col-sm-9">
-                <p className="list-group-item-text">Delivery requested between <span> {moment(item.order.delivery_start_time).format('h:mm a')} and {moment(item.order.delivery_end_time).format('h:mm a')}</span></p>
+                <p className="list-group-item-text">Delivery requested between <span> {moment(item.order.delivery_start_time).utcOffset(-5).format('h:mm a')} and {moment(item.order.delivery_end_time).utcOffset(-5).format('h:mm a')}</span></p>
               </div>
                 <div className="col-xs-12 col-sm-3">
                   <button type="button" className="btn btn-default btn-block" onClick={() => this.showDetails(i)}>Details
