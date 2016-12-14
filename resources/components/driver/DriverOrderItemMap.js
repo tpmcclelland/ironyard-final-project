@@ -9,7 +9,12 @@ class OrderItemMap extends Component {
   }
 
   componentDidMount() {
+    
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.detailsShown) {
       this.initMap()
+    }
   }
 
   componentWillUnmount() {

@@ -1,6 +1,7 @@
 import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
 import moment from 'moment'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class DriverMetrics extends React.Component {
     constructor(props) {
@@ -68,7 +69,14 @@ class DriverMetrics extends React.Component {
         } else {
             var numberRating = number.toFixed(2)
         }
-            return <div className="driver col-xs-12 metrics">
+            return <ReactCSSTransitionGroup
+              transitionName="component"
+              transitionAppear={true}
+              transitionAppearTimeout={2000}
+              transitionEnter={false}
+              transitionEnterTimeout={2000}
+              transitionLeave={false}>
+            <div className="driver col-xs-12 metrics">
                 <h1 className="heading">Metrics</h1>
                 <div className="row">
                     <div className="col-xs-12 col-md-6 col-lg-6 text-center">
@@ -108,6 +116,8 @@ class DriverMetrics extends React.Component {
                     </div>
                 </div>
             </div>
+            </ReactCSSTransitionGroup>
+
         }
 }
 

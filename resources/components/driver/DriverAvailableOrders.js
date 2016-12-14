@@ -20,7 +20,6 @@ class DriverAvailableOrders extends React.Component {
         }
     }
     componentDidMount() {
-        console.log(this.state.triggerUpdate)
         var storage = JSON.parse(sessionStorage.getItem('user'))
         var user = storage.user
         var driver = storage.driver
@@ -98,8 +97,9 @@ class DriverAvailableOrders extends React.Component {
       return <ReactCSSTransitionGroup
         transitionName="component"
         transitionAppear={true}
-        transitionAppearTimeout={500}
+        transitionAppearTimeout={2000}
         transitionEnter={false}
+        transitionEnterTimeout={2000}
         transitionLeave={false}>
         <div className="driver col-xs-12 available">
         <div className="row">
