@@ -25,7 +25,7 @@ class DriverAvailableOrders extends React.Component {
         var user = storage.user
         var driver = storage.driver
         this.setState({
-            driverId: driver.id
+            driverId: driver.id,
         })
     }
 
@@ -127,7 +127,7 @@ class DriverAvailableOrders extends React.Component {
               transitionName="list"
               transitionEnterTimeout={500}
               transitionLeaveTimeout={300}>
-              {orders}
+              {orders.length ? orders : <h2>There are no available orders.</h2>}
             </ReactCSSTransitionGroup>
 
           </div>

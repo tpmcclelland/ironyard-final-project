@@ -69,7 +69,7 @@ class OrderStatus extends React.Component {
      pusherChannel.bind('state_change', (data) => {
       console.log('pusher', data)
        this.setState({
-         orderReady: false,
+         ordersReady: false,
          orders: []
        })
        this.fetchOrders()

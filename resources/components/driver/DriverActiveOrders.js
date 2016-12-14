@@ -171,7 +171,7 @@ class DriverActiveOrder extends React.Component {
               transitionName="list"
               transitionEnterTimeout={500}
               transitionLeaveTimeout={300}>
-              {orders}
+              {orders.length ? orders : <h2>You have no active orders.</h2>}
             </ReactCSSTransitionGroup>
 
           </div>
