@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
-import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
+import validator from 'validator'
 
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
@@ -14,17 +14,10 @@ class Login extends React.Component {
         this.state = {
             email: '',
             password: '',
-            mock: false
+            mock: false,
+            errorMessages: [],
+            serverError: false
         }
-    }
-
-    componentDidMount() {
-        // attachSharedState(this, (state) => this.setState({sharedState: state}))
-        // attachSharedState(this)
-    }
-
-    componentWillUnmount() {
-        // detachSharedState(this)
     }
 
     mockResponse() {
@@ -43,7 +36,7 @@ class Login extends React.Component {
 
     login() {
 
-        if (!this.state.mock) {
+        if (this.isValid()) {
             // console.log(this.state)
             fetch('/api/v1/login', {
                 body: JSON.stringify({
@@ -64,10 +57,8 @@ class Login extends React.Component {
             })
             .then(this.loggedInHandler)
             .catch(function(error) {
-              console.log('There has been a problem with your fetch operation: ' + error.message)
+              console.log('login fetch: ' + error.message)
             })
-        } else {
-            this.mockResponse()
         }
     }
 
@@ -75,6 +66,12 @@ class Login extends React.Component {
         // response = ['error 1', 'error 2']
         // response.user = undefined
         // console.log(response.user)
+
+      if (response.error) {
+        this.setState({
+          serverError: response.error})
+      }
+
 
         if(typeof response.user != 'undefined') {
           sessionStorage.setItem('user', JSON.stringify(response.user))
@@ -92,12 +89,14 @@ class Login extends React.Component {
         this.setState({
             email: e.target.value
             })
+      setTimeout(() => {this.isValid()},0)
     }
 
     handlePasswordChange(e) {
         this.setState({
                 password: e.target.value
             })
+      setTimeout(() => {this.isValid()},0)
     }
 
     handleKeyPress(e) {
@@ -105,6 +104,33 @@ class Login extends React.Component {
             this.login()
         }
     }
+
+  isValid() {
+    var newErrorMessages = []
+
+    var keys = Object.keys(this.state)
+    console.log(keys)
+
+    keys.forEach(key => {
+      if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
+
+      if (typeof this.state[key] == 'string'
+        && this.state[key] == 'email'
+        && !validator.isEmail(this.state[key])) {
+          newErrorMessages.push(key + '-invalid')
+      }
+    })
+
+    console.log(newErrorMessages)
+
+
+    this.setState({
+      errorMessages: newErrorMessages,
+      serverError: false
+    })
+
+    return newErrorMessages.length == 0
+  }
 
   render() {
     return <div className="sign-in-page">
@@ -118,15 +144,18 @@ class Login extends React.Component {
         <div className="form well col-xs-8 col-sm-6 col-md-4">
           <h2>Login</h2>
           <br/>
-          <div id="errors"></div>
+          {this.state.serverError ?<div className="validation-message">{this.state.serverError}</div>: '' }
           <br/>
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input type="email" name="email" className="form-control" required value={this.state.email} onChange={this.handleEmailChange}/>
+            <input type="email" name="email" className="form-control" required value={this.state.email} onChange={this.handleEmailChange} autoFocus/>
+            {this.state.errorMessages.includes('email') ?<div className="validation-message">Email is Required</div>: '' }
+            {this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Email is Invalid</div>: '' }
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input type="password" name="password" className="form-control" required value={this.state.password} onChange={this.handlePasswordChange} onKeyPress={this.handleKeyPress}/>
+            {this.state.errorMessages.includes('password') ?<div className="validation-message">Password is Required</div>: '' }
           </div>
           <div className="form-group">
             <button id="signin" type="button" className="btn btn-primary btn-block" onClick={this.handleClick}>Log In</button>
