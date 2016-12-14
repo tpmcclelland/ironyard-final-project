@@ -174,7 +174,10 @@ class CookerSignup extends React.Component {
 
     handleChanges(event) {
       var updatedState = {}
+
       updatedState[event.target.name] = event.target.value
+
+
       this.setState(updatedState)
       setTimeout(() => {this.isValid()},0)
     }
@@ -240,7 +243,7 @@ class CookerSignup extends React.Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="state">State</label>
-                  <select id="state" name="state" className="form-control" value={this.state.state} onChange={this.typing}>
+                  <select id="state" name="state" className="form-control" value={this.state.state} onChange={this.handleChanges}>
                     <option disabled value="">-Select State-</option>
                     <option value="AL">Alabama</option>
                     <option value="AK">Alaska</option>

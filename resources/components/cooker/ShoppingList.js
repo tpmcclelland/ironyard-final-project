@@ -54,7 +54,7 @@ class ShoppingList extends Component {
     }
 
     handleInitialFetch(response) {
-      console.log('tom fetch', response)
+      // console.log('tom fetch', response)
       this.setState({
         recipeIngredients: response[0].shoppingListIngredients
       })
@@ -165,7 +165,6 @@ class ShoppingList extends Component {
               transitionLeaveTimeout={300}>
               {ShoppingListItems}
             </ReactCSSTransitionGroup>
-
           </ul>
             <div className="col-xs-6 col-xs-offset-3">
               <button type="button" className="btn btn-block btn-default schedule-button" onClick={this.schedule}>Schedule</button>
