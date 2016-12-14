@@ -8,7 +8,7 @@ class DriversTableSchema extends Schema {
     this.create('drivers', (table) => {
       table.increments()
       table.string('license')
-      table.date('license_expiration')
+      table.string('license_expiration')
       table.string('driving_location')
       table.string('driving_location_lat')
       table.string('driving_location_long')
