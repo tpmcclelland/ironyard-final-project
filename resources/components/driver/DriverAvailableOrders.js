@@ -16,7 +16,8 @@ class DriverAvailableOrders extends React.Component {
           detailsShown: false,
           toggle: false,
           driverId: '',
-          triggerUpdate: props.update
+          triggerUpdate: props.update,
+          acceptedPopup: false,
         }
     }
     componentDidMount() {
@@ -35,6 +36,7 @@ class DriverAvailableOrders extends React.Component {
         this.updateOrderState(item.order.id, "active")
       }
       item.accepted = true
+      this.toggleAcceptPopup()
       updatedAvailableOrderSet.splice(currentIndex, 1)
       let updatedActiveOrderSet = this.props.active
       updatedActiveOrderSet.push({
@@ -53,6 +55,12 @@ class DriverAvailableOrders extends React.Component {
       this.setState({
           toggle: !this.state.toggle
       })
+    }
+    toggleAcceptPopup() {
+      this.setState({
+        acceptedPopup: true,
+      })
+      let timeout = setTimeout(() => {this.setState({acceptedPopup: false})}, 1500)
     }
     showAvailableDetails(currentIndex) {
       let updatedAvailableOrderSet = this.props.available
@@ -108,6 +116,12 @@ class DriverAvailableOrders extends React.Component {
               <h1 className="heading">Available Orders</h1>
             </div>
         </div>
+          <div className={this.state.acceptedPopup?'panel panel-default alert':'alert-hidden'}>
+            <div className="panel-body">
+              <h2 className="lead text-center underline">Accepted</h2>
+              <h2 className="lead">Find on Active Orders page.</h2>
+            </div>
+          </div>
           <div className="list-group container-fluid">
             <ReactCSSTransitionGroup
               transitionName="list"
