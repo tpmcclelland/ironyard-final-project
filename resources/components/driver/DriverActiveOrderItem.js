@@ -17,7 +17,7 @@ const ActiveOrderItem = (props) => (
     <button type="button" className={props.data.pickedUp?'btn btn-picked-up btn-block':'btn btn-default btn-block'} onClick={props.pickedUp}>Picked Up</button>
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-3 list-group-button'>
-    <button type="button" className={props.data.delivered?'btn btn-primary btn-block':'btn btn-default btn-block'} onClick={props.delivered}>Delivered</button>
+    <button type="button" className={props.data.delivered?'btn btn-primary btn-block':'btn btn-default btn-block'} onClick={props.showDelivery}>Delivered</button>
     </div>
     <div className={props.data.totalCostShown?'row':'hidden'}>
     <form className="form-inline col-xs-12 col-sm-7 col-sm-offset-5 total-amount">
@@ -30,6 +30,16 @@ const ActiveOrderItem = (props) => (
         <button type="button" className="btn btn-default hide-total-amount" onClick={props.submitTotalCost}>Submit</button>
       </div>
     </form>
+    </div>
+    <div className={props.data.deliveryShown?'col-xs-12 col-sm-7 col-sm-offset-5 delivery-buttons':'hidden'}>
+        <div className="col-xs-4 col-xs-offset-4">
+            <button type="button" className="btn btn-success btn-block" onClick={props.delivered}>Confirm Delivery</button>
+        </div>
+        <div className="col-xs-4">
+            <button type="button" className="btn btn-danger btn-block" onClick={props.showDelivery}>Cancel</button>
+        </div>
+
+
     </div>
     <div className={props.data.detailsShown?'hidden':'container-fluid'}>
     <div className="row">

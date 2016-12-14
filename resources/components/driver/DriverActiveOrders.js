@@ -14,6 +14,7 @@ class DriverActiveOrder extends React.Component {
         this.state = {
           totalCostShown: false,
           detailsShown: false,
+          deliveryShown: false,
           locationSearchTerm: '',
           activeOrderSet: [],
           toggle: false,
@@ -53,14 +54,18 @@ class DriverActiveOrder extends React.Component {
       let updatedActiveOrderSet = this.props.active
       let item = updatedActiveOrderSet[currentIndex]
       item.totalCostShown = !item.totalCostShown
-      if (item.pickedUp === false) {
-        this.updateOrderState(item.order.id, "picked_up")
-      }
-      item.pickedUp = true
       this.setState({
           toggle: !this.state.toggle
       })
       store.dispatch({type: 'ACTIVE', active: updatedActiveOrderSet})
+    }
+    showDelivery(currentIndex) {
+        let updatedActiveOrderSet = this.props.active
+        updatedActiveOrderSet[currentIndex].deliveryShown = !updatedActiveOrderSet[currentIndex].deliveryShown
+        store.dispatch({type: 'ACTIVE', active: updatedActiveOrderSet})
+        this.setState({
+            toggle: !this.state.toggle
+        })
     }
     delivered(currentIndex) {
       let updatedActiveOrderSet = this.props.active
@@ -102,10 +107,14 @@ class DriverActiveOrder extends React.Component {
     submitTotalCost(currentIndex) {
       let updatedActiveOrderSet = this.props.active
       let item = updatedActiveOrderSet[currentIndex]
-      this.pickedUp(currentIndex)
-      if (item.paymentAmount !== '') {
-        this.updateOrderState(item.order.id, '', 'cost', item.paymentAmount)
+      if (item.paymentAmount !== '' && item.pickedUp === false) {
+        this.updateOrderState(item.order.id, 'picked_up', 'cost', item.paymentAmount)
+        item.pickedUp = true
+        item.totalCostShown = !item.totalCostShown
       }
+      this.setState({
+          toggle: !this.state.toggle
+      })
     }
 
   // initMap() {
@@ -132,7 +141,7 @@ class DriverActiveOrder extends React.Component {
           </ul>
         })
 
-        return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} latitude={latitude} longitude={longitude} orderID={orderID} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} updatePaymentAmountValue={(e) => this.updatePaymentAmountValue(e, i)} submitTotalCost={() => this.submitTotalCost(i)}/>
+        return <ActiveOrderItem data={item} startTime={startTime} endTime={endTime} ingredients={ingredients} key={i} latitude={latitude} longitude={longitude} orderID={orderID} showDetails={() => this.showDetails(i)} pickedUp={() => this.pickedUp(i)} delivered={() => this.delivered(i)} updatePaymentAmountValue={(e) => this.updatePaymentAmountValue(e, i)} submitTotalCost={() => this.submitTotalCost(i)} showDelivery={() => this.showDelivery(i)}/>
       })
       return <ReactCSSTransitionGroup
         transitionName="component"
