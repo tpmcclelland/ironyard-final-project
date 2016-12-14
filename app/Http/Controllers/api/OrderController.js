@@ -12,7 +12,7 @@ const Env = use('Env')
 class OrderController {
 
   * index(request, response) {
-    const orders = yield Order.query().with('store', 'state', 'review', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'shoppingList.recipeIngredients.recipe', 'driver.ratings').orderBy('updated_at', 'desc').orderBy('delivery_end_time', 'asc').fetch()
+    const orders = yield Order.query().with('store', 'state', 'review', 'driver.user', 'shoppingList.cooker.user', 'shoppingList.recipeIngredients.ingredient', 'shoppingList.recipeIngredients.recipe', 'driver.ratings').orderBy('state_id', 'asc').orderBy('updated_at', 'desc').orderBy('delivery_end_time', 'asc').fetch()
 
     response.send(orders)
   }
@@ -118,7 +118,13 @@ class OrderController {
       const update = yield Database
       .table('orders')
       .where('id', request.param('id'))
-      .update('total_cost', request.input('total_cost'))
+      .update({ state_id: stateValue[0].id, total_cost: request.input('total_cost')})
+
+      const order = yield Order.query().where('id', request.param('id')).with('shoppingList.cooker').fetch()
+      const orderObj = order.toJSON()
+      // const cooker = yield order.shoppingList().cooker().fetch()
+
+      this.pushStateUpdate(orderObj[0].shoppingList.cooker_id, request.param('id'), stateValue[0])
 
       return response.json({message: 'Updated total cost'})
     }
