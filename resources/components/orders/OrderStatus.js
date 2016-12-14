@@ -29,7 +29,7 @@ class OrderStatus extends React.Component {
         this.setState({displayPaymentSuccess: false})
         this.subscribeToUpdatedState()
         this.fetchOrders()
-      }, 1000)
+      }, 3000)
     } else {
       this.subscribeToUpdatedState()
       this.fetchOrders()
@@ -61,7 +61,7 @@ class OrderStatus extends React.Component {
     var pusherChannel = pusher.subscribe('cooker_' + cookerId)
 
     // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
 
      pusherChannel.bind('state_change', (data) => {
       console.log('pusher', data)

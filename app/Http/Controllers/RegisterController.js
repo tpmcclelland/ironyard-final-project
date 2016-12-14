@@ -46,7 +46,7 @@ class RegisterController {
         case 'driver':
           driver.license = request.input('license');
           driver.license_expiration = request.input('license_expiration');
-          driver.driving_location = request.input('driving_location');
+          // driver.driving_location = request.input('driving_location');
 
           yield user.driver().save(driver);
           break;

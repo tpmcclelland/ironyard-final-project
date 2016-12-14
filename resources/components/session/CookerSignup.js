@@ -162,7 +162,7 @@ class CookerSignup extends React.Component {
 
     })
 
-    console.log(newErrorMessages)
+    // console.log(newErrorMessages)
 
     this.setState({
       errorMessages: newErrorMessages,
