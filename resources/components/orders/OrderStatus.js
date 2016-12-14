@@ -221,7 +221,7 @@ class OrderStatus extends React.Component {
 render() {
     const userOrders = this.state.orders.map((item, i) => {
         var orderID = item.order.id
-        var orderDate = moment(item.order.updated_at).utcOffset(-5).format('dddd, MMMM Do - h:mm A')
+        var orderDate = moment(item.order.updated_at).utcOffset(-5).format('dddd, MMMM Do')
         var cost = item.order.shoppingList.estimated_price - 5
         var driverSubmittedCost = Number(item.order.total_cost)
         var totalCost = cost + 5.00
@@ -236,7 +236,7 @@ render() {
         }
         var ingredients = item.order.shoppingList.recipeIngredients.map((item, i) => {
           return <ul key={i}>
-            <li>{item.quantity} x {item.ingredient.name}</li>
+            <li>{item.quantity} {item.unit} {item.ingredient.name}</li>
           </ul>
         })
         if (item.state == 'available') {
