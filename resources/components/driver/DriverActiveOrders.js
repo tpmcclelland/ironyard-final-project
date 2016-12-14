@@ -100,8 +100,10 @@ class DriverActiveOrder extends React.Component {
     updatePaymentAmountValue(e, currentIndex) {
       let updatedActiveOrderSet = this.props.active
       let item = updatedActiveOrderSet[currentIndex]
-      console.log(item.paymentAmount)
       item.paymentAmount = e.target.value
+      this.setState({
+          toggle: !this.state.toggle
+      })
       store.dispatch({type: 'ACTIVE', active: updatedActiveOrderSet})
     }
     submitTotalCost(currentIndex) {
@@ -146,8 +148,9 @@ class DriverActiveOrder extends React.Component {
       return <ReactCSSTransitionGroup
         transitionName="component"
         transitionAppear={true}
-        transitionAppearTimeout={500}
+        transitionAppearTimeout={2000}
         transitionEnter={false}
+        transitionEnterTimeout={2000}
         transitionLeave={false}>
         <div className="driver col-xs-12 active">
         <div className="row">

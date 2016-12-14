@@ -21,6 +21,11 @@ class DriverNav extends React.Component {
             })
         }
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.route !== undefined) {
+            this.click(nextProps.route.pathname)
+        }
+    }
     click (button) {
         switch (button) {
             case '/driver':
@@ -29,6 +34,7 @@ class DriverNav extends React.Component {
                     availableClicked: false,
                     metricsClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             case '/driver/available':
                 this.setState({
@@ -36,6 +42,7 @@ class DriverNav extends React.Component {
                     availableClicked: true,
                     metricsClicked: false,
                 })
+                window.scrollTo(0,0)
                 break;
             case '/driver/metrics':
                 this.setState({
@@ -43,6 +50,7 @@ class DriverNav extends React.Component {
                     availableClicked: false,
                     metricsClicked: true,
                 })
+                window.scrollTo(0,0)
                 break;
         }
     }

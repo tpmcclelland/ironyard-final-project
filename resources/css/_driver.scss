@@ -44,11 +44,21 @@
     .total-amount {
         padding-top: 15px;
         .input-group {
-            width: 60%;
+            width: 100%;
         }
+    }
+    .hide-total-amount {
+        margin-top: 10px;
+        width: 100%;
     }
     .delivery-buttons {
         padding-top: 15px;
+        .confirm-delivery {
+            border: 2px solid $green;
+        }
+        .cancel-delivery {
+            border: 2px solid $red;
+        }
     }
     .metrics {
         padding: 8px 0;
@@ -171,14 +181,18 @@
         .form-group {
             width: 100%;
             text-align: right;
+            .input-group {
+                width: 50%;
+            }
         }
-        .input-group {
-            width: 50%;
+
+        .hide-total-amount {
+            margin-left: 10px;
+            margin-top: 0px;
+            width: auto;
         }
     }
-    .hide-total-amount {
-        margin-left: 10px;
-    }
+
     .monthly-orders {
         margin: 10% 20%;
     }

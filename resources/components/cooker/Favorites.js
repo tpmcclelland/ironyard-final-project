@@ -70,7 +70,7 @@ class Favorites extends React.Component {
                 transitionEnterTimeout={500}
                 transitionLeaveTimeout={300}>
                 <div className="list-group">
-                {Favorites}
+                {this.state.favorites.length? Favorites : <h2>You don't have any favorite recipes. Yet...</h2>}
                 </div>
               </ReactCSSTransitionGroup>
             </div>

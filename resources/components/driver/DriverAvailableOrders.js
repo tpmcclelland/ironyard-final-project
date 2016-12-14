@@ -21,7 +21,6 @@ class DriverAvailableOrders extends React.Component {
         }
     }
     componentDidMount() {
-        console.log(this.state.triggerUpdate)
         var storage = JSON.parse(sessionStorage.getItem('user'))
         var user = storage.user
         var driver = storage.driver
@@ -90,6 +89,7 @@ class DriverAvailableOrders extends React.Component {
 
     render() {
         var orders = this.props.available.map((item, i) => {
+            console.log(item.detailsShown)
           let startTime = moment(item.order.delivery_start_time).format('LT')
           let endTime = moment(item.order.delivery_end_time).format('LT')
           let latitude = item.order.shoppingList.cooker.home_lat
@@ -106,8 +106,9 @@ class DriverAvailableOrders extends React.Component {
       return <ReactCSSTransitionGroup
         transitionName="component"
         transitionAppear={true}
-        transitionAppearTimeout={500}
+        transitionAppearTimeout={2000}
         transitionEnter={false}
+        transitionEnterTimeout={2000}
         transitionLeave={false}>
         <div className="driver col-xs-12 available">
         <div className="row">
