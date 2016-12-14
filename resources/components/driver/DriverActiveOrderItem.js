@@ -17,7 +17,7 @@ const ActiveOrderItem = (props) => (
     <button type="button" className={props.data.pickedUp?'btn btn-picked-up btn-block':'btn btn-default btn-block'} onClick={props.pickedUp}>Picked Up</button>
     </div>
     <div className='col-xs-8 col-xs-offset-2 col-sm-offset-0 col-sm-3 list-group-button'>
-    <button type="button" className={props.data.delivered?'btn btn-primary btn-block':'btn btn-default btn-block'} onClick={props.showDelivery}>Delivered</button>
+    <button type="button" className={props.data.delivered?'btn btn-primary btn-block':'btn btn-default btn-block'} onClick={props.showDelivery} disabled={props.data.pickedUp?false:true}>Delivered</button>
     </div>
     <div className={props.data.totalCostShown?'row':'hidden'}>
     <form className="form-inline col-xs-12 col-md-7 col-md-offset-5 total-amount">
