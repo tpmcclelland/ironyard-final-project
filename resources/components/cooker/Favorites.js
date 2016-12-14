@@ -6,10 +6,10 @@ import Favorite from './Favorite'
 class Favorites extends React.Component {
   constructor(props) {
     super(props)
+    classAutoBind(this)
     this.state = ({
       favorites: [],
     })
-    classAutoBind(this)
   }
 
   componentDidMount() {
@@ -59,6 +59,7 @@ class Favorites extends React.Component {
       transitionAppear={true}
       transitionAppearTimeout={2000}
       transitionEnter={true}
+      transitionEnterTimeout={2000}
       transitionLeave={false}>
         <section className="favorites">
           <div className="row">

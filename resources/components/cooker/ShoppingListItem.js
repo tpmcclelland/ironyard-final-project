@@ -8,7 +8,7 @@ const ShoppingListItem = (props) => <div className="list-group-item">
       <div className="col-xs-6">
               <input name="quantity" type="text" className="form-control" value={props.item.quantity || ''} onChange={(e) => props.changeQuantity(e.target.value)} />
       </div>
-      <div className="col-xs-6">
+      <div className="col-sm-6 col-xs-12">
         <h5>{props.item.unit}</h5>
       </div>
     </div>

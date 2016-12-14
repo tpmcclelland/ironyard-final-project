@@ -8,6 +8,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 class Payment extends Component {
     constructor(props) {
         super(props)
+        classAutoBind(this)
 
         this.state = {
             billingFirstName: "",
@@ -25,7 +26,6 @@ class Payment extends Component {
             processing: false
         }
 
-      classAutoBind(this)
     }
 
     componentWillMount() {
@@ -343,7 +343,7 @@ class Payment extends Component {
                 <div className="form-group">
                 <div className="row">
                   <div className="col-xs-6 col-xs-offset-3">
-                    <button id="submit-button" className="btn btn-default btn-block" onClick={this.submitPayment} disabled={this.state.cardNumber.length < 16 || this.state.cvc < 3?true:false}>Submit Payment</button>
+                    <button id="submit-button" className={this.state.cardNumber.length < 16 || this.state.cvc < 3?'btn btn-default btn-block submit-payment-btn-disabled':'btn btn-default btn-block submit-payment-btn'} onClick={this.submitPayment} disabled={this.state.cardNumber.length < 16 || this.state.cvc < 3?true:false}>Submit Payment</button>
                   </div>
                 </div>
 

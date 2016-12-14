@@ -323,7 +323,7 @@ class Schedule extends Component {
                 <div className="row">
                     <div className="col-xs-6 col-xs-offset-3">
                         {/*<button className="btn btn-default btn-block" type="submit" disabled={this.state.startDeliveryWindow == 'select' || this.state.endDeliveryWindow == 'select'?true:false}>Submit Address</button>*/}
-                      <button className="btn btn-default btn-block" type="submit">Submit Address</button>
+                      <button className="btn btn-default btn-block submit-btn" type="submit">Submit Address</button>
                     </div>
                 </div>
                 </div>

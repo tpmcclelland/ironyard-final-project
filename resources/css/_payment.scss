@@ -15,6 +15,13 @@
     p {
         margin-bottom: 5px;
     }
+    .submit-payment-btn {
+        border: 2px solid $yellow;
+        margin-bottom: 30px;
+        &-disabled {
+            border: 2px solid #ccc;
+        }
+    }
 }
 @media (min-width: 768px) {
     .payment {
