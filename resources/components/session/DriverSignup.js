@@ -24,7 +24,8 @@ class DriverSignup extends React.Component {
       phone: '',
       mock: false,
       errorMessages: [],
-      serverError: false
+      serverError: false,
+      displayErrors: false,
     }
   }
 
@@ -115,6 +116,10 @@ class DriverSignup extends React.Component {
   handleClick() {
     if (this.isValid()) {
       this.signup()
+    } else {
+      this.setState({
+        displayErrors: true,
+      })
     }
   }
 
@@ -122,6 +127,10 @@ class DriverSignup extends React.Component {
     if (e.key === 'Enter') {
       if(this.isValid()) {
         this.signup()
+      } else {
+        this.setState({
+          displayErrors: true,
+        })
       }
 
     }
@@ -144,6 +153,15 @@ class DriverSignup extends React.Component {
       if (key === 'password') {
         !validator.isLength(this.state[key], {min:6, max:undefined}) ? newErrorMessages.push(key + '-invalid') : ''
       }
+
+      if (key === 'license') {
+        !validator.isLength(this.state[key], {min:6, max:undefined}) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
+      if (key === 'phone') {
+        !validator.isLength(this.state[key], {min:10, max:14}) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
 
       // if (key === 'license_expiration') {
       //   !validator.isDate(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
@@ -191,17 +209,17 @@ class DriverSignup extends React.Component {
               <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
                 <input type="text" id="firstName" name="first_name" className="form-control" required value={this.state.first_name} onChange={this.handleChanges} autoFocus/>
-                {this.state.errorMessages.includes('first_name') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {this.state.errorMessages.includes('first_name') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
                 <input type="text" id="lastName" name="last_name" className="form-control" required value={this.state.last_name} onChange={this.handleChanges}/>
-                {this.state.errorMessages.includes('last_name') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {this.state.errorMessages.includes('last_name') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
               </div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <input type="text" id="username" name="username" className="form-control" required value={this.state.username} onChange={this.handleChanges}/>
-                {this.state.errorMessages.includes('username') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {this.state.errorMessages.includes('username') && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' }
               </div>
               {/* <div className="form-group">
                <label htmlFor="avatar">Avatar</label>
@@ -210,30 +228,31 @@ class DriverSignup extends React.Component {
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input type="email" id="email" name="email" className="form-control" required value={this.state.email} onChange={this.handleChanges}/>
-                {this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' }
-                {this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Please enter a valid email</div>: '' }
+                {/* {this.state.errorMessages.includes('email')  && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' } */}
+                {this.state.errorMessages.includes('email-invalid') && this.state.displayErrors?<div className="validation-message">Please enter a valid email</div>: '' }
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <input type="password" id="password" name="password" className="form-control" required value={this.state.password} onChange={this.handleChanges}/>
-                {this.state.errorMessages.includes('password') ?<div className="validation-message">Please fill in this field</div>: '' }
-                {this.state.errorMessages.includes('password-invalid') ?<div className="validation-message">Password must be longer than 6 digits</div>: '' }
+                {/* {this.state.errorMessages.includes('password') ?<div className="validation-message">Please fill in this field</div>: '' } */}
+                {this.state.errorMessages.includes('password-invalid') && this.state.displayErrors ?<div className="validation-message">Password must be longer than 6 digits</div>: '' }
               </div>
             </div>
             <div className="col-sm-6">
               <div className="form-group">
                 <label htmlFor="license">License Number</label>
                 <input type="text" id="license" name="license" className="form-control" required value={this.state.license} onChange={this.handleChanges}/>
-                {this.state.errorMessages.includes('license') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {/* {this.state.errorMessages.includes('license') ?<div className="validation-message">Please fill in this field</div>: '' } */}
+                {this.state.errorMessages.includes('license-invalid') && this.state.displayErrors?<div className="validation-message">Please enter a valid driver's license number</div>: '' }
               </div>
               <div className="form-group">
                 <label htmlFor="license_expiration">License Expiration</label>
-                <input type="text" id="license_expiration" name="license_expiration" className="form-control" required value={this.state.license_expiration} onChange={this.handleChanges}/>
+                <input type="date" placeholder="" id="license_expiration" name="license_expiration" className="form-control" required value={this.state.license_expiration} onChange={this.handleChanges}/>
                 {/*<DatePicker*/}
                   {/*name="license_expiration"*/}
                   {/*selected={this.state.license_expiration}*/}
                 {/*onChange={this.handleChange} />*/}
-                {this.state.errorMessages.includes('license_expiration') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {this.state.errorMessages.includes('license_expiration') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                 {/*{this.state.errorMessages.includes('license_expiration-invalid') ?<div className="validation-message">Please enter a valid date.</div>: '' }*/}
               </div>
               {/*<div className="form-group">*/}
@@ -244,7 +263,7 @@ class DriverSignup extends React.Component {
               <div className="form-group">
                 <label htmlFor="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" className="form-control" required value={this.state.phone} onChange={this.handleChanges} onKeyPress={this.handleKeyPress}/>
-                {this.state.errorMessages.includes('phone') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {this.state.errorMessages.includes('phone-invalid') && this.state.displayErrors?<div className="validation-message">Please enter a valid phone number</div>: '' }
               </div>
             </div>
           </div>
