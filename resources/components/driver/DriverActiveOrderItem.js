@@ -27,7 +27,7 @@ const ActiveOrderItem = (props) => (
           <div className="input-group-addon">$</div>
           <input type="text" className="form-control" id="total-amount" defaultValue={props.data.paymentAmount} onChange={props.updatePaymentAmountValue}/>
         </div>
-        <button type="button" className="btn btn-default hide-total-amount" onClick={props.submitTotalCost} disabled={props.data.paymentAmount.length === 0 || props.data.pickedUp?true:false}>Submit</button>
+        <button type="button" className="btn btn-default hide-total-amount" onClick={props.submitTotalCost} disabled={(props.data.paymentAmount !== undefined && props.data.paymentAmount.length === 0) || props.data.pickedUp?true:false}>Submit</button>
       </div>
     </form>
     </div>
