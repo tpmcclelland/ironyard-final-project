@@ -53,11 +53,14 @@ class Schedule extends Component {
 
     typing(e) {
         var updatedState = {}
-        if (e.target.name === startDeliveryWindow || e.target.name === endDeliveryWindow) {
-            updatedState[e.target.name] = moment(e.target.value).utc().format()
+        if (e.target.name == 'startDeliveryWindow' || e.target.name == 'endDeliveryWindow') {
+            // updatedState[e.target.name] = moment(e.target.value).utc().format()
+            updatedState[e.target.name] = e.target.value
+
         } else {
             updatedState[e.target.name] = e.target.value
         }
+        console.log(updatedState)
         this.setState(updatedState)
 
         // this.collectShippingAddress()
@@ -147,30 +150,30 @@ class Schedule extends Component {
                           {/*<Validate validators={[(v) => !validator.isEmpty(v)]}>*/}
                             <select id="startDeliveryWindow" name="startDeliveryWindow" value={this.state.startDeliveryWindow} className="form-control" onChange={this.typing}>
                                 <option disabled value="">Select a time</option>
-                                <option value={today + ' 07:00:00'}>7:00 AM</option>
-                                <option value={today + ' 08:00:00'}>8:00 AM</option>
-                                <option value={today + ' 09:00:00'}>9:00 AM</option>
-                                <option value={today + ' 10:00:00'}>10:00 AM</option>
-                                <option value={today + ' 11:00:00'}>11:00 AM</option>
-                                <option value={today + ' 12:00:00'}>12:00 PM</option>
-                                <option value={today + ' 13:00:00'}>1:00 PM</option>
-                                <option value={today + ' 14:00:00'}>2:00 PM</option>
-                                <option value={today + ' 15:00:00'}>3:00 PM</option>
-                                <option value={today + ' 16:00:00'}>4:00 PM</option>
-                                <option value={today + ' 17:00:00'}>5:00 PM</option>
-                                <option value={today + ' 18:00:00'}>6:00 PM</option>
-                                <option value={today + ' 19:00:00'}>7:00 PM</option>
-                                <option value={today + ' 20:00:00'}>8:00 PM</option>
-                                <option value={today + ' 21:00:00'}>9:00 PM</option>
-                                <option value={today + ' 22:00:00'}>10:00 PM</option>
-                                <option value={today + ' 23:00:00'}>11:00 PM</option>
-                                <option value={today + ' 24:00:00'}>12:00 AM</option>
-                                <option value={today + ' 01:00:00'}>1:00 AM</option>
-                                <option value={today + ' 02:00:00'}>2:00 AM</option>
-                                <option value={today + ' 03:00:00'}>3:00 AM</option>
-                                <option value={today + ' 04:00:00'}>4:00 AM</option>
-                                <option value={today + ' 05:00:00'}>5:00 AM</option>
-                                <option value={today + ' 06:00:00'}>6:00 AM</option>
+                                <option value={today + 'T12:00:00Z'}>7:00 AM</option>
+                                <option value={today + 'T13:00:00Z'}>8:00 AM</option>
+                                <option value={today + 'T14:00:00Z'}>9:00 AM</option>
+                                <option value={today + 'T15:00:00Z'}>10:00 AM</option>
+                                <option value={today + 'T16:00:00Z'}>11:00 AM</option>
+                                <option value={today + 'T17:00:00Z'}>12:00 PM</option>
+                                <option value={today + 'T18:00:00Z'}>1:00 PM</option>
+                                <option value={today + 'T19:00:00Z'}>2:00 PM</option>
+                                <option value={today + 'T20:00:00Z'}>3:00 PM</option>
+                                <option value={today + 'T21:00:00Z'}>4:00 PM</option>
+                                <option value={today + 'T22:00:00Z'}>5:00 PM</option>
+                                <option value={today + 'T23:00:00Z'}>6:00 PM</option>
+                                <option value={today + 'T24:00:00Z'}>7:00 PM</option>
+                                <option value={today + 'T01:00:00Z'}>8:00 PM</option>
+                                <option value={today + 'T02:00:00Z'}>9:00 PM</option>
+                                <option value={today + 'T03:00:00Z'}>10:00 PM</option>
+                                <option value={today + 'T04:00:00Z'}>11:00 PM</option>
+                                <option value={today + 'T05:00:00Z'}>12:00 AM</option>
+                                <option value={today + 'T06:00:00Z'}>1:00 AM</option>
+                                <option value={today + 'T07:00:00Z'}>2:00 AM</option>
+                                <option value={today + 'T08:00:00Z'}>3:00 AM</option>
+                                <option value={today + 'T09:00:00Z'}>4:00 AM</option>
+                                <option value={today + 'T10:00:00Z'}>5:00 AM</option>
+                                <option value={today + 'T11:00:00Z'}>6:00 AM</option>
                             </select>
                           {this.state.errorMessages.includes('startDeliveryWindow') ?<div className="validation-message">Please fill in this field</div>: '' }
                             {/*<ErrorMessage>Start Time is Required</ErrorMessage>*/}
@@ -180,30 +183,30 @@ class Schedule extends Component {
                             <label htmlFor="endDeliveryWindow">End</label>
                             <select id="endDeliveryWindow" name="endDeliveryWindow" className="form-control" value={this.state.endDeliveryWindow} onChange={this.typing}>
                                 <option disabled value="">Select a time</option>
-                                <option value={today + ' 07:00:00'}>7:00 AM</option>
-                                <option value={today + ' 08:00:00'}>8:00 AM</option>
-                                <option value={today + ' 09:00:00'}>9:00 AM</option>
-                                <option value={today + ' 10:00:00'}>10:00 AM</option>
-                                <option value={today + ' 11:00:00'}>11:00 AM</option>
-                                <option value={today + ' 12:00:00'}>12:00 PM</option>
-                                <option value={today + ' 13:00:00'}>1:00 PM</option>
-                                <option value={today + ' 14:00:00'}>2:00 PM</option>
-                                <option value={today + ' 15:00:00'}>3:00 PM</option>
-                                <option value={today + ' 16:00:00'}>4:00 PM</option>
-                                <option value={today + ' 17:00:00'}>5:00 PM</option>
-                                <option value={today + ' 18:00:00'}>6:00 PM</option>
-                                <option value={today + ' 19:00:00'}>7:00 PM</option>
-                                <option value={today + ' 20:00:00'}>8:00 PM</option>
-                                <option value={today + ' 21:00:00'}>9:00 PM</option>
-                                <option value={today + ' 22:00:00'}>10:00 PM</option>
-                                <option value={today + ' 23:00:00'}>11:00 PM</option>
-                                <option value={today + ' 24:00:00'}>12:00 AM</option>
-                                <option value={today + ' 01:00:00'}>1:00 AM</option>
-                                <option value={today + ' 02:00:00'}>2:00 AM</option>
-                                <option value={today + ' 03:00:00'}>3:00 AM</option>
-                                <option value={today + ' 04:00:00'}>4:00 AM</option>
-                                <option value={today + ' 05:00:00'}>5:00 AM</option>
-                                <option value={today + ' 06:00:00'}>6:00 AM</option>
+                                <option value={today + 'T12:00:00Z'}>7:00 AM</option>
+                                <option value={today + 'T13:00:00Z'}>8:00 AM</option>
+                                <option value={today + 'T14:00:00Z'}>9:00 AM</option>
+                                <option value={today + 'T15:00:00Z'}>10:00 AM</option>
+                                <option value={today + 'T16:00:00Z'}>11:00 AM</option>
+                                <option value={today + 'T17:00:00Z'}>12:00 PM</option>
+                                <option value={today + 'T18:00:00Z'}>1:00 PM</option>
+                                <option value={today + 'T19:00:00Z'}>2:00 PM</option>
+                                <option value={today + 'T20:00:00Z'}>3:00 PM</option>
+                                <option value={today + 'T21:00:00Z'}>4:00 PM</option>
+                                <option value={today + 'T22:00:00Z'}>5:00 PM</option>
+                                <option value={today + 'T23:00:00Z'}>6:00 PM</option>
+                                <option value={today + 'T24:00:00Z'}>7:00 PM</option>
+                                <option value={today + 'T01:00:00Z'}>8:00 PM</option>
+                                <option value={today + 'T02:00:00Z'}>9:00 PM</option>
+                                <option value={today + 'T03:00:00Z'}>10:00 PM</option>
+                                <option value={today + 'T04:00:00Z'}>11:00 PM</option>
+                                <option value={today + 'T05:00:00Z'}>12:00 AM</option>
+                                <option value={today + 'T06:00:00Z'}>1:00 AM</option>
+                                <option value={today + 'T07:00:00Z'}>2:00 AM</option>
+                                <option value={today + 'T08:00:00Z'}>3:00 AM</option>
+                                <option value={today + 'T09:00:00Z'}>4:00 AM</option>
+                                <option value={today + 'T10:00:00Z'}>5:00 AM</option>
+                                <option value={today + 'T11:00:00Z'}>6:00 AM</option>
                             </select>
                           {this.state.errorMessages.includes('endDeliveryWindow') ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
