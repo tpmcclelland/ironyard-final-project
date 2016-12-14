@@ -53,9 +53,13 @@ class Schedule extends Component {
 
     typing(e) {
         var updatedState = {}
-        updatedState[e.target.name] = e.target.value
-        // console.log(updatedState)
+        if (e.target.name === startDeliveryWindow || e.target.name === endDeliveryWindow) {
+            updatedState[e.target.name] = moment(e.target.value).utc().format()
+        } else {
+            updatedState[e.target.name] = e.target.value
+        }
         this.setState(updatedState)
+
         // this.collectShippingAddress()
        setTimeout(() => {this.isValid()},0)
     }
