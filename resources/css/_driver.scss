@@ -1,6 +1,12 @@
 @import "variables";
 
 .driver {
+    .alert {
+      z-index: 1;
+      position: fixed;
+      left: 33%;
+      right: auto;
+    }
     &.active {
         box-shadow: 0px 0px 0px 18px $red;
     }
