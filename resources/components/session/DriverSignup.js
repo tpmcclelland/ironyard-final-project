@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link, browserHistory} from 'react-router'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
-import { sharedState, attachSharedState, detachSharedState } from 'react-helpers/dist/sharedState'
 import { connect } from 'react-redux'
 import store from '../redux/_ReduxStore'
+import validator from 'validator'
+import DatePicker from 'react-datepicker'
+
 
 class DriverSignup extends React.Component {
   constructor(props) {
@@ -16,23 +18,16 @@ class DriverSignup extends React.Component {
       username: '',
       license: '',
       license_expiration: '',
-      driving_location: '',
+      // driving_location: '',
       first_name: '',
       last_name: '',
       phone: '',
-      mock: false
+      mock: false,
+      errorMessages: [],
+      serverError: false
     }
   }
 
-
-  componentDidMount() {
-    // attachSharedState(this, (state) => this.setState({sharedState: state}))
-    // attachSharedState(this)
-  }
-
-  componentWillUnmount() {
-    // detachSharedState(this)
-  }
 
   mockResponse() {
     var response = {
@@ -63,7 +58,7 @@ class DriverSignup extends React.Component {
           username: this.state.username,
           license: this.state.license,
           license_expiration: this.state.license_expiration,
-          driving_location: this.state.driving_location,
+          // driving_location: this.state.driving_location,
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           phone: this.state.phone
@@ -95,6 +90,12 @@ class DriverSignup extends React.Component {
     // console.log(this.state)
     // console.log(response)
 
+    if (response.error) {
+      this.setState({
+        serverError: 'Email already in use. Please use a different email.'})
+    }
+
+
     if(typeof response.user != 'undefined') {
       sessionStorage.setItem('user', JSON.stringify(response.user))
       store.dispatch({type:'MESSAGE', message:'Welcome'})
@@ -112,7 +113,59 @@ class DriverSignup extends React.Component {
   }
 
   handleClick() {
-    this.signup()
+    if (this.isValid()) {
+      this.signup()
+    }
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      if(this.isValid()) {
+        this.signup()
+      }
+
+    }
+  }
+
+  isValid() {
+    var newErrorMessages = []
+
+    var keys = Object.keys(this.state)
+
+    keys.forEach(key => {
+      // if(key !== 'home_lat' && key !== 'home_long') {
+        if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
+      // }
+
+      if (key === 'email') {
+        !validator.isEmail(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
+      if (key === 'password') {
+        !validator.isLength(this.state[key], {min:6, max:undefined}) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
+      if (key === 'license_expiration') {
+        !validator.isDate(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
+    })
+
+    // console.log(newErrorMessages)
+
+    this.setState({
+      errorMessages: newErrorMessages,
+      serverError: false
+    })
+
+    return newErrorMessages.length == 0
+  }
+
+  handleChanges(event) {
+    var updatedState = {}
+    updatedState[event.target.name] = event.target.value
+    this.setState(updatedState)
+    setTimeout(() => {this.isValid()},0)
   }
 
   render() {
@@ -129,7 +182,7 @@ class DriverSignup extends React.Component {
               <br/>
             </div>
             <div className="col-xs-12">
-              <div id="errors"></div>
+              {this.state.serverError ?<div className="validation-message">{this.state.serverError}</div>: '' }
               <br/>
             </div>
           </div>
@@ -137,15 +190,18 @@ class DriverSignup extends React.Component {
             <div className="col-sm-6">
               <div className="form-group">
                 <label htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" className="form-control" required value={this.state.first_name} onChange={(e) => this.setState({first_name: e.target.value})}/>
+                <input type="text" id="firstName" name="first_name" className="form-control" required value={this.state.first_name} onChange={this.handleChanges} autoFocus/>
+                {this.state.errorMessages.includes('first_name') ?<div className="validation-message">Please fill in this field</div>: '' }
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" className="form-control" required value={this.state.last_name} onChange={(e) => this.setState({last_name: e.target.value})}/>
+                <input type="text" id="lastName" name="last_name" className="form-control" required value={this.state.last_name} onChange={this.handleChanges}/>
+                {this.state.errorMessages.includes('last_name') ?<div className="validation-message">Please fill in this field</div>: '' }
               </div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
-                <input type="text" id="username" name="username" className="form-control" required value={this.state.username} onChange={(e) => this.setState({username:e.target.value})}/>
+                <input type="text" id="username" name="username" className="form-control" required value={this.state.username} onChange={this.handleChanges}/>
+                {this.state.errorMessages.includes('username') ?<div className="validation-message">Please fill in this field</div>: '' }
               </div>
               {/* <div className="form-group">
                <label htmlFor="avatar">Avatar</label>
@@ -153,29 +209,42 @@ class DriverSignup extends React.Component {
                </div> */}
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" className="form-control" required value={this.state.email} onChange={(e) => this.setState({email:e.target.value})}/>
+                <input type="email" id="email" name="email" className="form-control" required value={this.state.email} onChange={this.handleChanges}/>
+                {this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Please enter a valid email</div>: '' }
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" className="form-control" required value={this.state.password} onChange={(e) => this.setState({password:e.target.value})}/>
+                <input type="password" id="password" name="password" className="form-control" required value={this.state.password} onChange={this.handleChanges}/>
+                {this.state.errorMessages.includes('password') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {this.state.errorMessages.includes('password-invalid') ?<div className="validation-message">Password must be longer than 6 digits</div>: '' }
               </div>
             </div>
             <div className="col-sm-6">
               <div className="form-group">
                 <label htmlFor="license">License Number</label>
-                <input type="text" id="license" name="state" className="form-control" required value={this.state.license} onChange={(e) => this.setState({license: e.target.value})}/>
+                <input type="text" id="license" name="license" className="form-control" required value={this.state.license} onChange={this.handleChanges}/>
+                {this.state.errorMessages.includes('license') ?<div className="validation-message">Please fill in this field</div>: '' }
               </div>
               <div className="form-group">
                 <label htmlFor="license_expiration">License Expiration</label>
-                <input type="text" id="license_expiration" name="license_expiration" className="form-control" required value={this.state.license_expiration} onChange={(e) => this.setState({license_expiration: e.target.value})}/>
+                <input type="text" id="license_expiration" name="license_expiration" className="form-control" required value={this.state.license_expiration} onChange={this.handleChanges}/>
+                {/*<DatePicker*/}
+                  {/*name="license_expiration"*/}
+                  {/*selected={this.state.license_expiration}*/}
+                {/*onChange={this.handleChange} />*/}
+                {this.state.errorMessages.includes('license_expiration') ?<div className="validation-message">Please fill in this field</div>: '' }
+                {this.state.errorMessages.includes('license_expiration-invalid') ?<div className="validation-message">Please enter a valid date.</div>: '' }
               </div>
-              <div className="form-group">
-                <label htmlFor="location">Preferred Location</label>
-                <input type="text" id="location" name="location" className="form-control" required value={this.state.driving_location} onChange={(e) => this.setState({driving_location: e.target.value})}/>
-              </div>
+              {/*<div className="form-group">*/}
+                {/*<label htmlFor="location">Preferred Location</label>*/}
+                {/*<input type="text" id="location" name="driving_location" className="form-control" required value={this.state.driving_location} onChange={this.handleChanges}/>*/}
+                {/*{this.state.errorMessages.includes('driving_location') ?<div className="validation-message">Please fill in this field</div>: '' }*/}
+              {/*</div>*/}
               <div className="form-group">
                 <label htmlFor="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" className="form-control" required value={this.state.phone} onChange={(e) => this.setState({phone: e.target.value})}/>
+                <input type="tel" id="phone" name="phone" className="form-control" required value={this.state.phone} onChange={this.handleChanges} onKeyPress={this.handleKeyPress}/>
+                {this.state.errorMessages.includes('phone') ?<div className="validation-message">Please fill in this field</div>: '' }
               </div>
             </div>
           </div>
