@@ -16,7 +16,8 @@ class Login extends React.Component {
             password: '',
             mock: false,
             errorMessages: [],
-            serverError: false
+            serverError: false,
+            displayErrors: false,
         }
     }
 
@@ -58,6 +59,10 @@ class Login extends React.Component {
             .then(this.loggedInHandler)
             .catch(function(error) {
               console.log('login fetch: ' + error.message)
+            })
+        } else {
+            this.setState({
+                displayErrors: true,
             })
         }
     }
@@ -114,11 +119,12 @@ class Login extends React.Component {
     keys.forEach(key => {
       if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
 
-      if (typeof this.state[key] == 'string'
-        && this.state[key] == 'email'
-        && !validator.isEmail(this.state[key])) {
-          newErrorMessages.push(key + '-invalid')
+      if (key === 'email') {
+          console.log(validator.isEmail(this.state[key]))
+
+        !validator.isEmail(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
       }
+
     })
 
     // console.log(newErrorMessages)
@@ -149,13 +155,13 @@ class Login extends React.Component {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input type="email" name="email" className="form-control" value={this.state.email} onChange={this.handleEmailChange} autoFocus/>
-            {this.state.errorMessages.includes('email') ?<div className="validation-message">Email is Required</div>: '' }
-            {this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Email is Invalid</div>: '' }
+            {this.state.errorMessages.includes('email') && this.state.displayErrors?<div className="validation-message">Email is required</div>: '' }
+            {this.state.errorMessages.includes('email-invalid') && this.state.displayErrors?<div className="validation-message">Email is invalid</div>: '' }
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input type="password" name="password" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} onKeyPress={this.handleKeyPress}/>
-            {this.state.errorMessages.includes('password') ?<div className="validation-message">Password is Required</div>: '' }
+            {this.state.errorMessages.includes('password') && this.state.displayErrors?<div className="validation-message">Password is required</div>: '' }
           </div>
           <div className="form-group">
             <button id="signin" type="button" className="btn btn-primary btn-block" onClick={this.handleClick}>Log In</button>

@@ -22,7 +22,8 @@ class Schedule extends Component {
             shippingCity: "",
             shippingState: "",
             shippingZipcode: "",
-            errorMessages: []
+            errorMessages: [],
+            displayErrors: false,
         }
     }
     componentWillMount() {
@@ -60,7 +61,6 @@ class Schedule extends Component {
         } else {
             updatedState[e.target.name] = e.target.value
         }
-        console.log(updatedState)
         this.setState(updatedState)
 
         // this.collectShippingAddress()
@@ -74,7 +74,11 @@ class Schedule extends Component {
         store.dispatch({type: 'LIST_AVAILABLE', shoppingListAvailable: false})
 
         this.createOrder()
-      }
+    } else {
+        this.setState({
+            displayErrors: true,
+        })
+    }
 
     }
 
@@ -85,8 +89,26 @@ class Schedule extends Component {
       // console.log(keys)
 
       keys.forEach(key => {
-        if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
+          if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
+
+          if (key === 'email') {
+              !validator.isEmail(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
+          }
+
+          if (key === 'password') {
+            !validator.isLength(this.state[key], {min:6, max:undefined}) ? newErrorMessages.push(key + '-invalid') : ''
+          }
+
+          if (key === 'shippingTelephone') {
+            !validator.isLength(this.state[key], {min:10, max:14}) ? newErrorMessages.push(key + '-invalid') : ''
+          }
+
+          if (key === 'shippingZipcode') {
+            !validator.isLength(this.state[key], {min:5, max:5}) ? newErrorMessages.push(key + '-invalid') : ''
+          }
       })
+
+
 
 
       this.setState({
@@ -175,7 +197,7 @@ class Schedule extends Component {
                                 <option value={today + 'T10:00:00Z'}>5:00 AM</option>
                                 <option value={today + 'T11:00:00Z'}>6:00 AM</option>
                             </select>
-                          {this.state.errorMessages.includes('startDeliveryWindow') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('startDeliveryWindow') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                             {/*<ErrorMessage>Start Time is Required</ErrorMessage>*/}
                           {/*</Validate>*/}
                         </div>
@@ -208,7 +230,7 @@ class Schedule extends Component {
                                 <option value={today + 'T10:00:00Z'}>5:00 AM</option>
                                 <option value={today + 'T11:00:00Z'}>6:00 AM</option>
                             </select>
-                          {this.state.errorMessages.includes('endDeliveryWindow') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('endDeliveryWindow') && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                 </div>
@@ -221,12 +243,12 @@ class Schedule extends Component {
                             <input className="form-control" type="text" name="shippingFirstName" id="shippingFirstName" value={this.state.shippingFirstName} onChange={this.typing} placeholder="Firstname"/>
                             {/*<ErrorMessage>First Name is Required</ErrorMessage>*/}
                           {/*</Validate>*/}
-                          {this.state.errorMessages.includes('shippingFirstName') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('shippingFirstName') && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingLastName">Last Name</label>
                             <input className="form-control" type="text" name="shippingLastName" id="shippingLastName" value={this.state.shippingLastName} onChange={this.typing} placeholder="White"/>
-                          {this.state.errorMessages.includes('shippingLastName') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('shippingLastName') && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                     <div className="row">
@@ -234,12 +256,12 @@ class Schedule extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="email">Email</label>
                             <input className="form-control" type="email" name="email" id="email" value={this.state.email} onChange={this.typing} placeholder="Winter@is.coming"/>
-                          {this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('email') && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingTelephone">Telephone</label>
                             <input className="form-control" type="tel" name="shippingTelephone" id="shippingTelephone" value={this.state.shippingTelephone} onChange={this.typing} placeholder="123 456 7890" />
-                          {this.state.errorMessages.includes('shippingTelephone') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('shippingTelephone-invalid') && this.state.displayErrors?<div className="validation-message">Please enter a valid phone number</div>: '' }
                         </div>
                     </div>
                     <div className="row">
@@ -247,12 +269,12 @@ class Schedule extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="shippingAddress">Address</label>
                             <input className="form-control" type="text" name="shippingAddress" id="shippingAddress" value={this.state.shippingAddress} onChange={this.typing} placeholder="12 Upup Downdown PKWY" />
-                          {this.state.errorMessages.includes('shippingAddress') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('shippingAddress') && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingCity">City</label>
                             <input className="form-control" type="text" name="shippingCity" id="shippingCity" value={this.state.shippingCity} onChange={this.typing} placeholder="Bee Ayystart" />
-                          {this.state.errorMessages.includes('shippingCity') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('shippingCity') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                     <div className="row">
@@ -313,12 +335,12 @@ class Schedule extends Component {
                                 <option value="WI">Wisconsin</option>
                                 <option value="WY">Wyoming</option>
                             </select>
-                          {this.state.errorMessages.includes('shippingState') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('shippingState') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="shippingZipcode">Zipcode</label>
                             <input className="form-control" type="text" name="shippingZipcode" id="shippingZipcode" value={this.state.shippingZipcode} onChange={this.typing} placeholder="46202" />
-                          {this.state.errorMessages.includes('shippingZipcode') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('shippingZipcode-invalid') && this.state.displayErrors?<div className="validation-message">Please enter a valid zip code</div>: '' }
                         </div>
                     </div>
                 </div>

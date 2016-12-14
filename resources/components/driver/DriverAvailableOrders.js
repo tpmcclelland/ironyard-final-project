@@ -96,7 +96,7 @@ class DriverAvailableOrders extends React.Component {
           let orderID = item.order.id
           var ingredients = item.order.shoppingList.recipeIngredients.map((item, i) => {
                 return <ul key={i}>
-                  <li>{item.quantity} x {item.ingredient.name}</li>
+                  <li>{item.quantity} {item.unit} {item.ingredient.name}</li>
                 </ul>
             })
 

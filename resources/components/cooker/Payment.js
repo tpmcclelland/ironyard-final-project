@@ -26,7 +26,8 @@ class Payment extends Component {
             cvc: "",
             processing: false,
             errorMessages: [],
-            serverError: false
+            serverError: false,
+            displayErrors: false,
         }
 
     }
@@ -53,10 +54,9 @@ class Payment extends Component {
       })
     }
 
-
   submitPayment(e) {
+    e.preventDefault()
     if(this.isValid())  {
-
       var $form = $('#payment-form');
 
       // Disable the submit button to prevent repeated clicks:
@@ -67,8 +67,12 @@ class Payment extends Component {
 
       // Prevent the form from being submitted:
       return false;
-      }
-    }
+  } else {
+      this.setState({
+          displayErrors: true,
+      })
+  }
+}
 
   stripeResponseHandler(status, response) {
     // Grab the form:
@@ -182,10 +186,15 @@ class Payment extends Component {
     }
 
   handleKeyPress(e) {
+    e.preventDefault()
     if (e.key === 'Enter') {
       if(this.isValid()) {
         this.submitPayment(e)
-      }
+    } else {
+        this.setState({
+            displayErrors: true,
+        })
+    }
 
     }
   }
@@ -197,6 +206,18 @@ class Payment extends Component {
 
       keys.forEach(key => {
         if (typeof this.state[key] == 'string' &&  validator.isEmpty(this.state[key])) newErrorMessages.push(key)
+
+        if (key === 'billingZipcode') {
+          !validator.isLength(this.state[key], {min:5, max:5}) ? newErrorMessages.push(key + '-invalid') : ''
+        }
+
+        if (key === 'cardNumber') {
+          !validator.isCreditCard(this.state[key]) ? newErrorMessages.push(key + '-invalid') : ''
+        }
+
+        if (key === "cvc") {
+          !validator.isLength(this.state[key], {min:3, max:4}) ? newErrorMessages.push(key + '-invalid') : ''
+        }
       })
 
       // if (key === 'cardNumber') {
@@ -259,7 +280,7 @@ class Payment extends Component {
                         <div className="col-sm-12">
                             <label htmlFor="paymentCardHolderName">Cardholder Name</label>
                             <input className="form-control" type="text" name="paymentCardHolderName" id="paymentCardHolderName" value={this.state.paymentCardHolderName} onChange={this.typing} placeholder="Joseph P Sampsonite"/>
-                          {this.state.errorMessages.includes('paymentCardHolderName') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('paymentCardHolderName') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                     <div className="row">
@@ -268,13 +289,13 @@ class Payment extends Component {
                             <label htmlFor="paymentCardNumber">Card Number</label>
                             <input className="form-control" type="text" id="paymentCardNumber" data-stripe="number" name="cardNumber" value={this.state.cardNumber} onChange={this.typing} required/>
                           {/*{this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' }*/}
-                          {/*{this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Please enter a valid email</div>: '' }*/}
+                          {this.state.errorMessages.includes('cardNumber-invalid') && this.state.displayErrors?<div className="validation-message">Please enter a valid credit card number</div>: '' }
                         </div>
                         <div className="col-sm-4">
                           <label htmlFor="paymentCvc">CVC</label>
                           <input className="form-control" type="text"  data-stripe="cvc" required name="cvc" value={this.state.cvc} onChange={this.typing}/>
                           {/*{this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' }*/}
-                          {/*{this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Please enter a valid email</div>: '' }*/}
+                          {this.state.errorMessages.includes('cvc-invalid') && this.state.displayErrors?<div className="validation-message">Please enter a valid CVC number</div>: '' }
                         </div>
                     </div>
                     <div className="row">
@@ -315,12 +336,12 @@ class Payment extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="billingFirstName">First Name</label>
                             <input className="form-control" type="text" name="billingFirstName" id="billingFirstName" value={this.state.billingFirstName} onChange={this.typing} placeholder="Snow"/>
-                          {this.state.errorMessages.includes('billingFirstName') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('billingFirstName') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="billingLastName">Last Name</label>
                             <input className="form-control" type="text" name="billingLastName" id="billingLastName" value={this.state.billingLastName} onChange={this.typing} placeholder="White"/>
-                          {this.state.errorMessages.includes('billingLastName') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('billingLastName') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                     <div className="row">
@@ -328,12 +349,12 @@ class Payment extends Component {
                         <div className="col-sm-6">
                             <label htmlFor="billingAddress">Address</label>
                             <input className="form-control" type="text" name="billingAddress" id="billingAddress" value={this.state.billingAddress} onChange={this.typing} placeholder="12 Upup Downdown PKWY"/>
-                          {this.state.errorMessages.includes('billingAddress') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('billingAddress') && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="billingCity">City</label>
                             <input className="form-control" type="text" name="billingCity" id="billingCity" value={this.state.billingCity} onChange={this.typing} placeholder="Bee Ayystart"/>
-                          {this.state.errorMessages.includes('billingCity') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('billingCity') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                     <div className="row">
@@ -394,19 +415,19 @@ class Payment extends Component {
                                 <option value="WI">Wisconsin</option>
                                 <option value="WY">Wyoming</option>
                             </select>
-                          {this.state.errorMessages.includes('billingState') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('billingState') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                         <div className="col-sm-6">
                             <label htmlFor="billingZipcode">Zipcode</label>
                             <input className="form-control" type="text" name="billingZipcode" id="billingZipcode" value={this.state.billingZipcode} onChange={this.typing} placeholder="46202"/>
-                          {this.state.errorMessages.includes('billingZipcode') ?<div className="validation-message">Please fill in this field</div>: '' }
+                          {this.state.errorMessages.includes('billingZipcode') && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                         </div>
                     </div>
                 </div>
                 <div className="form-group">
                 <div className="row">
                   <div className="col-xs-6 col-xs-offset-3">
-                    <button id="submit-button" className={this.state.cardNumber.length < 16 || this.state.cvc < 3?'btn btn-default btn-block submit-payment-btn-disabled':'btn btn-default btn-block submit-payment-btn'} onClick={this.submitPayment} disabled={this.state.cardNumber.length < 16 || this.state.cvc < 3?true:false}>Submit Payment</button>
+                    <button id="submit-button" className='btn btn-default btn-block submit-payment-btn' onClick={this.submitPayment} >Submit Payment</button>
                   </div>
                 </div>
 

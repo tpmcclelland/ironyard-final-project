@@ -26,7 +26,8 @@ class CookerSignup extends React.Component {
             home_long: '',
             mock: false,
             errorMessages: [],
-            serverError: false
+            serverError: false,
+            displayErrors: false,
         }
     }
 
@@ -129,6 +130,10 @@ class CookerSignup extends React.Component {
     handleClick() {
       if (this.isValid()){
         this.signup()
+      } else {
+        this.setState({
+          displayErrors: true,
+        })
       }
 
     }
@@ -137,6 +142,10 @@ class CookerSignup extends React.Component {
     if (e.key === 'Enter') {
       if(this.isValid()) {
         this.signup()
+      } else {
+        this.setState({
+          displayErrors: true,
+        })
       }
 
     }
@@ -158,6 +167,14 @@ class CookerSignup extends React.Component {
 
       if (key === 'password') {
         !validator.isLength(this.state[key], {min:6, max:undefined}) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
+      if (key === 'phone') {
+        !validator.isLength(this.state[key], {min:10, max:14}) ? newErrorMessages.push(key + '-invalid') : ''
+      }
+
+      if (key === 'zip') {
+        !validator.isLength(this.state[key], {min:5, max:5}) ? newErrorMessages.push(key + '-invalid') : ''
       }
 
     })
@@ -205,41 +222,41 @@ class CookerSignup extends React.Component {
                 <div className="form-group">
                   <label htmlFor="firstName">First Name</label>
                   <input type="text" id="firstName" name="first_name" className="form-control" value={this.state.first_name} onChange={this.handleChanges} autoFocus/>
-                  {this.state.errorMessages.includes('first_name') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {this.state.errorMessages.includes('first_name') && this.state.displayErrors ?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="lastName">Last Name</label>
                   <input type="text" id="lastName" name="last_name" className="form-control"  value={this.state.last_name} onChange={this.handleChanges}/>
-                  {this.state.errorMessages.includes('last_name') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {this.state.errorMessages.includes('last_name')  && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="username">Username</label>
                   <input type="text" id="username" name="username" className="form-control"  value={this.state.username} onChange={this.handleChanges}/>
-                  {this.state.errorMessages.includes('username') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {this.state.errorMessages.includes('username')  && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
                   <input type="email" id="email" name="email" className="form-control"  value={this.state.email} onChange={this.handleChanges}/>
-                  {this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' }
-                  {this.state.errorMessages.includes('email-invalid') ?<div className="validation-message">Please enter a valid email</div>: '' }
+                  {/* {this.state.errorMessages.includes('email') ?<div className="validation-message">Please fill in this field</div>: '' } */}
+                  {this.state.errorMessages.includes('email-invalid')  && this.state.displayErrors?<div className="validation-message">Please enter a valid email address</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
                   <input type="password" id="password" name="password" className="form-control"  value={this.state.password} onChange={this.handleChanges}/>
-                  {this.state.errorMessages.includes('password') ?<div className="validation-message">Please fill in this field</div>: '' }
-                  {this.state.errorMessages.includes('password-invalid') ?<div className="validation-message">Password must be longer than 6 digits</div>: '' }
+                  {/* {this.state.errorMessages.includes('password') ?<div className="validation-message">Please fill in this field</div>: '' } */}
+                  {this.state.errorMessages.includes('password-invalid')  && this.state.displayErrors?<div className="validation-message">Password must be longer than 6 digits</div>: '' }
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="address">Address</label>
                   <input type="text" id="address" name="address" className="form-control"  value={this.state.address} onChange={this.handleChanges}/>
-                  {this.state.errorMessages.includes('address') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {this.state.errorMessages.includes('address')  && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="city">City</label>
                   <input type="text" id="city" name="city" className="form-control" value={this.state.city} onChange={this.handleChanges}/>
-                  {this.state.errorMessages.includes('city') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {this.state.errorMessages.includes('city')  && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="state">State</label>
@@ -297,17 +314,19 @@ class CookerSignup extends React.Component {
                     <option value="WI">Wisconsin</option>
                     <option value="WY">Wyoming</option>
                   </select>
-                 {this.state.errorMessages.includes('state') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {this.state.errorMessages.includes('state')  && this.state.displayErrors?<div className="validation-message">Please fill in this field</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="zip">Zip</label>
                   <input type="text" id="zip" name="zip" className="form-control" value={this.state.zip} onChange={this.handleChanges}/>
-                  {this.state.errorMessages.includes('zip') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {/* {this.state.errorMessages.includes('zip') ?<div className="validation-message">Please fill in this field</div>: '' } */}
+                  {this.state.errorMessages.includes('zip-invalid')  && this.state.displayErrors?<div className="validation-message">Please enter a valid zip code</div>: '' }
                 </div>
                 <div className="form-group">
                   <label htmlFor="phone">Phone Number</label>
                   <input type="tel" id="phone" name="phone" className="form-control" value={this.state.phone} onChange={this.handleChanges} onKeyPress={this.handleKeyPress}/>
-                  {this.state.errorMessages.includes('phone') ?<div className="validation-message">Please fill in this field</div>: '' }
+                  {/* {this.state.errorMessages.includes('phone') ?<div className="validation-message">Please fill in this field</div>: '' } */}
+                    {this.state.errorMessages.includes('phone-invalid')  && this.state.displayErrors?<div className="validation-message">Please enter a valid phone number</div>: '' }
                 </div>
               </div>
             </div>
