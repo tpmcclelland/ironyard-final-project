@@ -19,7 +19,7 @@ Who has time to shop **AND** cook?  Let **Ingredients.Today** deliver your ingre
 ### APIs
 - Yummly![Yummly API](http://s.yumm.ly/s/97a851e/img/yummly.svg)
 - Stripe![Stripe API](https://stripe.com/img/documentation/api/logo@2x.png)
-- Pusher![Pusher API](https://github.com/pusher/pusher-logos/blob/master/PNG/pusher_logo_dark.png?raw=true)
+- Pusher <img src="https://github.com/pusher/pusher-logos/blob/master/PNG/pusher_logo_dark.png?raw=true" width="100">
 - Google Maps![Google Maps API](https://www.gstatic.com/images/branding/product/1x/maps_64dp.png)
 
 ### Frameworks/Libraries:
