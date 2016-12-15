@@ -1,9 +1,10 @@
+![Travis-CI](https://api.travis-ci.org/tpmcclelland/ironyard-final-project.svg?branch=master)
 # Ingredients.Today Application
 
 ## Created By:
-- Whitney Weir
-- Tom McClelland
-- Joel Lonneker
+- Whitney Weir [@waweir](https://github.com/waweir)
+- Tom McClelland [@tpmcclelland](https://github.com/tpmcclelland/)
+- Joel Lonneker [@JoelBot](https://github.com/JoelBot)
 
 ## Our Story:
 Who has time to shop **AND** cook?  Let **Ingredients.Today** deliver your ingredients **TODAY** and get cooking **TONIGHT**!
@@ -16,14 +17,13 @@ Who has time to shop **AND** cook?  Let **Ingredients.Today** deliver your ingre
 
 ## Technologies Used:
 ### APIs
-- Yummly
-- Stripe
+- Yummly![Yummly API](http://s.yumm.ly/s/97a851e/img/yummly.svg)
+- Stripe![Stripe API](https://stripe.com/img/documentation/api/logo@2x.png)
 - Pusher
 - Google Geolocation
 - Google Maps
 
-### Frameworks
-- NodeJS
+### Frameworks/Libraries
 - MVC Framework - AdonisJS
 - ORM Library - Lucid
 - ReactJS
@@ -34,5 +34,5 @@ Who has time to shop **AND** cook?  Let **Ingredients.Today** deliver your ingre
 - Enzyme
 
 ### CI/CD
-- Travis-CI ![Travis-CI](https://api.travis-ci.org/tpmcclelland/ironyard-final-project.svg?branch=master)
+- Travis-CI
 - Heroku
