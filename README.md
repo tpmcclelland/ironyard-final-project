@@ -6,11 +6,13 @@
 - Joel Lonneker
 
 ## Our Story:
-Cooking at home can be difficult with schedules/traffic/motivation getting in the way.  
+Who has time to shop **AND** cook?  Let **Ingredients.Today** deliver your ingredients **TODAY** and get cooking **TONIGHT**!
 ### We built Ingredients.Today to:
-- Enable the busy **cooker** to find recipes and request ingredients be delivered tonight.
+- Enable the busy **_cooker_** to find recipes and request ingredients be delivered tonight.
+
 **and** 
-- Enable the available **driver** to earn money by shopping for and delivering ingredients.
+
+- Enable the available **_driver_** to earn money by shopping for and delivering ingredients.
 
 ## Technologies Used:
 ### APIs
