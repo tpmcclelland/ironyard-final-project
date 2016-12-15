@@ -95,7 +95,7 @@ class CookerLeftNav extends React.Component {
                     paymentClicked: false,
                     viewOrdersClicked: false,
                 })
-                window.scrollTo(0,0)
+                // window.scrollTo(0,0)
                 break;
             }
             case '/cooker':

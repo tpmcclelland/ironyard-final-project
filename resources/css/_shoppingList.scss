@@ -25,10 +25,16 @@
         margin-bottom: 30px;
         border: 2px solid $green;
     }
+    .list-ingredient-name {
+        text-align: center;
+    }
 }
 @media (min-width: 768px) {
     .shopping {
         padding: 80px 50px 0 20px;
+        .list-ingredient-name {
+            text-align: left;
+        }
     }
     padding-bottom: 30px;
 }

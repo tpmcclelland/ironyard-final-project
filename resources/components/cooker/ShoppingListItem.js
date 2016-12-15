@@ -8,15 +8,15 @@ const ShoppingListItem = (props) => <div className="list-group-item">
       <div className="col-xs-6">
               <input name="quantity" type="text" className="form-control" value={props.item.quantity || ''} onChange={(e) => props.changeQuantity(e.target.value)} />
       </div>
-      <div className="col-sm-6 col-xs-12">
+      <div className="col-xs-6">
         <h5>{props.item.unit}</h5>
       </div>
     </div>
     </div>
-    <div className="col-xs-7">
+    <div className="col-sm-7 col-xs-12 list-ingredient-name">
           <h4>{props.item.recipeIngredient.ingredient.name}</h4>
     </div>
-    <div className="col-sm-2">
+    <div className="col-sm-2 col-xs-8 col-xs-offset-2 col-sm-offset-0">
     <button type="button" className="btn btn-block btn-danger remove-btn" onClick={props.markRemoved}>Remove</button>
     </div>
     </div>

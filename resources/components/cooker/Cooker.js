@@ -14,6 +14,8 @@ class Cooker extends Component {
     }
     componentDidMount() {
       store.dispatch({type:'RESULT_SIZE', resultSize: 20})
+      this.shoppingListFetch()
+      this.ordersFetch()
     }
     shoppingListFetch() {
       var user = JSON.parse(sessionStorage.getItem('user'))
@@ -77,7 +79,7 @@ class Cooker extends Component {
     }
 
     render() {
-        return <CookerLayout shoppingListFetch={this.shoppingListFetch()} ordersFetch={this.ordersFetch()}>
+        return <CookerLayout>
           {this.props.children}
         </CookerLayout>
     }

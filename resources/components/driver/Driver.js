@@ -1,5 +1,6 @@
 import React from 'react'
 import classAutoBind from 'react-helpers/dist/classAutoBind'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import DriverLayout from './DriverLayout'
 import DriverMetrics from './DriverMetrics'
@@ -23,7 +24,7 @@ class Driver extends React.Component {
         var driver = storage.driver
         this.setState({
             driverId: driver.id,
-            updateOrders: Date.now
+            updateOrders: Date.now()
         })
         this.updateOrders()
         this.subscribeToUpdatedOrders()
@@ -120,12 +121,19 @@ class Driver extends React.Component {
     render() {
         if (!this.state.ordersReady) {
             return <DriverLayout>
+            <ReactCSSTransitionGroup
+                 transitionName="loading"
+                 transitionAppear={true}
+                 transitionAppearTimeout={2000}
+                 transitionEnter={false}
+                 transitionEnterTimeout={2000}
+                 transitionLeave={false}>
             <div className="driver loading col-xs-12">
                 <h1 className="heading">Preparing your orders</h1>
               <span className="fa fa-refresh fa-spin fa-5x fa-fw"></span>
               <span className="sr-only">Loading...</span>
             </div>
-
+            </ReactCSSTransitionGroup>
             </DriverLayout>
         } else {
             return <div>
