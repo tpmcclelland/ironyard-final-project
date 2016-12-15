@@ -53,9 +53,7 @@
     background-color: whitesmoke;
     padding-bottom: 20vh;
 }
-.driver-component {
-    padding-bottom: 13vh;
-}
+
 
 // end main content section
 
@@ -67,6 +65,20 @@
 .component-appear.component-appear-active {
   bottom: 0;
   transition: all 1.2s ease;
+}
+// animation for loading orders
+.loading-appear {
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  min-height: 100vh;
+  background-color: whitesmoke;
+}
+
+.loading-appear.loading-appear-active {
+  top: 0;
+  bottom: 0;
+  transition: all 0.3s ease;
 }
 
 // animations for lists within components
@@ -88,11 +100,6 @@
   transition: opacity 300ms ease-in;
 }
 
-@media (min-width: 768px) {
-  .section-background {
-    padding-bottom: 0;
-  }
-}
 .validation-message {
   background-color: rgba(209, 0, 0, 0.5);
   color: whitesmoke;
@@ -101,3 +108,27 @@
   margin: 5px;
   border-radius: 5px;
   }
+
+@media (min-width: 768px) {
+  .section-background {
+    padding-bottom: 0;
+  }
+  .driver-component {
+      padding-bottom: 15vh;
+  }
+  .loading-appear {
+      width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .loading-appear {
+      width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .loading-appear {
+      width: 1170px;
+  }
+}

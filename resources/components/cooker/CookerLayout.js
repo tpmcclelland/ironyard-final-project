@@ -1,4 +1,5 @@
 import React from 'react'
+import classAutoBind from 'react-helpers/dist/classAutoBind'
 
 import Header from '../common/Header'
 import CookerLeftNav from './CookerLeftNav'
