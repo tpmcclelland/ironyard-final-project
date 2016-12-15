@@ -20,19 +20,21 @@ Who has time to shop **AND** cook?  Let **Ingredients.Today** deliver your ingre
 - Yummly![Yummly API](http://s.yumm.ly/s/97a851e/img/yummly.svg)
 - Stripe![Stripe API](https://stripe.com/img/documentation/api/logo@2x.png)
 - Pusher
-- Google Geolocation
-- Google Maps
+- Google Maps![Google Maps API](https://www.gstatic.com/images/branding/product/1x/maps_64dp.png)
 
-### Frameworks/Libraries
+### Frameworks/Libraries:
 - MVC Framework - AdonisJS
 - ORM Library - Lucid
 - ReactJS
 - Redux
 
+### Database:
+- PostgreSQL
+
 ### Testing:
 - Mocha/Chai
 - Enzyme
 
-### CI/CD
+### CI/CD:
 - Travis-CI
 - Heroku
